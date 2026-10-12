@@ -158,7 +158,7 @@
         }
 
         .liquid-glass-input {
-            background: rgba(5, 8, 20, 0.75);
+            background: rgba(5, 8, 20, 0.78);
             backdrop-filter: blur(24px) saturate(200%);
             -webkit-backdrop-filter: blur(24px) saturate(200%);
             border: 1px solid rgba(255, 255, 255, 0.35);
@@ -167,7 +167,7 @@
         }
 
         .liquid-glass-input:focus {
-            background: rgba(5, 8, 20, 0.92);
+            background: rgba(5, 8, 20, 0.94);
             border-color: rgba(255, 255, 255, 0.85);
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.4);
             outline: none;
@@ -295,8 +295,9 @@
                     <!-- Main Temperature & Conditions Display -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
                         <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                            <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] font-extrabold bg-white/20 backdrop-blur-md uppercase tracking-wider text-cyan-200 border border-white/30 shadow-sm">
-                                Загрузка...
+                            <!-- DYNAMIC CITY HEADER BADGE -->
+                            <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-white/20 backdrop-blur-md uppercase tracking-wider text-cyan-200 border border-white/30 shadow-sm">
+                                НОЧЬ — КРИВОЙ РОГ
                             </span>
                             <span id="effect-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/25 backdrop-blur-md text-emerald-200 border border-emerald-400/40 flex items-center gap-1.5 shadow-sm">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
@@ -478,7 +479,7 @@
                         <i data-lucide="calendar-days" class="w-4 h-4 text-emerald-300"></i>
                         Прогноз погоды
                     </h2>
-                    <p class="text-[10px] sm:text-xs text-white/70">Период просмотра для Кривого Рога</p>
+                    <p class="text-[10px] sm:text-xs text-white/70">Период просмотра для города</p>
                 </div>
 
                 <!-- Range Selector Toggle Buttons -->
@@ -520,6 +521,7 @@
         let cachedWeatherData = null;
         let hourlyChartPoints = [];
         let searchDebounceTimer = null;
+        let currentSearchResults = [];
 
         // WMO WEATHER CODES MAP
         const WEATHER_MAP = {
@@ -892,6 +894,7 @@
         const suggestionsBox = document.getElementById('search-suggestions');
         const clearBtn = document.getElementById('clear-search-btn');
 
+        // Close search list on outside click
         document.addEventListener('click', (e) => {
             if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
                 suggestionsBox.classList.add('hidden');
@@ -914,7 +917,7 @@
 
         async function searchGeocoding(query) {
             try {
-                const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=ru&format=json`);
+                const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=ru&format=json`);
                 if (!res.ok) return;
                 const data = await res.json();
 
@@ -924,14 +927,15 @@
                     return;
                 }
 
-                suggestionsBox.innerHTML = data.results.map(item => `
-                    <div onclick="selectCity('${escapeHtml(item.name)}', '${escapeHtml(item.admin1 || item.country || '')}', '${item.country_code || ''}', ${item.latitude}, ${item.longitude})" 
-                         class="p-3.5 active:bg-white/20 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[44px]">
-                        <div class="pr-2 min-w-0">
+                currentSearchResults = data.results;
+
+                suggestionsBox.innerHTML = data.results.map((item, idx) => `
+                    <div data-city-idx="${idx}" class="p-3.5 active:bg-white/20 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[44px]">
+                        <div class="pr-2 min-w-0 pointer-events-none">
                             <span class="font-bold text-white">${item.name}</span>
                             <span class="text-white/70 text-xs ml-1">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
                         </div>
-                        <span class="text-[10px] font-mono bg-white/20 text-cyan-200 font-extrabold px-2 py-0.5 rounded-full border border-white/20 flex-shrink-0">${item.country_code || ''}</span>
+                        <span class="text-[10px] font-mono bg-white/20 text-cyan-200 font-extrabold px-2 py-0.5 rounded-full border border-white/20 flex-shrink-0 pointer-events-none">${item.country_code || ''}</span>
                     </div>
                 `).join('');
 
@@ -941,12 +945,34 @@
             }
         }
 
-        function escapeHtml(str) {
-            return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        // Robust Event Delegation for City Selection (fixes touch/click race conditions)
+        function handleCitySelectFromList(e) {
+            const target = e.target.closest('[data-city-idx]');
+            if (!target) return;
+            
+            e.preventDefault();
+            e.stopPropagation();
+
+            const idx = parseInt(target.getAttribute('data-city-idx'), 10);
+            const item = currentSearchResults[idx];
+
+            if (item) {
+                selectCity(
+                    item.name,
+                    item.admin1 ? (item.admin1 + (item.country ? ', ' + item.country : '')) : (item.country || ''),
+                    item.country_code || '',
+                    item.latitude,
+                    item.longitude
+                );
+            }
         }
+
+        suggestionsBox.addEventListener('mousedown', handleCitySelectFromList);
+        suggestionsBox.addEventListener('touchstart', handleCitySelectFromList, { passive: false });
 
         function selectCity(name, region, countryCode, lat, lon) {
             currentCity = { name, region, countryCode, lat, lon };
+            
             document.getElementById('city-name').textContent = name;
             document.getElementById('city-region').textContent = region;
             document.getElementById('country-badge').textContent = countryCode;
@@ -1000,7 +1026,11 @@
 
             updateBackgroundAndParticles(codeInfo.bg, current.is_day, codeInfo.effect);
 
-            document.getElementById('condition-badge').textContent = current.is_day ? "День в Кривом Роге" : "Ночь в Кривом Роге";
+            // DYNAMIC CITY HEADER BADGE FIX
+            const cityNameUpper = currentCity.name.toUpperCase();
+            const dayNightText = current.is_day ? "ДЕНЬ" : "НОЧЬ";
+            document.getElementById('condition-badge').textContent = `${dayNightText} — ${cityNameUpper}`;
+
             document.getElementById('current-temp').textContent = Math.round(current.temperature_2m);
             document.getElementById('weather-description').textContent = codeInfo.title;
             document.getElementById('feels-like').textContent = `${Math.round(current.apparent_temperature)}°C`;
