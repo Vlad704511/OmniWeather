@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="bg-[#0b0f19] h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Apple iOS / iPhone 15 Standalone Web App Meta Tags -->
+    <!-- iOS Theme and Status Bar Colors to prevent white bars in Safari & Telegram -->
+    <meta name="theme-color" content="#0b0f19">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Погода">
-    <meta name="theme-color" content="#0f172a">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     
-    <title>Погода в Кривом Роге — iPhone 15 Forecast</title>
+    <title>Погода в Кривом Роге</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,7 +35,7 @@
                             100: 'rgba(255, 255, 255, 0.12)',
                             200: 'rgba(255, 255, 255, 0.22)',
                             border: 'rgba(255, 255, 255, 0.25)',
-                            dark: 'rgba(15, 23, 42, 0.92)'
+                            dark: 'rgba(11, 15, 25, 0.95)'
                         }
                     },
                     animation: {
@@ -54,61 +54,73 @@
     </script>
 
     <style>
-        :root {
-            /* iPhone 15 Safe Area Insets for Dynamic Island & Gesture Bar */
-            --sat: env(safe-area-inset-top, 0px);
-            --sab: env(safe-area-inset-bottom, 0px);
-            --sal: env(safe-area-inset-left, 0px);
-            --sar: env(safe-area-inset-right, 0px);
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, 'SF Pro Text', sans-serif;
+        /* CRITICAL iOS SAFARI & TELEGRAM OVERSCROLL REPLACEMENT FIX */
+        html, body {
+            background-color: #0b0f19 !important;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100dvh;
+            min-height: -webkit-fill-available;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             user-select: none;
             -webkit-user-select: none;
-            
-            /* iPhone 15 Ergonomic Padding handling Dynamic Island & Notch */
-            padding-top: max(1rem, var(--sat));
-            padding-bottom: max(1.5rem, var(--sab));
-            padding-left: max(0.875rem, var(--sal));
-            padding-right: max(0.875rem, var(--sar));
+        }
+
+        /* Safe area padding for Dynamic Island, notch, and iOS gesture bar */
+        body {
+            padding-top: max(12px, env(safe-area-inset-top));
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+            padding-left: max(12px, env(safe-area-inset-left));
+            padding-right: max(12px, env(safe-area-inset-right));
             touch-action: manipulation;
         }
 
-        /* Glassmorphism iOS Card Styling */
+        /* Fixed viewport background layers preventing white edge gaps */
+        .fixed-bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100dvh;
+            pointer-events: none;
+        }
+
+        /* Glassmorphism Styling */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.14);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.35);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.16);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.26);
+            border: 1px solid rgba(255, 255, 255, 0.24);
             transition: transform 0.15s ease, background-color 0.15s ease;
         }
 
         .glass-card:active {
             transform: scale(0.985);
-            background: rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.26);
         }
 
         .glass-pill {
-            background: rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.22);
         }
 
         .glass-input {
-            background: rgba(15, 23, 42, 0.55);
+            background: rgba(11, 15, 25, 0.65);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.32);
@@ -116,12 +128,12 @@
         }
 
         .glass-input:focus {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(11, 15, 25, 0.88);
             border-color: rgba(255, 255, 255, 0.85);
             outline: none;
         }
 
-        /* Native Inertia Touch Scrollbars */
+        /* Custom Inertia Touch Scrollbars */
         .custom-scrollbar {
             -webkit-overflow-scrolling: touch;
         }
@@ -137,7 +149,7 @@
             border-radius: 9999px;
         }
 
-        /* SVG Line Chart Hover & Touch Scrubbing */
+        /* Chart Path & Interactive Crosshair */
         .chart-path {
             stroke-dasharray: 2000;
             stroke-dashoffset: 0;
@@ -153,18 +165,18 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-white relative selection:bg-white/30 antialiased">
+<body class="min-h-screen text-white relative selection:bg-white/30 antialiased bg-[#0b0f19]">
 
-    <!-- CANVAS OVERLAY FOR ANIMATED RETINA WEATHER PARTICLES -->
-    <canvas id="weather-canvas" class="fixed inset-0 pointer-events-none z-0 w-full h-full"></canvas>
+    <!-- CANVAS OVERLAY FOR ANIMATED PARTICLES -->
+    <canvas id="weather-canvas" class="fixed-bg-layer z-0"></canvas>
 
-    <!-- DYNAMIC GRADIENT BACKGROUND -->
-    <div id="app-bg" class="fixed inset-0 -z-10 transition-all duration-1000 bg-gradient-to-br from-sky-600 via-indigo-700 to-slate-900"></div>
+    <!-- DYNAMIC GRADIENT BACKGROUND WITH DARK BASE COLOR -->
+    <div id="app-bg" class="fixed-bg-layer -z-10 transition-all duration-1000 bg-gradient-to-br from-slate-950 via-indigo-950 to-[#0b0f19]"></div>
 
-    <!-- MAIN APP CONTAINER (TAILORED FOR IPHONE 15 / 393px WIDTH ERGONOMICS) -->
-    <div class="relative z-10 max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-4">
+    <!-- MAIN APPLICATION CONTENT CONTAINER -->
+    <div class="relative z-10 max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3.5 sm:space-y-4">
 
-        <!-- HEADER & GEOCITY SEARCH SECTION (Z-50 ENSURES SEARCH RESULTS STACK OVER HERO CARD) -->
+        <!-- HEADER & GEOCITY SEARCH SECTION (z-50 ENSURES SEARCH RESULTS STACK OVER HERO CARD) -->
         <header class="glass-panel rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50">
             <div class="flex flex-col gap-3">
                 
@@ -183,7 +195,7 @@
                         </div>
                     </div>
 
-                    <!-- Action GPS and Refresh Buttons (iOS Minimum 44x44px Touch Targets) -->
+                    <!-- Action GPS and Refresh Buttons -->
                     <div class="flex items-center gap-2 flex-shrink-0">
                         <button onclick="getCurrentLocation()" class="min-w-[44px] min-h-[44px] flex items-center justify-center glass-pill active:bg-white/40 rounded-2xl transition" title="Мое местоположение">
                             <i data-lucide="crosshair" class="w-5 h-5 text-emerald-300"></i>
@@ -194,8 +206,8 @@
                     </div>
                 </div>
 
-                <!-- City Search Bar with Autocomplete (z-[100] high index & solid bg to prevent card bleed) -->
-                <div class="relative w-full">
+                <!-- City Search Bar with Autocomplete (z-[100] high index & solid dark background) -->
+                <div class="relative w-full z-[100]">
                     <div class="relative flex items-center z-50">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-white/60 pointer-events-none"></i>
                         <input type="text" id="city-search" placeholder="Поиск города (напр. Киев, Одесса)..." 
@@ -210,7 +222,7 @@
                     </div>
 
                     <!-- Autocomplete Suggestions Dropdown -->
-                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-slate-900/95 backdrop-blur-2xl rounded-2xl overflow-hidden z-[100] shadow-2xl border border-slate-700/80 divide-y divide-slate-800/80 max-h-60 overflow-y-auto custom-scrollbar">
+                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#0b0f19]/95 backdrop-blur-2xl rounded-2xl overflow-hidden z-[100] shadow-2xl border border-slate-700/80 divide-y divide-slate-800/80 max-h-60 overflow-y-auto custom-scrollbar">
                     </div>
                 </div>
 
@@ -218,7 +230,7 @@
         </header>
 
         <!-- MAIN CURRENT WEATHER HERO SECTION -->
-        <main class="relative z-10 space-y-4">
+        <main class="relative z-10 space-y-3.5 sm:space-y-4">
             <!-- Error Notification Card -->
             <div id="error-card" class="hidden glass-panel rounded-3xl p-5 bg-red-500/30 border-red-300/40 text-center space-y-3">
                 <i data-lucide="alert-triangle" class="w-8 h-8 text-red-200 mx-auto"></i>
@@ -247,7 +259,7 @@
                             </span>
                         </div>
 
-                        <!-- iPhone Temperature Display -->
+                        <!-- Temperature Display -->
                         <div class="flex items-baseline justify-center sm:justify-start gap-1 py-1">
                             <span id="current-temp" class="text-6xl sm:text-7xl lg:text-8xl font-black tracking-tight drop-shadow-md">--</span>
                             <span class="text-2xl sm:text-3xl font-light text-white/80">°C</span>
@@ -272,7 +284,7 @@
 
                 </div>
 
-                <!-- Touch-Optimized Metrics Grid (2 columns on iPhone, 3 on tablet, 6 on desktop) -->
+                <!-- Touch-Optimized Metrics Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 relative z-10 pt-3 border-t border-white/15">
                     
                     <div class="glass-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
@@ -350,7 +362,7 @@
                 </div>
             </div>
 
-            <!-- Interactive SVG Chart Canvas Wrapper with iOS pan-y scrolling protection -->
+            <!-- Interactive SVG Chart Canvas Wrapper -->
             <div id="chart-container" class="relative w-full h-56 pt-3 pb-2 select-none touch-pan-y">
                 
                 <svg id="hourly-svg" class="w-full h-full overflow-visible" preserveAspectRatio="none">
@@ -424,7 +436,7 @@
                     <p class="text-[10px] sm:text-xs text-white/70">Выберите период для Кривого Рога</p>
                 </div>
 
-                <!-- Range Selector Toggle Buttons (Minimum 44px touch target) -->
+                <!-- Range Selector Toggle Buttons -->
                 <div class="glass-pill p-1 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
                     <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition shadow-md bg-white/30 text-white min-h-[44px]">
                         5 Дней
@@ -464,7 +476,7 @@
         let hourlyChartPoints = [];
         let searchDebounceTimer = null;
 
-        // COMPREHENSIVE WMO WEATHER CODES MAP WITH LUCIDE ICONS & FALLBACKS
+        // COMPREHENSIVE WMO WEATHER CODES MAP WITH LUCIDE ICONS
         const WEATHER_MAP = {
             0: { title: "Ясно", icon: "sun", bg: "clear-day", effect: "clear" },
             1: { title: "Преимущественно ясно", icon: "sun-medium", bg: "clear-day", effect: "clear" },
@@ -522,7 +534,6 @@
             currentParticleType = type;
             particles = [];
             const isMobile = window.innerWidth < 640;
-            // Balance particle count for 60fps on iPhone 15 battery
             const count = isMobile 
                 ? (type === 'rain' ? 35 : (type === 'snow' ? 30 : (type === 'stars' ? 25 : 10)))
                 : (type === 'rain' ? 100 : (type === 'snow' ? 70 : (type === 'stars' ? 50 : 20)));
@@ -699,7 +710,7 @@
                 return { x, y, data: d };
             });
 
-            // Grid Horizontal Lines
+            // Horizontal Grid Lines
             gridGroup.innerHTML = '';
             const gridSteps = 2;
             for (let g = 0; g <= gridSteps; g++) {
@@ -738,7 +749,7 @@
             const areaD = `${pathD} L ${lastPt.x},${height - paddingBottom} L ${firstPt.x},${height - paddingBottom} Z`;
             areaPath.setAttribute('d', areaD);
 
-            // Static Dots and X-Labels
+            // Static Dots and X-Axis Labels
             staticDotsGroup.innerHTML = '';
             xLabelsContainer.innerHTML = '';
 
@@ -760,7 +771,6 @@
             setupTouchAndMouseEvents(container);
         }
 
-        // Touch & Mouse Interaction for iOS / iPhone 15 Scrubbing
         function setupTouchAndMouseEvents(container) {
             const guideLine = document.getElementById('svg-guide-line');
             const activeDot = document.getElementById('svg-active-dot');
@@ -804,7 +814,6 @@
 
                 tooltip.classList.remove('hidden');
                 
-                // Prevent tooltip overflow on narrow iPhone 15 screen
                 let tooltipX = pt.x;
                 const minEdge = 80;
                 const maxEdge = rect.width - 80;
@@ -824,7 +833,6 @@
             container.onmousemove = (e) => handlePointer(e.clientX);
             container.onmouseleave = handleLeave;
 
-            // iOS Touch Handlers for iPhone Screen
             container.ontouchstart = (e) => {
                 if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX);
             };
@@ -998,26 +1006,26 @@
 
             if (isDay === 0) {
                 switch(bgType) {
-                    case 'rain': gradClass = "from-slate-950 via-indigo-950 to-slate-900"; break;
-                    case 'snow': gradClass = "from-slate-950 via-slate-900 to-cyan-950"; break;
-                    case 'thunder': gradClass = "from-purple-950 via-slate-950 to-slate-900"; break;
-                    default: gradClass = "from-slate-950 via-indigo-950 to-purple-950";
+                    case 'rain': gradClass = "from-slate-950 via-indigo-950 to-[#0b0f19]"; break;
+                    case 'snow': gradClass = "from-slate-950 via-slate-900 to-[#0b0f19]"; break;
+                    case 'thunder': gradClass = "from-purple-950 via-slate-950 to-[#0b0f19]"; break;
+                    default: gradClass = "from-slate-950 via-indigo-950 to-[#0b0f19]";
                 }
                 if (effectType === 'clear') effectType = 'stars';
             } else {
                 switch(bgType) {
-                    case 'clear-day': gradClass = "from-sky-500 via-indigo-600 to-purple-800"; break;
-                    case 'cloudy': gradClass = "from-sky-600 via-indigo-700 to-slate-800"; break;
-                    case 'overcast': gradClass = "from-slate-600 via-slate-700 to-indigo-900"; break;
-                    case 'rain': gradClass = "from-slate-800 via-sky-900 to-indigo-950"; break;
-                    case 'snow': gradClass = "from-cyan-800 via-blue-900 to-slate-900"; break;
-                    case 'thunder': gradClass = "from-purple-900 via-slate-900 to-blue-950"; break;
-                    case 'fog': gradClass = "from-slate-600 via-slate-800 to-blue-900"; break;
-                    default: gradClass = "from-sky-500 via-indigo-600 to-purple-800";
+                    case 'clear-day': gradClass = "from-sky-600 via-indigo-700 to-[#0b0f19]"; break;
+                    case 'cloudy': gradClass = "from-sky-700 via-indigo-800 to-[#0b0f19]"; break;
+                    case 'overcast': gradClass = "from-slate-700 via-slate-800 to-[#0b0f19]"; break;
+                    case 'rain': gradClass = "from-slate-800 via-sky-950 to-[#0b0f19]"; break;
+                    case 'snow': gradClass = "from-cyan-900 via-blue-950 to-[#0b0f19]"; break;
+                    case 'thunder': gradClass = "from-purple-950 via-slate-950 to-[#0b0f19]"; break;
+                    case 'fog': gradClass = "from-slate-700 via-slate-900 to-[#0b0f19]"; break;
+                    default: gradClass = "from-sky-600 via-indigo-700 to-[#0b0f19]";
                 }
             }
 
-            bgEl.className = `fixed inset-0 -z-10 transition-all duration-1000 bg-gradient-to-br ${gradClass}`;
+            bgEl.className = `fixed-bg-layer -z-10 transition-all duration-1000 bg-gradient-to-br ${gradClass}`;
 
             const effectNames = {
                 'rain': 'Дождь 🌧️',
@@ -1068,7 +1076,7 @@
                 const leftPercent = Math.max(0, Math.min(94, ((tempMin - globalMin) / totalRange) * 100));
                 let widthPercent = ((tempMax - tempMin) / totalRange) * 100;
 
-                // Bugfix: Handle 0°...0° and identical min/max values gracefully
+                // Handle identical temperatures (e.g., 0°...0°) with a clean point marker
                 if (tempMin === tempMax) {
                     widthPercent = 6;
                 } else {
