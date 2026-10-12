@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- iOS 27 Liquid Mirror Fullscreen & Theme Colors -->
+    <!-- iOS 27 Fullscreen Status Bar & Theme Color Integration -->
     <meta name="theme-color" content="#03050e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -36,7 +36,7 @@
                             glass: 'rgba(255, 255, 255, 0.08)',
                             border: 'rgba(255, 255, 255, 0.28)',
                             glow: 'rgba(56, 189, 248, 0.35)',
-                            dark: '#060a17'
+                            dark: '#080d1a'
                         }
                     },
                     animation: {
@@ -64,7 +64,7 @@
     </script>
 
     <style>
-        /* iOS 27 STRICT FULLSCREEN & OVERSCROLL LOCK */
+        /* iOS STRICT FULLSCREEN & OVERSCROLL LOCK */
         html, body {
             background-color: #03050e !important;
             margin: 0;
@@ -79,10 +79,10 @@
             -webkit-user-select: none;
         }
 
-        /* Dynamic Island, Safe Area and Edge-To-Edge Paddings */
+        /* Dynamic Island Safe Area clearance */
         body {
-            padding-top: max(8px, env(safe-area-inset-top));
-            padding-bottom: max(12px, env(safe-area-inset-bottom));
+            padding-top: max(12px, env(safe-area-inset-top));
+            padding-bottom: max(32px, env(safe-area-inset-bottom));
             padding-left: max(8px, env(safe-area-inset-left));
             padding-right: max(8px, env(safe-area-inset-right));
             touch-action: manipulation;
@@ -130,7 +130,7 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Animated Specular Mirror Light Sheen */
+        /* Specular Light Sheen */
         .liquid-mirror-panel::after, .liquid-mirror-card::after {
             content: '';
             position: absolute;
@@ -157,7 +157,7 @@
         }
 
         .liquid-glass-input {
-            background: rgba(6, 10, 23, 0.9);
+            background: rgba(8, 13, 26, 0.92);
             backdrop-filter: blur(24px) saturate(200%);
             -webkit-backdrop-filter: blur(24px) saturate(200%);
             border: 1px solid rgba(255, 255, 255, 0.35);
@@ -166,20 +166,19 @@
         }
 
         .liquid-glass-input:focus {
-            background: rgba(6, 10, 23, 0.98);
+            background: rgba(8, 13, 26, 0.98);
             border-color: rgba(255, 255, 255, 0.85);
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.4);
             outline: none;
         }
 
-        /* Iridescent Mirror Text */
         .text-liquid-shimmer {
             background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.85) 50%, #93c5fd 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* SVG Chart Bezier Spline Animation */
+        /* SVG Chart Bezier Spline */
         .chart-path {
             stroke-dasharray: 2000;
             stroke-dashoffset: 0;
@@ -190,7 +189,7 @@
             transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s ease;
         }
 
-        /* Scrollbars */
+        /* Custom Scrollbars */
         .custom-scrollbar::-webkit-scrollbar {
             height: 4px;
             width: 4px;
@@ -217,10 +216,10 @@
     </div>
 
     <!-- MAIN EDGE-TO-EDGE LIQUID MIRROR APP CONTAINER -->
-    <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3 sm:space-y-4 px-1 sm:px-3">
+    <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3 sm:space-y-4 px-1 sm:px-3 pb-8">
 
         <!-- HEADER & LIQUID SEARCH BAR (HIGH Z-INDEX z-50 PREVENTS OVERLAY BLEED) -->
-        <header class="liquid-mirror-panel rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50">
+        <header class="liquid-mirror-panel rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
             <div class="flex flex-col gap-3">
                 
                 <!-- City Name & Info Display -->
@@ -249,7 +248,7 @@
                     </div>
                 </div>
 
-                <!-- Autocomplete Search Bar (Dark dropdown styled with bg-[#060a17] & z-[200]) -->
+                <!-- Autocomplete Search Bar -->
                 <div class="relative w-full z-[100]">
                     <div class="relative flex items-center z-50">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-cyan-300/80 pointer-events-none"></i>
@@ -264,8 +263,8 @@
                         </button>
                     </div>
 
-                    <!-- SOLID DARK SEARCH SUGGESTIONS DROPDOWN CONTAINER -->
-                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#060a17] backdrop-blur-3xl rounded-2xl overflow-hidden z-[200] shadow-[0_25px_60px_rgba(0,0,0,0.95)] border border-slate-700/80 divide-y divide-slate-800/80 max-h-64 overflow-y-auto custom-scrollbar">
+                    <!-- SOLID DARK SEARCH SUGGESTIONS DROPDOWN CONTAINER (#080d1a) -->
+                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#080d1a] backdrop-blur-3xl rounded-2xl overflow-hidden z-[200] shadow-[0_25px_60px_rgba(0,0,0,0.95)] border border-slate-700/80 divide-y divide-slate-800/80 max-h-64 overflow-y-auto custom-scrollbar">
                     </div>
                 </div>
 
@@ -304,7 +303,7 @@
                             </span>
                         </div>
 
-                        <!-- Huge Fluid Mirror Temperature -->
+                        <!-- Fluid Mirror Temperature -->
                         <div class="flex items-baseline justify-center sm:justify-start gap-1 py-1">
                             <span id="current-temp" class="text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight text-liquid-shimmer drop-shadow-2xl">--</span>
                             <span class="text-3xl sm:text-4xl font-light text-cyan-200/80">°C</span>
@@ -441,7 +440,7 @@
                 <div id="chart-x-labels" class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none text-[9px] text-white/70 font-bold px-2">
                 </div>
 
-                <!-- FLOATING LIQUID MIRROR TOOLTIP WITH FEELS-LIKE TEMP -->
+                <!-- FLOATING TOOLTIP WITH FEELS-LIKE TEMP -->
                 <div id="chart-tooltip" class="absolute top-0 left-0 hidden pointer-events-none z-30 transition-all duration-75 transform -translate-x-1/2 -translate-y-full mb-2">
                     <div class="liquid-mirror-card p-2.5 rounded-2xl shadow-2xl border border-white/50 backdrop-blur-2xl text-[11px] space-y-1 min-w-[155px]">
                         <div class="flex items-center justify-between border-b border-white/20 pb-1">
@@ -507,7 +506,6 @@
     </div>
 
     <script>
-        // Default City Configuration: Kryvyi Rih, Ukraine
         let currentCity = {
             name: "Кривой Рог",
             region: "Днепропетровская область, Украина",
@@ -921,16 +919,16 @@
                 const data = await res.json();
 
                 if (!data.results || data.results.length === 0) {
-                    suggestionsBox.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center font-medium bg-[#060a17]">Город не найден</div>`;
+                    suggestionsBox.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center font-medium bg-[#080d1a]">Город не найден</div>`;
                     suggestionsBox.classList.remove('hidden');
                     return;
                 }
 
                 currentSearchResults = data.results;
 
-                // Render dark background search items with crisp white text
+                // Render dark background search items (#080d1a)
                 suggestionsBox.innerHTML = data.results.map((item, idx) => `
-                    <div data-city-idx="${idx}" class="p-3.5 bg-[#060a17] hover:bg-slate-800/90 active:bg-slate-700/90 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[46px] select-none border-b border-slate-800/50 last:border-0">
+                    <div data-city-idx="${idx}" class="p-3.5 bg-[#080d1a] hover:bg-slate-800/90 active:bg-slate-700/90 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[46px] select-none border-b border-slate-800/50 last:border-0">
                         <div class="pr-2 min-w-0 pointer-events-none">
                             <span class="font-bold text-white block truncate text-sm">${item.name}</span>
                             <span class="text-slate-400 text-xs block truncate font-medium mt-0.5">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
@@ -1154,7 +1152,7 @@
                 const leftPercent = Math.max(0, Math.min(94, ((tempMin - globalMin) / totalRange) * 100));
                 let widthPercent = ((tempMax - tempMin) / totalRange) * 100;
 
-                // Smart point indicator fix for equal min/max days (e.g., 0°...0°)
+                // Smart point indicator fallback for equal min/max days (e.g., 0°...0°)
                 if (tempMin === tempMax) {
                     widthPercent = 6;
                 } else {
@@ -1162,37 +1160,41 @@
                 }
 
                 const card = document.createElement('div');
-                card.className = "liquid-mirror-card p-3 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-2.5";
+                card.className = "liquid-mirror-card p-3 rounded-2xl flex items-center justify-between gap-1.5 sm:gap-3 text-xs";
                 
+                // ORDER STRICTLY: [1. Day/Icon] -> [2. Precipitation] -> [3. TEMPERATURE RANGE IN MIDDLE] -> [4. Wind]
                 card.innerHTML = `
-                    <div class="flex items-center gap-3 w-full sm:w-1/3">
-                        <div class="p-2 bg-white/10 rounded-xl text-amber-300 flex-shrink-0 border border-white/20">
-                            <i data-lucide="${codeInfo.icon}" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    <!-- 1. Day & Weather Icon -->
+                    <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
+                        <div class="p-1.5 sm:p-2 bg-white/10 rounded-xl text-amber-300 flex-shrink-0 border border-white/20">
+                            <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </div>
                         <div class="overflow-hidden">
                             <p class="font-extrabold text-xs sm:text-sm capitalize text-white truncate">${dayTitle}</p>
-                            <p class="text-[10px] sm:text-xs text-white/70 truncate font-medium">${codeInfo.title}</p>
+                            <p class="text-[9px] sm:text-xs text-white/70 truncate font-medium hidden sm:block">${codeInfo.title}</p>
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between sm:justify-center gap-4 w-full sm:w-1/3 text-[11px] text-white/85">
-                        <span class="flex items-center gap-1 font-semibold">
-                            <i data-lucide="cloud-rain" class="w-3.5 h-3.5 text-cyan-300"></i>
-                            ${precipProb}%
-                        </span>
-                        <span class="flex items-center gap-1 font-semibold">
-                            <i data-lucide="wind" class="w-3.5 h-3.5 text-teal-300"></i>
-                            ${windSpeed} м/с
-                        </span>
+                    <!-- 2. Precipitation % -->
+                    <div class="flex items-center gap-1 font-semibold text-cyan-300 text-[11px] sm:text-xs flex-shrink-0 min-w-[40px]">
+                        <i data-lucide="cloud-rain" class="w-3.5 h-3.5"></i>
+                        <span>${precipProb}%</span>
                     </div>
 
-                    <div class="flex items-center justify-end gap-2 w-full sm:w-1/3">
-                        <span class="text-xs text-white/70 font-semibold w-7 text-right">${tempMin}°</span>
-                        <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden relative max-w-[100px] border border-white/10">
+                    <!-- 3. TEMPERATURE RANGE STRICTLY IN THE MIDDLE -->
+                    <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
+                        <span class="text-[11px] sm:text-xs text-white/70 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
+                        <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden relative max-w-[110px] border border-white/10">
                             <div class="h-full bg-gradient-to-r from-cyan-400 via-amber-300 to-rose-400 rounded-full absolute transition-all duration-300 shadow-[0_0_8px_rgba(56,189,248,0.5)]" 
                                  style="left: ${leftPercent}%; width: ${widthPercent}%;"></div>
                         </div>
-                        <span class="text-xs font-bold text-white w-7">${tempMax}°</span>
+                        <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
+                    </div>
+
+                    <!-- 4. Wind Speed (m/s) -->
+                    <div class="flex items-center justify-end gap-1 font-semibold text-teal-300 text-[11px] sm:text-xs flex-shrink-0 min-w-[50px] sm:min-w-[60px] text-right">
+                        <i data-lucide="wind" class="w-3.5 h-3.5"></i>
+                        <span>${windSpeed} м/с</span>
                     </div>
                 `;
 
