@@ -1,0 +1,18 @@
+{
+  "name": "OmniWeather — Прогноз погоды",
+  "short_name": "OmniWeather",
+  "description": "Точный прогноз погоды по всему миру",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#090d16",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='120' fill='%23090d16'/><circle cx='200' cy='200' r='90' fill='%23fbbf24'/><path d='M360 280a70 70 0 0 0-132-28 55 55 0 0 0-82 68 65 65 0 0 0 54 100h160a65 65 0 0 0 0-140z' fill='%23f1f5f9'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
