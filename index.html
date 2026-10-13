@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="ru" class="bg-[#03050e] h-full overflow-x-hidden">
+<html lang="ru" class="bg-[#090d16] h-full overflow-x-hidden">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- iOS 27 Fullscreen Status Bar & Theme Color Integration -->
-    <meta name="theme-color" content="#03050e">
+    <!-- iOS / Android App Fullscreen Tags -->
+    <meta name="theme-color" content="#090d16">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Погода iOS 27">
+    <meta name="apple-mobile-web-app-title" content="Погода">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     
-    <title>Погода в Кривом Роге - iOS 27 Liquid Mirror</title>
+    <title>Погода в Кривом Роге</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -31,31 +31,11 @@
                         sans: ['Plus Jakarta Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'sans-serif'],
                     },
                     colors: {
-                        mirror: {
-                            base: '#03050e',
-                            glass: 'rgba(255, 255, 255, 0.08)',
-                            border: 'rgba(255, 255, 255, 0.28)',
-                            glow: 'rgba(56, 189, 248, 0.35)',
-                            dark: '#080d1a'
-                        }
-                    },
-                    animation: {
-                        'liquid-pulse': 'liquidPulse 6s ease-in-out infinite alternate',
-                        'float-slow': 'floatSlow 5s ease-in-out infinite',
-                        'shimmer-sweep': 'shimmerSweep 4s linear infinite',
-                    },
-                    keyframes: {
-                        liquidPulse: {
-                            '0%': { transform: 'scale(1) rotate(0deg)', filter: 'hue-rotate(0deg)' },
-                            '100%': { transform: 'scale(1.08) rotate(10deg)', filter: 'hue-rotate(45deg)' }
-                        },
-                        floatSlow: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' }
-                        },
-                        shimmerSweep: {
-                            '0%': { transform: 'translateX(-150%) skewX(-25deg)' },
-                            '100%': { transform: 'translateX(250%) skewX(-25deg)' }
+                        darkApp: {
+                            base: '#090d16',
+                            card: 'rgba(15, 23, 42, 0.82)',
+                            dropdown: '#0d1527',
+                            border: 'rgba(51, 65, 85, 0.7)'
                         }
                     }
                 }
@@ -64,9 +44,9 @@
     </script>
 
     <style>
-        /* iOS STRICT FULLSCREEN & OVERSCROLL LOCK */
+        /* iOS / Android Strict Overscroll Background Lock */
         html, body {
-            background-color: #03050e !important;
+            background-color: #090d16 !important;
             margin: 0;
             padding: 0;
             width: 100%;
@@ -79,7 +59,7 @@
             -webkit-user-select: none;
         }
 
-        /* Dynamic Island Safe Area clearance */
+        /* Safe area handling for Dynamic Island & Home Bar */
         body {
             padding-top: max(12px, env(safe-area-inset-top));
             padding-bottom: max(32px, env(safe-area-inset-bottom));
@@ -96,89 +76,51 @@
             pointer-events: none;
         }
 
-        /* iOS 27 LIQUID MIRROR GLASS PANELS */
-        .liquid-mirror-panel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
-            backdrop-filter: blur(36px) saturate(220%);
-            -webkit-backdrop-filter: blur(36px) saturate(220%);
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            box-shadow: 
-                inset 0 1px 2px 0 rgba(255, 255, 255, 0.6),
-                inset 0 -1px 1px 0 rgba(255, 255, 255, 0.12),
-                0 20px 40px rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(255, 255, 255, 0.05);
-            position: relative;
+        /* Clean Card Design without Glossy Reflections */
+        .clean-card {
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.65);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .liquid-mirror-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%);
-            backdrop-filter: blur(28px) saturate(200%);
-            -webkit-backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            box-shadow: 
-                inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.5),
-                inset 0 -1px 1px 0 rgba(255, 255, 255, 0.08),
-                0 8px 24px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.2s ease, border-color 0.2s ease;
-            position: relative;
-            overflow: hidden;
+        .clean-card-interactive {
+            transition: all 0.2s ease-in-out;
+        }
+        .clean-card-interactive:active {
+            transform: scale(0.985);
+            background-color: rgba(30, 41, 59, 0.95);
         }
 
-        .liquid-mirror-card:active {
-            transform: scale(0.98);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Specular Light Sheen */
-        .liquid-mirror-panel::after, .liquid-mirror-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 60%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
-            transform: skewX(-25deg);
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .liquid-mirror-panel:hover::after, .liquid-mirror-card:hover::after {
-            animation: shimmerSweep 1.8s ease-in-out;
-        }
-
-        .liquid-mirror-pill {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 100%);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
-        }
-
-        .liquid-glass-input {
-            background: rgba(8, 13, 26, 0.92);
-            backdrop-filter: blur(24px) saturate(200%);
-            -webkit-backdrop-filter: blur(24px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 15px rgba(255, 255, 255, 0.05);
+        .clean-input {
+            background-color: #0d1527;
+            border: 1px solid rgba(71, 85, 105, 0.8);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
             -webkit-appearance: none;
         }
 
-        .liquid-glass-input:focus {
-            background: rgba(8, 13, 26, 0.98);
-            border-color: rgba(255, 255, 255, 0.85);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6), 0 0 20px rgba(56, 189, 248, 0.4);
+        .clean-input:focus {
+            background-color: #0f1a30;
+            border-color: #38bdf8;
             outline: none;
         }
 
-        .text-liquid-shimmer {
-            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.85) 50%, #93c5fd 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Smooth Expand Animation */
+        .expand-panel {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-in-out, padding 0.3s ease;
         }
 
-        /* SVG Chart Bezier Spline */
+        .expand-panel.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        /* SVG Spline Chart Styling */
         .chart-path {
             stroke-dasharray: 2000;
             stroke-dashoffset: 0;
@@ -186,7 +128,7 @@
         }
 
         .chart-hover-dot {
-            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.15s ease;
+            transition: transform 0.1s ease, opacity 0.15s ease;
         }
 
         /* Custom Scrollbars */
@@ -198,122 +140,114 @@
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(148, 163, 184, 0.3);
             border-radius: 9999px;
         }
     </style>
 </head>
-<body class="min-h-screen text-white relative selection:bg-white/30 antialiased bg-[#03050e] flex flex-col justify-between">
+<body class="min-h-screen text-slate-100 relative selection:bg-slate-700 antialiased bg-[#090d16] flex flex-col justify-between">
 
-    <!-- RETINA CANVAS OVERLAY FOR ANIMATED WEATHER PARTICLES -->
+    <!-- RETINA CANVAS OVERLAY FOR WEATHER PARTICLES -->
     <canvas id="weather-canvas" class="fixed-viewport-bg z-0"></canvas>
 
-    <!-- LIQUID NEON GRADIENT GLOW BLOBS -->
-    <div id="app-bg-glow" class="fixed-viewport-bg -z-10 overflow-hidden pointer-events-none">
-        <div id="blob-1" class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-cyan-600/30 blur-[90px] animate-liquid-pulse"></div>
-        <div id="blob-2" class="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-indigo-600/30 blur-[100px] animate-liquid-pulse" style="animation-delay: -2s;"></div>
-        <div id="blob-3" class="absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-blue-700/25 blur-[110px] animate-liquid-pulse" style="animation-delay: -4s;"></div>
-    </div>
+    <!-- MAIN EDGE-TO-EDGE APPLICATION CONTAINER -->
+    <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3.5 sm:space-y-4 px-1.5 sm:px-3 pb-8">
 
-    <!-- MAIN EDGE-TO-EDGE LIQUID MIRROR APP CONTAINER -->
-    <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3 sm:space-y-4 px-1 sm:px-3 pb-8">
-
-        <!-- HEADER & LIQUID SEARCH BAR (HIGH Z-INDEX z-50 PREVENTS OVERLAY BLEED) -->
-        <header class="liquid-mirror-panel rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
+        <!-- HEADER & AUTOCOMPLETE SEARCH BAR (HIGH Z-INDEX z-50) -->
+        <header class="clean-card rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
             <div class="flex flex-col gap-3">
                 
-                <!-- City Name & Info Display -->
+                <!-- City Information Bar -->
                 <div class="flex items-center justify-between gap-2">
                     <div class="flex items-center gap-3 min-w-0">
-                        <div class="p-2.5 bg-white/15 rounded-2xl backdrop-blur-md text-amber-300 shadow-inner flex-shrink-0 border border-white/20">
-                            <i data-lucide="map-pin" class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce"></i>
+                        <div class="p-2.5 bg-slate-800 rounded-2xl text-amber-400 flex-shrink-0 border border-slate-700">
+                            <i data-lucide="map-pin" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                         </div>
                         <div class="min-w-0">
                             <div class="flex items-center gap-1.5">
-                                <h1 id="city-name" class="text-xl sm:text-2xl font-black tracking-tight leading-tight truncate text-liquid-shimmer">Кривой Рог</h1>
-                                <span id="country-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-white/20 border border-white/30 flex-shrink-0 text-cyan-200">UA</span>
+                                <h1 id="city-name" class="text-xl sm:text-2xl font-black tracking-tight leading-tight truncate text-white">Кривой Рог</h1>
+                                <span id="country-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-sky-300">UA</span>
                             </div>
-                            <p id="city-region" class="text-xs text-white/80 font-medium truncate">Днепропетровская область, Украина</p>
+                            <p id="city-region" class="text-xs text-slate-400 font-medium truncate">Днепропетровская область, Украина</p>
                         </div>
                     </div>
 
-                    <!-- Action GPS and Refresh Buttons -->
+                    <!-- GPS Location and Refresh Buttons -->
                     <div class="flex items-center gap-2 flex-shrink-0">
-                        <button onclick="getCurrentLocation()" class="min-w-[44px] min-h-[44px] flex items-center justify-center liquid-mirror-pill rounded-2xl active:scale-95 transition" title="Мое местоположение">
-                            <i data-lucide="crosshair" class="w-5 h-5 text-emerald-300"></i>
+                        <button onclick="getCurrentLocation()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" title="Мое местоположение">
+                            <i data-lucide="crosshair" class="w-5 h-5 text-emerald-400"></i>
                         </button>
-                        <button id="refresh-btn" onclick="fetchWeather()" class="min-w-[44px] min-h-[44px] flex items-center justify-center liquid-mirror-pill rounded-2xl active:scale-95 transition" title="Обновить">
-                            <i id="refresh-icon" data-lucide="rotate-cw" class="w-5 h-5 text-cyan-300"></i>
+                        <button id="refresh-btn" onclick="fetchWeather()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" title="Обновить">
+                            <i id="refresh-icon" data-lucide="rotate-cw" class="w-5 h-5 text-sky-400"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Autocomplete Search Bar -->
+                <!-- Search Input Field -->
                 <div class="relative w-full z-[100]">
                     <div class="relative flex items-center z-50">
-                        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-cyan-300/80 pointer-events-none"></i>
+                        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-slate-400 pointer-events-none"></i>
                         <input type="text" id="city-search" placeholder="Поиск города (напр. Киев, Одесса)..." 
                             autocomplete="off"
                             autocorrect="off"
                             capitalize="off"
                             spellcheck="false"
-                            class="w-full liquid-glass-input text-sm text-white placeholder-white/50 pl-10 pr-10 py-3 rounded-2xl focus:outline-none transition shadow-2xl min-h-[44px]">
-                        <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-2.5 text-white/60 active:text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center">
+                            class="w-full clean-input text-sm text-white placeholder-slate-400 pl-10 pr-10 py-3 rounded-2xl focus:outline-none transition shadow-lg min-h-[44px]">
+                        <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-2.5 text-slate-400 hover:text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center">
                             <i data-lucide="x" class="w-4 h-4"></i>
                         </button>
                     </div>
 
-                    <!-- SOLID DARK SEARCH SUGGESTIONS DROPDOWN CONTAINER (#080d1a) -->
-                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#080d1a] backdrop-blur-3xl rounded-2xl overflow-hidden z-[200] shadow-[0_25px_60px_rgba(0,0,0,0.95)] border border-slate-700/80 divide-y divide-slate-800/80 max-h-64 overflow-y-auto custom-scrollbar">
+                    <!-- SOLID DARK SEARCH SUGGESTIONS DROPDOWN (#0d1527) -->
+                    <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#0d1527] rounded-2xl overflow-hidden z-[200] shadow-[0_20px_50px_rgba(0,0,0,0.9)] border border-slate-700 divide-y divide-slate-800/80 max-h-64 overflow-y-auto custom-scrollbar">
                     </div>
                 </div>
 
             </div>
         </header>
 
-        <!-- MAIN HERO WEATHER DISPLAY PANEL -->
+        <!-- MAIN WEATHER HERO CARD -->
         <main class="relative z-10 space-y-3.5 sm:space-y-4">
             
-            <!-- Error Notification Banner -->
-            <div id="error-card" class="hidden liquid-mirror-panel rounded-3xl p-5 bg-red-950/40 border-red-400/40 text-center space-y-3">
-                <i data-lucide="alert-triangle" class="w-8 h-8 text-red-300 mx-auto"></i>
+            <!-- Error Banner -->
+            <div id="error-card" class="hidden clean-card rounded-3xl p-5 bg-red-950/40 border-red-800 text-center space-y-3">
+                <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400 mx-auto"></i>
                 <h2 class="text-lg font-bold">Ошибка сети Open-Meteo</h2>
-                <p id="error-message" class="text-xs text-white/80">Не удалось загрузить данные погоды.</p>
-                <button onclick="fetchWeather()" class="px-5 py-2.5 bg-white/20 active:bg-white/30 rounded-xl text-xs font-bold transition min-h-[44px] border border-white/30">
+                <p id="error-message" class="text-xs text-slate-300">Не удалось загрузить данные погоды.</p>
+                <button onclick="fetchWeather()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-xl text-xs font-bold transition min-h-[44px] border border-slate-600">
                     Повторить попытку
                 </button>
             </div>
 
-            <!-- Main Hero Weather Display Card -->
-            <div id="weather-hero" class="liquid-mirror-panel rounded-3xl p-5 sm:p-7 space-y-5 relative overflow-hidden">
-                <div class="absolute -right-16 -bottom-16 w-72 h-72 bg-cyan-400/10 rounded-full blur-3xl pointer-events-none"></div>
-
+            <!-- Hero Display Panel -->
+            <div id="weather-hero" class="clean-card rounded-3xl p-5 sm:p-7 space-y-5 relative overflow-hidden">
+                
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10">
                     
-                    <!-- Main Temperature & Conditions Display -->
+                    <!-- Main Temp & Descriptions -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
                         <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                            <!-- DYNAMIC CITY HEADER BADGE ("НОЧЬ • КРИВОЙ РОГ") -->
-                            <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-white/20 backdrop-blur-md uppercase tracking-wider text-cyan-200 border border-white/30 shadow-sm">
+                            <!-- DYNAMIC STATUS BADGE ("НОЧЬ • КРИВОЙ РОГ") -->
+                            <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-slate-800 text-sky-300 border border-slate-700 uppercase tracking-wider shadow-sm">
                                 НОЧЬ • КРИВОЙ РОГ
                             </span>
-                            <span id="effect-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/25 backdrop-blur-md text-emerald-200 border border-emerald-400/40 flex items-center gap-1.5 shadow-sm">
+                            <span id="effect-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 shadow-sm">
                                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
                                 <span id="effect-text">Норма</span>
                             </span>
                         </div>
 
-                        <!-- Fluid Mirror Temperature -->
+                        <!-- Current Temperature -->
                         <div class="flex items-baseline justify-center sm:justify-start gap-1 py-1">
-                            <span id="current-temp" class="text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight text-liquid-shimmer drop-shadow-2xl">--</span>
-                            <span class="text-3xl sm:text-4xl font-light text-cyan-200/80">°C</span>
+                            <span id="current-temp" class="text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight text-white">--</span>
+                            <span class="text-3xl sm:text-4xl font-light text-slate-400">°C</span>
                         </div>
 
-                        <!-- Condition Description -->
-                        <p id="weather-description" class="text-xl sm:text-2xl font-bold capitalize tracking-wide text-white">--</p>
+                        <!-- Condition Name -->
+                        <p id="weather-description" class="text-xl sm:text-2xl font-bold capitalize tracking-wide text-slate-100">--</p>
                         
-                        <div class="flex items-center justify-center sm:justify-start gap-3 text-xs text-white/85 font-semibold pt-0.5">
-                            <span>Ощущается: <strong id="feels-like" class="text-cyan-200">--°C</strong></span>
+                        <div class="flex items-center justify-center sm:justify-start gap-3 text-xs text-slate-300 font-semibold pt-0.5">
+                            <span>Ощущается: <strong id="feels-like" class="text-sky-300">--°C</strong></span>
                             <span>•</span>
                             <span>Макс: <strong id="hero-temp-max" class="text-white">--°</strong></span>
                             <span>•</span>
@@ -321,145 +255,159 @@
                         </div>
                     </div>
 
-                    <!-- Animated Hero Weather Icon -->
-                    <div id="hero-icon-wrapper" class="w-28 h-28 sm:w-40 sm:h-40 flex items-center justify-center animate-float-slow drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)] flex-shrink-0">
-                        <i data-lucide="cloud-sun" class="w-24 h-24 sm:w-36 sm:h-36 text-amber-300"></i>
+                    <!-- Weather Icon with Strict Color Rules -->
+                    <div id="hero-icon-wrapper" class="w-28 h-28 sm:w-40 sm:h-40 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="cloud-sun" class="w-24 h-24 sm:w-36 sm:h-36 text-amber-400"></i>
                     </div>
 
                 </div>
 
-                <!-- 6-Grid Glass Metrics Cards -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 relative z-10 pt-3 border-t border-white/20">
+                <!-- 6-Grid Weather Metrics -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 relative z-10 pt-3 border-t border-slate-800">
                     
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-cyan-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-sky-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="droplets" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">Влажность</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Влажность</span>
                         <span id="metric-humidity" class="text-base font-extrabold text-white">--%</span>
-                        <span class="text-[9px] text-white/60">Роса: <span id="metric-dew">--°</span></span>
+                        <span class="text-[9px] text-slate-400">Роса: <span id="metric-dew">--°</span></span>
                     </div>
 
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-emerald-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-emerald-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="gauge" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">Давление</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Давление</span>
                         <span id="metric-pressure" class="text-base font-extrabold text-white">-- мм</span>
-                        <span class="text-[9px] text-white/60">рт. ст.</span>
+                        <span class="text-[9px] text-slate-400">рт. ст.</span>
                     </div>
 
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-teal-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-teal-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="wind" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">Ветер</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Ветер</span>
                         <span id="metric-wind" class="text-base font-extrabold text-white">-- м/с</span>
-                        <span id="metric-wind-dir" class="text-[9px] text-cyan-200 uppercase font-bold">--</span>
+                        <span id="metric-wind-dir" class="text-[9px] text-sky-300 uppercase font-bold">--</span>
                     </div>
 
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-amber-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-amber-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="sun" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">УФ-Индекс</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">УФ-Индекс</span>
                         <span id="metric-uv" class="text-base font-extrabold text-white">--</span>
-                        <span id="metric-uv-level" class="text-[9px] font-bold text-emerald-300">--</span>
+                        <span id="metric-uv-level" class="text-[9px] font-bold text-emerald-400">--</span>
                     </div>
 
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-blue-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-cyan-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="cloud-rain" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">Осадки</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Осадки</span>
                         <span id="metric-precip-prob" class="text-base font-extrabold text-white">--%</span>
-                        <span id="metric-precip-sum" class="text-[9px] text-white/60">-- мм</span>
+                        <span id="metric-precip-sum" class="text-[9px] text-slate-400">-- мм</span>
                     </div>
 
-                    <div class="liquid-mirror-pill p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-indigo-300 p-1.5 bg-white/10 rounded-xl mb-0.5 border border-white/20">
+                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
+                        <div class="text-indigo-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="cloud" class="w-4 h-4"></i>
                         </div>
-                        <span class="text-[10px] text-white/70 font-semibold">Облачность</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">Облачность</span>
                         <span id="metric-clouds" class="text-base font-extrabold text-white">--%</span>
-                        <span id="metric-sun-times" class="text-[9px] text-white/60">🌅 -- | 🌇 --</span>
+                        <span id="metric-sun-times" class="text-[9px] text-slate-400">🌅 -- | 🌇 --</span>
                     </div>
 
                 </div>
             </div>
         </main>
 
-        <!-- HOURLY FORECAST INTERACTIVE SVG CHART -->
-        <section class="liquid-mirror-panel rounded-3xl p-4 sm:p-6 space-y-3 relative">
+        <!-- HOURLY FORECAST SVG CHART WITH ADAPTIVE TEMPERATURE COLOR GRADIENT -->
+        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-3 relative">
             <div class="flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2.5">
-                    <div class="p-2 bg-amber-400/20 rounded-xl text-amber-300 border border-amber-300/30">
+                    <div class="p-2 bg-slate-800 rounded-xl text-sky-400 border border-slate-700">
                         <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </div>
                     <div>
                         <h2 class="text-base sm:text-lg font-extrabold text-white">Почасовой график</h2>
-                        <p class="text-[10px] sm:text-xs text-white/70">Ведите пальцем по графику для деталей</p>
+                        <p class="text-[10px] sm:text-xs text-slate-400">Ведите пальцем по графику для деталей</p>
                     </div>
                 </div>
-                <div class="text-[10px] text-white/80 font-bold">
-                    <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_#fbbf24]"></span>°C</span>
+                
+                <!-- Dynamic Legend Indicator -->
+                <div id="chart-legend" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 flex items-center gap-1.5">
+                    <span id="chart-legend-dot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                    <span id="chart-legend-text" class="text-slate-300">--°C</span>
                 </div>
             </div>
 
-            <!-- SVG Chart Canvas Wrapper -->
+            <!-- SVG Spline Chart Container -->
             <div id="chart-container" class="relative w-full h-56 pt-3 pb-2 select-none touch-pan-y">
                 
                 <svg id="hourly-svg" class="w-full h-full overflow-visible" preserveAspectRatio="none">
                     <defs>
-                        <linearGradient id="chartAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="rgba(251, 191, 36, 0.5)" />
-                            <stop offset="60%" stop-color="rgba(251, 191, 36, 0.12)" />
-                            <stop offset="100%" stop-color="rgba(251, 191, 36, 0.0)" />
+                        <!-- Dynamic Area & Stroke Gradients -->
+                        <linearGradient id="chartWarmAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(249, 115, 22, 0.4)" />
+                            <stop offset="100%" stop-color="rgba(249, 115, 22, 0.0)" />
                         </linearGradient>
-                        
-                        <linearGradient id="chartLineGradient" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#fbbf24" />
-                            <stop offset="50%" stop-color="#38bdf8" />
-                            <stop offset="100%" stop-color="#818cf8" />
+                        <linearGradient id="chartWarmStrokeGradient" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#f97316" />
+                            <stop offset="100%" stop-color="#eab308" />
                         </linearGradient>
 
-                        <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
-                            <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ffffff" flood-opacity="0.95" />
-                        </filter>
+                        <linearGradient id="chartMildAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(20, 184, 166, 0.4)" />
+                            <stop offset="100%" stop-color="rgba(20, 184, 166, 0.0)" />
+                        </linearGradient>
+                        <linearGradient id="chartMildStrokeGradient" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#14b8a6" />
+                            <stop offset="100%" stop-color="#06b6d4" />
+                        </linearGradient>
+
+                        <linearGradient id="chartColdAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="rgba(56, 189, 248, 0.4)" />
+                            <stop offset="100%" stop-color="rgba(56, 189, 248, 0.0)" />
+                        </linearGradient>
+                        <linearGradient id="chartColdStrokeGradient" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#38bdf8" />
+                            <stop offset="100%" stop-color="#6366f1" />
+                        </linearGradient>
                     </defs>
 
-                    <g id="svg-grid-lines" stroke="rgba(255, 255, 255, 0.14)" stroke-dasharray="3 3" stroke-width="1"></g>
-                    <path id="svg-area-path" fill="url(#chartAreaGradient)" d="" />
-                    <path id="svg-line-path" fill="none" stroke="url(#chartLineGradient)" stroke-width="3.5" stroke-linecap="round" class="chart-path" d="" />
+                    <g id="svg-grid-lines" stroke="rgba(71, 85, 105, 0.3)" stroke-dasharray="3 3" stroke-width="1"></g>
+                    <path id="svg-area-path" fill="url(#chartMildAreaGradient)" d="" />
+                    <path id="svg-line-path" fill="none" stroke="url(#chartMildStrokeGradient)" stroke-width="3.5" stroke-linecap="round" class="chart-path" d="" />
                     <g id="svg-static-dots"></g>
-                    <line id="svg-guide-line" x1="0" y1="0" x2="0" y2="100%" stroke="rgba(255, 255, 255, 0.6)" stroke-width="1.5" stroke-dasharray="3 3" class="chart-guide-line opacity-0 pointer-events-none" />
-                    <circle id="svg-active-dot" r="6.5" fill="#ffffff" stroke="#f59e0b" stroke-width="3" filter="url(#dotGlow)" class="chart-hover-dot opacity-0 pointer-events-none" />
+                    <line id="svg-guide-line" x1="0" y1="0" x2="0" y2="100%" stroke="rgba(255, 255, 255, 0.6)" stroke-width="1.5" stroke-dasharray="3 3" class="opacity-0 pointer-events-none" />
+                    <circle id="svg-active-dot" r="6.5" fill="#ffffff" stroke="#38bdf8" stroke-width="3" class="chart-hover-dot opacity-0 pointer-events-none" />
                 </svg>
 
-                <!-- Time Axis Labels -->
-                <div id="chart-x-labels" class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none text-[9px] text-white/70 font-bold px-2">
+                <div id="chart-x-labels" class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none text-[9px] text-slate-400 font-bold px-2">
                 </div>
 
-                <!-- FLOATING TOOLTIP WITH FEELS-LIKE TEMP -->
+                <!-- Floating Touch Scrubbing Tooltip -->
                 <div id="chart-tooltip" class="absolute top-0 left-0 hidden pointer-events-none z-30 transition-all duration-75 transform -translate-x-1/2 -translate-y-full mb-2">
-                    <div class="liquid-mirror-card p-2.5 rounded-2xl shadow-2xl border border-white/50 backdrop-blur-2xl text-[11px] space-y-1 min-w-[155px]">
-                        <div class="flex items-center justify-between border-b border-white/20 pb-1">
-                            <span id="tooltip-time" class="font-extrabold text-amber-300">12:00</span>
-                            <span id="tooltip-condition" class="text-[9px] text-white/90 font-medium truncate max-w-[85px]">Ясно</span>
+                    <div class="bg-[#0d1527] p-2.5 rounded-2xl shadow-2xl border border-slate-700 text-[11px] space-y-1 min-w-[155px]">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-1">
+                            <span id="tooltip-time" class="font-extrabold text-amber-400">12:00</span>
+                            <span id="tooltip-condition" class="text-[9px] text-slate-300 font-medium truncate max-w-[85px]">Ясно</span>
                         </div>
                         <div class="flex items-center justify-between gap-2 pt-0.5">
-                            <span class="text-white/80">Температура:</span>
+                            <span class="text-slate-400">Температура:</span>
                             <span id="tooltip-temp" class="text-sm font-black text-white">--°C</span>
                         </div>
-                        <div class="text-[10px] text-amber-200 font-bold text-right" id="tooltip-feels">
+                        <div class="text-[10px] text-sky-300 font-bold text-right" id="tooltip-feels">
                             Ощущается: --°C
                         </div>
-                        <div class="flex items-center justify-between gap-2 text-[10px] pt-0.5 border-t border-white/10">
-                            <span class="text-cyan-300 flex items-center gap-1 font-semibold"><i data-lucide="droplet" class="w-3 h-3"></i> Осадки:</span>
+                        <div class="flex items-center justify-between gap-2 text-[10px] pt-0.5 border-t border-slate-800">
+                            <span class="text-cyan-400 flex items-center gap-1 font-semibold"><i data-lucide="droplet" class="w-3 h-3"></i> Осадки:</span>
                             <span id="tooltip-precip" class="font-bold text-white">--%</span>
                         </div>
                         <div class="flex items-center justify-between gap-2 text-[10px]">
-                            <span class="text-teal-300 flex items-center gap-1 font-semibold"><i data-lucide="wind" class="w-3 h-3"></i> Ветер:</span>
+                            <span class="text-teal-400 flex items-center gap-1 font-semibold"><i data-lucide="wind" class="w-3 h-3"></i> Ветер:</span>
                             <span id="tooltip-wind" class="font-bold text-white">-- м/с</span>
                         </div>
                     </div>
@@ -468,38 +416,38 @@
             </div>
         </section>
 
-        <!-- MULTI-RANGE DAILY FORECAST SECTION (5 AND 16 DAYS) -->
-        <section class="liquid-mirror-panel rounded-3xl p-4 sm:p-6 space-y-4">
+        <!-- MULTI-RANGE DAILY FORECAST WITH EXPANDABLE DETAILED PANELS -->
+        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
             
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-white/20 pb-3">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-extrabold flex items-center gap-2 text-white">
-                        <i data-lucide="calendar-days" class="w-4 h-4 text-emerald-300"></i>
+                        <i data-lucide="calendar-days" class="w-4 h-4 text-emerald-400"></i>
                         Прогноз погоды
                     </h2>
-                    <p class="text-[10px] sm:text-xs text-white/70">Период просмотра для города</p>
+                    <p class="text-[10px] sm:text-xs text-slate-400">Нажмите на день для подробностей</p>
                 </div>
 
-                <!-- Range Selector Toggle Buttons -->
-                <div class="liquid-mirror-pill p-1 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
-                    <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition shadow-md bg-white/30 text-white border border-white/40 min-h-[44px]">
+                <!-- 5 vs 16 Days Tab Toggle -->
+                <div class="bg-slate-900 border border-slate-800 p-1 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
+                    <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]">
                         5 Дней
                     </button>
-                    <button id="tab-16" onclick="switchForecastRange(16)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-white/70 hover:text-white active:bg-white/15 min-h-[44px]">
+                    <button id="tab-16" onclick="switchForecastRange(16)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]">
                         16 Дней
                     </button>
                 </div>
             </div>
 
-            <!-- Daily Cards List Container -->
+            <!-- Daily Items Container -->
             <div id="daily-forecast-container" class="grid grid-cols-1 gap-2.5">
             </div>
 
         </section>
 
-        <!-- FOOTER SECTION -->
-        <footer class="text-center text-[10px] sm:text-xs text-white/60 space-y-1 py-3">
-            <p>iOS 27 Liquid Mirror Weather • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-white">Open-Meteo API</a> • <span id="footer-city">Кривой Рог</span></p>
+        <!-- FOOTER -->
+        <footer class="text-center text-[10px] sm:text-xs text-slate-500 space-y-1 py-3">
+            <p>Погода • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривой Рог</span></p>
             <p>Время: <span id="clock">--:--:--</span></p>
         </footer>
 
@@ -519,44 +467,45 @@
         let hourlyChartPoints = [];
         let searchDebounceTimer = null;
         let currentSearchResults = [];
+        let expandedDayIndex = null; // Track expanded day accordion
 
-        // WMO WEATHER CODES MAP
+        // WMO WEATHER MAP & COLOR RULES
         const WEATHER_MAP = {
-            0: { title: "Ясно", icon: "sun", bg: "clear-day", effect: "clear" },
-            1: { title: "Преимущественно ясно", icon: "sun-medium", bg: "clear-day", effect: "clear" },
-            2: { title: "Переменная облачность", icon: "cloud-sun", bg: "cloudy", effect: "clear" },
-            3: { title: "Пасмурно", icon: "cloud", bg: "overcast", effect: "clouds" },
-            45: { title: "Туман", icon: "cloud-fog", bg: "fog", effect: "fog" },
-            48: { title: "Изморось / Туман", icon: "cloud-fog", bg: "fog", effect: "fog" },
-            51: { title: "Моросящий дождь", icon: "cloud-drizzle", bg: "rain", effect: "rain" },
-            53: { title: "Умеренный дождь", icon: "cloud-rain", bg: "rain", effect: "rain" },
-            55: { title: "Сильный дождь", icon: "cloud-rain-wind", bg: "rain", effect: "rain" },
-            56: { title: "Ледяная морось", icon: "cloud-hail", bg: "snow", effect: "snow" },
-            57: { title: "Сильная ледяная морось", icon: "cloud-hail", bg: "snow", effect: "snow" },
-            61: { title: "Небольшой дождь", icon: "cloud-drizzle", bg: "rain", effect: "rain" },
-            63: { title: "Умеренный дождь", icon: "cloud-rain", bg: "rain", effect: "rain" },
-            65: { title: "Сильный ливень", icon: "cloud-rain-wind", bg: "rain", effect: "rain" },
-            66: { title: "Замерзающий дождь", icon: "cloud-hail", bg: "snow", effect: "snow" },
-            67: { title: "Сильный замерзающий дождь", icon: "cloud-hail", bg: "snow", effect: "snow" },
-            71: { title: "Небольшой снег", icon: "snowflake", bg: "snow", effect: "snow" },
-            73: { title: "Умеренный снегопад", icon: "snowflake", bg: "snow", effect: "snow" },
-            75: { title: "Сильный снегопад", icon: "snowflake", bg: "snow", effect: "snow" },
-            77: { title: "Снежные зерна", icon: "snowflake", bg: "snow", effect: "snow" },
-            80: { title: "Слабый ливень", icon: "cloud-drizzle", bg: "rain", effect: "rain" },
-            81: { title: "Умеренный ливень", icon: "cloud-rain", bg: "rain", effect: "rain" },
-            82: { title: "Сильный проливной дождь", icon: "cloud-rain-wind", bg: "rain", effect: "rain" },
-            85: { title: "Снегопад", icon: "snowflake", bg: "snow", effect: "snow" },
-            86: { title: "Сильный снегопад", icon: "snowflake", bg: "snow", effect: "snow" },
-            95: { title: "Гроза", icon: "cloud-lightning", bg: "thunder", effect: "rain" },
-            96: { title: "Гроза с градом", icon: "cloud-lightning", bg: "thunder", effect: "rain" },
-            99: { title: "Гроза с сильным градом", icon: "cloud-lightning", bg: "thunder", effect: "rain" },
+            0: { title: "Ясно", icon: "sun", bg: "clear-day", effect: "clear", iconColor: "text-amber-400" },
+            1: { title: "Преимущественно ясно", icon: "sun-medium", bg: "clear-day", effect: "clear", iconColor: "text-amber-400" },
+            2: { title: "Переменная облачность", icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" },
+            3: { title: "Пасмурно", icon: "cloud", bg: "overcast", effect: "clouds", iconColor: "text-slate-400" },
+            45: { title: "Туман", icon: "cloud-fog", bg: "fog", effect: "fog", iconColor: "text-slate-400" },
+            48: { title: "Изморось / Туман", icon: "cloud-fog", bg: "fog", effect: "fog", iconColor: "text-slate-400" },
+            51: { title: "Моросящий дождь", icon: "cloud-drizzle", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            53: { title: "Умеренный дождь", icon: "cloud-rain", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            55: { title: "Сильный дождь", icon: "cloud-rain-wind", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            56: { title: "Ледяная морось", icon: "cloud-hail", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            57: { title: "Сильная ледяная морось", icon: "cloud-hail", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            61: { title: "Небольшой дождь", icon: "cloud-drizzle", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            63: { title: "Умеренный дождь", icon: "cloud-rain", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            65: { title: "Сильный ливень", icon: "cloud-rain-wind", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            66: { title: "Замерзающий дождь", icon: "cloud-hail", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            67: { title: "Сильный замерзающий дождь", icon: "cloud-hail", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            71: { title: "Небольшой снег", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            73: { title: "Умеренный снегопад", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            75: { title: "Сильный снегопад", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            77: { title: "Снежные зерна", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            80: { title: "Слабый ливень", icon: "cloud-drizzle", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            81: { title: "Умеренный ливень", icon: "cloud-rain", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            82: { title: "Сильный проливной дождь", icon: "cloud-rain-wind", bg: "rain", effect: "rain", iconColor: "text-sky-400" },
+            85: { title: "Снегопад", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            86: { title: "Сильный снегопад", icon: "snowflake", bg: "snow", effect: "snow", iconColor: "text-sky-200" },
+            95: { title: "Гроза", icon: "cloud-lightning", bg: "thunder", effect: "rain", iconColor: "text-purple-400" },
+            96: { title: "Гроза с градом", icon: "cloud-lightning", bg: "thunder", effect: "rain", iconColor: "text-purple-400" },
+            99: { title: "Гроза с сильным градом", icon: "cloud-lightning", bg: "thunder", effect: "rain", iconColor: "text-purple-400" },
         };
 
         function getWmoInfo(code) {
-            return WEATHER_MAP[code] || { title: "Переменная облачность", icon: "cloud-sun", bg: "cloudy", effect: "clear" };
+            return WEATHER_MAP[code] || { title: "Переменная облачность", icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
         }
 
-        // RETINA CANVAS PARTICLE ENGINE
+        // CANVAS PARTICLE SYSTEM
         const canvas = document.getElementById('weather-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -579,41 +528,41 @@
             particles = [];
             const isMobile = window.innerWidth < 640;
             const count = isMobile 
-                ? (type === 'rain' ? 40 : (type === 'snow' ? 35 : (type === 'stars' ? 30 : 12)))
-                : (type === 'rain' ? 120 : (type === 'snow' ? 80 : (type === 'stars' ? 60 : 25)));
+                ? (type === 'rain' ? 35 : (type === 'snow' ? 30 : (type === 'stars' ? 25 : 10)))
+                : (type === 'rain' ? 90 : (type === 'snow' ? 70 : (type === 'stars' ? 50 : 20)));
 
             for (let i = 0; i < count; i++) {
                 if (type === 'rain') {
                     particles.push({
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight,
-                        length: Math.random() * 18 + 10,
-                        speed: Math.random() * 12 + 10,
-                        opacity: Math.random() * 0.5 + 0.3
+                        length: Math.random() * 16 + 8,
+                        speed: Math.random() * 10 + 8,
+                        opacity: Math.random() * 0.4 + 0.2
                     });
                 } else if (type === 'snow') {
                     particles.push({
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight,
-                        radius: Math.random() * 2.8 + 1,
-                        speed: Math.random() * 1.4 + 0.5,
+                        radius: Math.random() * 2.5 + 1,
+                        speed: Math.random() * 1.2 + 0.4,
                         drift: Math.random() * 0.8 - 0.4
                     });
                 } else if (type === 'stars') {
                     particles.push({
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight,
-                        radius: Math.random() * 1.6 + 0.5,
+                        radius: Math.random() * 1.5 + 0.5,
                         alpha: Math.random(),
-                        speed: Math.random() * 0.025 + 0.005
+                        speed: Math.random() * 0.02 + 0.005
                     });
                 } else if (type === 'fog') {
                     particles.push({
                         x: Math.random() * window.innerWidth,
                         y: Math.random() * window.innerHeight,
-                        radius: Math.random() * 90 + 60,
-                        speed: Math.random() * 0.25 + 0.1,
-                        opacity: Math.random() * 0.07 + 0.02
+                        radius: Math.random() * 80 + 50,
+                        speed: Math.random() * 0.2 + 0.05,
+                        opacity: Math.random() * 0.05 + 0.01
                     });
                 }
             }
@@ -623,23 +572,23 @@
             ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
             if (currentParticleType === 'rain') {
-                ctx.strokeStyle = 'rgba(186, 230, 253, 0.6)';
-                ctx.lineWidth = 1.3;
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
+                ctx.lineWidth = 1.2;
                 particles.forEach(p => {
                     ctx.beginPath();
                     ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p.x - 1.8, p.y + p.length);
+                    ctx.lineTo(p.x - 1.5, p.y + p.length);
                     ctx.stroke();
 
                     p.y += p.speed;
-                    p.x -= 0.6;
+                    p.x -= 0.5;
                     if (p.y > window.innerHeight) {
                         p.y = -20;
                         p.x = Math.random() * window.innerWidth;
                     }
                 });
             } else if (currentParticleType === 'snow') {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
                 particles.forEach(p => {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -663,7 +612,7 @@
                 });
             } else if (currentParticleType === 'fog') {
                 particles.forEach(p => {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                    ctx.fillStyle = `rgba(148, 163, 184, ${p.opacity})`;
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                     ctx.fill();
@@ -710,6 +659,7 @@
             const gridGroup = document.getElementById('svg-grid-lines');
             const staticDotsGroup = document.getElementById('svg-static-dots');
             const xLabelsContainer = document.getElementById('chart-x-labels');
+            const activeDot = document.getElementById('svg-active-dot');
 
             const width = container.clientWidth || 360;
             const height = container.clientHeight || 200;
@@ -734,6 +684,35 @@
             if (hoursData.length === 0) return;
 
             const temps = hoursData.map(d => d.temp);
+            const avgTemp = temps.reduce((a, b) => a + b, 0) / temps.length;
+
+            // DYNAMIC CHART COLOR SELECTION BASED ON TEMPERATURE
+            const legendDot = document.getElementById('chart-legend-dot');
+            const legendText = document.getElementById('chart-legend-text');
+
+            if (avgTemp > 15) {
+                // WARM (Orange/Amber)
+                areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
+                linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
+                activeDot.setAttribute('stroke', '#f97316');
+                legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
+                legendText.textContent = `Тепло (средн. ${Math.round(avgTemp)}°C)`;
+            } else if (avgTemp >= 5) {
+                // MILD (Teal/Cyan)
+                areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
+                linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
+                activeDot.setAttribute('stroke', '#14b8a6');
+                legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
+                legendText.textContent = `Умеренно (средн. ${Math.round(avgTemp)}°C)`;
+            } else {
+                // COLD (Ice-Blue/Indigo)
+                areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
+                linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
+                activeDot.setAttribute('stroke', '#38bdf8');
+                legendDot.className = "w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]";
+                legendText.textContent = `Прохладно (средн. ${Math.round(avgTemp)}°C)`;
+            }
+
             let minTemp = Math.min(...temps);
             let maxTemp = Math.max(...temps);
 
@@ -754,7 +733,6 @@
                 return { x, y, data: d };
             });
 
-            // Grid Lines
             gridGroup.innerHTML = '';
             const gridSteps = 2;
             for (let g = 0; g <= gridSteps; g++) {
@@ -762,11 +740,10 @@
                 const gTemp = Math.round(maxTemp - (g / gridSteps) * (maxTemp - minTemp));
                 gridGroup.innerHTML += `
                     <line x1="${paddingLeft}" y1="${gy}" x2="${width - paddingRight}" y2="${gy}" />
-                    <text x="${paddingLeft + 2}" y="${gy - 3}" fill="rgba(255,255,255,0.45)" font-size="8" font-weight="bold">${gTemp}°</text>
+                    <text x="${paddingLeft + 2}" y="${gy - 3}" fill="rgba(148,163,184,0.6)" font-size="8" font-weight="bold">${gTemp}°</text>
                 `;
             }
 
-            // Cubic Bezier Spline Computation
             function getControlPoints(p0, p1, p2, p3, t = 0.16) {
                 let cp1x = p1.x + (p2.x - p0.x) * t;
                 let cp1y = p1.y + (p2.y - p0.y) * t;
@@ -793,14 +770,13 @@
             const areaD = `${pathD} L ${lastPt.x},${height - paddingBottom} L ${firstPt.x},${height - paddingBottom} Z`;
             areaPath.setAttribute('d', areaD);
 
-            // Static Dots & Labels
             staticDotsGroup.innerHTML = '';
             xLabelsContainer.innerHTML = '';
 
             hourlyChartPoints.forEach((pt, i) => {
                 if (i % 3 === 0 || i === hourlyChartPoints.length - 1) {
                     staticDotsGroup.innerHTML += `
-                        <circle cx="${pt.x}" cy="${pt.y}" r="2.8" fill="#ffffff" opacity="0.75" />
+                        <circle cx="${pt.x}" cy="${pt.y}" r="2.8" fill="#ffffff" opacity="0.8" />
                         <text x="${pt.x}" y="${pt.y - 8}" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">${pt.data.temp}°</text>
                     `;
                 }
@@ -891,7 +867,6 @@
         const suggestionsBox = document.getElementById('search-suggestions');
         const clearBtn = document.getElementById('clear-search-btn');
 
-        // Outside pointer clicks close search suggestions box
         document.addEventListener('pointerdown', (e) => {
             if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
                 suggestionsBox.classList.add('hidden');
@@ -919,21 +894,20 @@
                 const data = await res.json();
 
                 if (!data.results || data.results.length === 0) {
-                    suggestionsBox.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center font-medium bg-[#080d1a]">Город не найден</div>`;
+                    suggestionsBox.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center font-medium bg-[#0d1527]">Город не найден</div>`;
                     suggestionsBox.classList.remove('hidden');
                     return;
                 }
 
                 currentSearchResults = data.results;
 
-                // Render dark background search items (#080d1a)
                 suggestionsBox.innerHTML = data.results.map((item, idx) => `
-                    <div data-city-idx="${idx}" class="p-3.5 bg-[#080d1a] hover:bg-slate-800/90 active:bg-slate-700/90 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[46px] select-none border-b border-slate-800/50 last:border-0">
+                    <div data-city-idx="${idx}" class="p-3.5 bg-[#0d1527] hover:bg-slate-800 active:bg-slate-700 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[46px] select-none border-b border-slate-800/80 last:border-0">
                         <div class="pr-2 min-w-0 pointer-events-none">
                             <span class="font-bold text-white block truncate text-sm">${item.name}</span>
                             <span class="text-slate-400 text-xs block truncate font-medium mt-0.5">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
                         </div>
-                        <span class="text-[10px] font-mono bg-slate-800/90 text-cyan-300 font-extrabold px-2 py-0.5 rounded-full border border-slate-700 flex-shrink-0 pointer-events-none shadow-sm">${item.country_code || ''}</span>
+                        <span class="text-[10px] font-mono bg-slate-800 text-sky-300 font-extrabold px-2 py-0.5 rounded-full border border-slate-700 flex-shrink-0 pointer-events-none shadow-sm">${item.country_code || ''}</span>
                     </div>
                 `).join('');
 
@@ -943,7 +917,6 @@
             }
         }
 
-        // Pointerdown listener for instant touch/click city selection
         suggestionsBox.addEventListener('pointerdown', (e) => {
             const target = e.target.closest('[data-city-idx]');
             if (!target) return;
@@ -966,6 +939,7 @@
 
         function selectCity(name, region, countryCode, lat, lon) {
             currentCity = { name, region, countryCode, lat, lon };
+            expandedDayIndex = null;
             
             document.getElementById('city-name').textContent = name;
             document.getElementById('city-region').textContent = region;
@@ -1020,7 +994,6 @@
 
             updateBackgroundAndParticles(codeInfo.bg, current.is_day, codeInfo.effect);
 
-            // DYNAMIC STATUS BADGE ("НОЧЬ • КРИВОЙ РОГ" / "ДЕНЬ • КИЕВ")
             const cityNameUpper = currentCity.name.toUpperCase();
             const dayNightText = current.is_day ? "ДЕНЬ" : "НОЧЬ";
             document.getElementById('condition-badge').textContent = `${dayNightText} • ${cityNameUpper}`;
@@ -1031,7 +1004,8 @@
             document.getElementById('hero-temp-max').textContent = `${Math.round(daily.temperature_2m_max[0])}°`;
             document.getElementById('hero-temp-min').textContent = `${Math.round(daily.temperature_2m_min[0])}°`;
 
-            document.getElementById('hero-icon-wrapper').innerHTML = `<i data-lucide="${codeInfo.icon}" class="w-24 h-24 sm:w-36 sm:h-36 text-amber-300 drop-shadow-2xl"></i>`;
+            // Icon Render with exact color coding rules
+            document.getElementById('hero-icon-wrapper').innerHTML = `<i data-lucide="${codeInfo.icon}" class="w-24 h-24 sm:w-36 sm:h-36 ${codeInfo.iconColor} drop-shadow-xl"></i>`;
 
             document.getElementById('metric-humidity').textContent = `${current.relative_humidity_2m}%`;
             
@@ -1063,44 +1037,16 @@
             document.getElementById('metric-sun-times').textContent = `🌅 ${sunriseStr} | 🌇 ${sunsetStr}`;
 
             renderHourlyChart(hourly);
-            renderDailyList(daily);
+            renderDailyList(daily, hourly);
 
             lucide.createIcons();
         }
 
         function updateBackgroundAndParticles(bgType, isDay, effectType) {
-            const b1 = document.getElementById('blob-1');
-            const b2 = document.getElementById('blob-2');
-            const b3 = document.getElementById('blob-3');
             const effectText = document.getElementById('effect-text');
 
             if (isDay === 0) {
-                b1.className = "absolute -top-32 -left-32 w-96 h-96 rounded-full bg-indigo-900/40 blur-[90px] animate-liquid-pulse";
-                b2.className = "absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-blue-950/40 blur-[100px] animate-liquid-pulse";
-                b3.className = "absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-slate-900/40 blur-[110px] animate-liquid-pulse";
                 if (effectType === 'clear') effectType = 'stars';
-            } else {
-                switch(bgType) {
-                    case 'clear-day':
-                        b1.className = "absolute -top-32 -left-32 w-96 h-96 rounded-full bg-amber-500/30 blur-[90px] animate-liquid-pulse";
-                        b2.className = "absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-sky-500/35 blur-[100px] animate-liquid-pulse";
-                        b3.className = "absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-indigo-600/30 blur-[110px] animate-liquid-pulse";
-                        break;
-                    case 'rain':
-                        b1.className = "absolute -top-32 -left-32 w-96 h-96 rounded-full bg-blue-700/35 blur-[90px] animate-liquid-pulse";
-                        b2.className = "absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-cyan-800/30 blur-[100px] animate-liquid-pulse";
-                        b3.className = "absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-slate-900/40 blur-[110px] animate-liquid-pulse";
-                        break;
-                    case 'snow':
-                        b1.className = "absolute -top-32 -left-32 w-96 h-96 rounded-full bg-cyan-400/25 blur-[90px] animate-liquid-pulse";
-                        b2.className = "absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-blue-600/25 blur-[100px] animate-liquid-pulse";
-                        b3.className = "absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-slate-800/30 blur-[110px] animate-liquid-pulse";
-                        break;
-                    default:
-                        b1.className = "absolute -top-32 -left-32 w-96 h-96 rounded-full bg-cyan-600/30 blur-[90px] animate-liquid-pulse";
-                        b2.className = "absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-indigo-600/30 blur-[100px] animate-liquid-pulse";
-                        b3.className = "absolute -bottom-32 left-1/4 w-96 h-96 rounded-full bg-blue-700/25 blur-[110px] animate-liquid-pulse";
-                }
             }
 
             const effectNames = {
@@ -1115,7 +1061,7 @@
             initParticles(effectType);
         }
 
-        function renderDailyList(dailyData) {
+        function renderDailyList(dailyData, hourlyData) {
             const container = document.getElementById('daily-forecast-container');
             container.innerHTML = '';
 
@@ -1147,79 +1093,197 @@
                 const tempMax = Math.round(dailyData.temperature_2m_max[i]);
                 const tempMin = Math.round(dailyData.temperature_2m_min[i]);
                 const precipProb = dailyData.precipitation_probability_max ? dailyData.precipitation_probability_max[i] : 0;
+                const precipSum = dailyData.precipitation_sum ? dailyData.precipitation_sum[i] : 0;
                 const windSpeed = dailyData.wind_speed_10m_max ? Math.round(dailyData.wind_speed_10m_max[i]) : 0;
+                const windDir = dailyData.wind_direction_10m_dominant ? getWindDirectionRu(dailyData.wind_direction_10m_dominant[i]) : "--";
+                const uvMax = dailyData.uv_index_max ? Math.round(dailyData.uv_index_max[i]) : 0;
 
                 const leftPercent = Math.max(0, Math.min(94, ((tempMin - globalMin) / totalRange) * 100));
                 let widthPercent = ((tempMax - tempMin) / totalRange) * 100;
 
-                // Smart point indicator fallback for equal min/max days (e.g., 0°...0°)
                 if (tempMin === tempMax) {
                     widthPercent = 6;
                 } else {
                     widthPercent = Math.max(6, Math.min(100 - leftPercent, widthPercent));
                 }
 
-                const card = document.createElement('div');
-                card.className = "liquid-mirror-card p-3 rounded-2xl flex items-center justify-between gap-1.5 sm:gap-3 text-xs";
+                // Estimated time-of-day temperature breakdown (Morn/Day/Eve/Night)
+                const dayDateStr = dailyData.time[i];
+                const dayHourlyIndices = [];
+                if (hourlyData && hourlyData.time) {
+                    hourlyData.time.forEach((t, idx) => {
+                        if (t.startsWith(dayDateStr)) dayHourlyIndices.push(idx);
+                    });
+                }
+
+                function getHourlyVal(hourNum, key) {
+                    if (dayHourlyIndices.length >= 24 && hourlyData[key]) {
+                        return Math.round(hourlyData[key][dayHourlyIndices[hourNum] || dayHourlyIndices[0]]);
+                    }
+                    if (key === 'temperature_2m') {
+                        if (hourNum === 8) return Math.round(tempMin + (tempMax - tempMin) * 0.4);
+                        if (hourNum === 14) return tempMax;
+                        if (hourNum === 20) return Math.round(tempMin + (tempMax - tempMin) * 0.6);
+                        return tempMin;
+                    }
+                    return "--";
+                }
+
+                const morningTemp = getHourlyVal(8, 'temperature_2m');
+                const morningFeels = getHourlyVal(8, 'apparent_temperature');
+                const afternoonTemp = getHourlyVal(14, 'temperature_2m');
+                const afternoonFeels = getHourlyVal(14, 'apparent_temperature');
+                const eveningTemp = getHourlyVal(20, 'temperature_2m');
+                const eveningFeels = getHourlyVal(20, 'apparent_temperature');
+                const nightTemp = getHourlyVal(2, 'temperature_2m');
+                const nightFeels = getHourlyVal(2, 'apparent_temperature');
+
+                const isExpanded = expandedDayIndex === i;
+
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = `clean-card rounded-2xl overflow-hidden clean-card-interactive transition-all ${isExpanded ? 'border-sky-500/80 bg-slate-900' : ''}`;
                 
-                // ORDER STRICTLY: [1. Day/Icon] -> [2. Precipitation] -> [3. TEMPERATURE RANGE IN MIDDLE] -> [4. Wind]
-                card.innerHTML = `
-                    <!-- 1. Day & Weather Icon -->
-                    <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
-                        <div class="p-1.5 sm:p-2 bg-white/10 rounded-xl text-amber-300 flex-shrink-0 border border-white/20">
-                            <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                cardWrapper.innerHTML = `
+                    <!-- CLICKABLE SUMMARY ROW -->
+                    <div onclick="toggleDayExpand(${i})" class="p-3 flex items-center justify-between gap-1.5 sm:gap-3 text-xs cursor-pointer select-none">
+                        
+                        <!-- 1. Day & Weather Icon -->
+                        <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
+                            <div class="p-1.5 sm:p-2 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
+                                <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5 ${codeInfo.iconColor}"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="font-extrabold text-xs sm:text-sm capitalize text-white truncate">${dayTitle}</p>
+                                <p class="text-[9px] sm:text-xs text-slate-400 truncate font-medium hidden sm:block">${codeInfo.title}</p>
+                            </div>
                         </div>
-                        <div class="overflow-hidden">
-                            <p class="font-extrabold text-xs sm:text-sm capitalize text-white truncate">${dayTitle}</p>
-                            <p class="text-[9px] sm:text-xs text-white/70 truncate font-medium hidden sm:block">${codeInfo.title}</p>
+
+                        <!-- 2. Precipitation % -->
+                        <div class="flex items-center gap-1 font-semibold text-cyan-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[40px]">
+                            <i data-lucide="cloud-rain" class="w-3.5 h-3.5"></i>
+                            <span>${precipProb}%</span>
+                        </div>
+
+                        <!-- 3. TEMPERATURE RANGE IN MIDDLE -->
+                        <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
+                            <span class="text-[11px] sm:text-xs text-slate-400 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
+                            <div class="flex-1 h-2 bg-slate-950 rounded-full overflow-hidden relative max-w-[110px] border border-slate-800">
+                                <div class="h-full bg-gradient-to-r from-sky-400 via-teal-400 to-amber-400 rounded-full absolute transition-all duration-300" 
+                                     style="left: ${leftPercent}%; width: ${widthPercent}%;"></div>
+                            </div>
+                            <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
+                        </div>
+
+                        <!-- 4. Wind Speed & Chevron indicator -->
+                        <div class="flex items-center justify-end gap-1 font-semibold text-teal-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[55px] sm:min-w-[65px] text-right">
+                            <i data-lucide="wind" class="w-3.5 h-3.5"></i>
+                            <span>${windSpeed} м/с</span>
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}"></i>
                         </div>
                     </div>
 
-                    <!-- 2. Precipitation % -->
-                    <div class="flex items-center gap-1 font-semibold text-cyan-300 text-[11px] sm:text-xs flex-shrink-0 min-w-[40px]">
-                        <i data-lucide="cloud-rain" class="w-3.5 h-3.5"></i>
-                        <span>${precipProb}%</span>
-                    </div>
-
-                    <!-- 3. TEMPERATURE RANGE STRICTLY IN THE MIDDLE -->
-                    <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
-                        <span class="text-[11px] sm:text-xs text-white/70 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
-                        <div class="flex-1 h-2 bg-black/40 rounded-full overflow-hidden relative max-w-[110px] border border-white/10">
-                            <div class="h-full bg-gradient-to-r from-cyan-400 via-amber-300 to-rose-400 rounded-full absolute transition-all duration-300 shadow-[0_0_8px_rgba(56,189,248,0.5)]" 
-                                 style="left: ${leftPercent}%; width: ${widthPercent}%;"></div>
+                    <!-- EXPANDABLE DETAILED PANEL -->
+                    <div class="expand-panel ${isExpanded ? 'open' : ''} border-t border-slate-800 bg-slate-950/60 p-3 sm:p-4 space-y-3">
+                        <div class="text-[11px] font-bold text-sky-300 flex items-center justify-between border-b border-slate-800 pb-1.5">
+                            <span class="flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5"></i> Подробный прогноз на день</span>
+                            <span class="text-slate-400 font-normal text-[10px]">${codeInfo.title}</span>
                         </div>
-                        <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
-                    </div>
 
-                    <!-- 4. Wind Speed (m/s) -->
-                    <div class="flex items-center justify-end gap-1 font-semibold text-teal-300 text-[11px] sm:text-xs flex-shrink-0 min-w-[50px] sm:min-w-[60px] text-right">
-                        <i data-lucide="wind" class="w-3.5 h-3.5"></i>
-                        <span>${windSpeed} м/с</span>
+                        <!-- 4 Time Slot Temperature Breakdown -->
+                        <div class="grid grid-cols-4 gap-1.5 text-center">
+                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
+                                <span class="text-[9px] text-slate-400 block font-semibold">Утро</span>
+                                <span class="text-xs font-black text-white block mt-0.5">${morningTemp}°C</span>
+                                <span class="text-[8px] text-sky-300 block">Ощ: ${morningFeels}°</span>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
+                                <span class="text-[9px] text-slate-400 block font-semibold">День</span>
+                                <span class="text-xs font-black text-amber-400 block mt-0.5">${afternoonTemp}°C</span>
+                                <span class="text-[8px] text-sky-300 block">Ощ: ${afternoonFeels}°</span>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
+                                <span class="text-[9px] text-slate-400 block font-semibold">Вечер</span>
+                                <span class="text-xs font-black text-white block mt-0.5">${eveningTemp}°C</span>
+                                <span class="text-[8px] text-sky-300 block">Ощ: ${eveningFeels}°</span>
+                            </div>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
+                                <span class="text-[9px] text-slate-400 block font-semibold">Ночь</span>
+                                <span class="text-xs font-black text-indigo-300 block mt-0.5">${nightTemp}°C</span>
+                                <span class="text-[8px] text-sky-300 block">Ощ: ${nightFeels}°</span>
+                            </div>
+                        </div>
+
+                        <!-- Additional Weather Parameter Badges -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-slate-300 pt-1">
+                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                                <i data-lucide="cloud-rain" class="w-4 h-4 text-cyan-400"></i>
+                                <div>
+                                    <span class="text-slate-400 block">Осадки:</span>
+                                    <strong class="text-white">${precipSum} мм (${precipProb}%)</strong>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                                <i data-lucide="wind" class="w-4 h-4 text-teal-400"></i>
+                                <div>
+                                    <span class="text-slate-400 block">Макс. ветер:</span>
+                                    <strong class="text-white">${windSpeed} м/с (${windDir})</strong>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                                <i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>
+                                <div>
+                                    <span class="text-slate-400 block">УФ-Индекс:</span>
+                                    <strong class="text-white">${uvMax} (${getUVLevelInfo(uvMax).label})</strong>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
+                                <i data-lucide="gauge" class="w-4 h-4 text-emerald-400"></i>
+                                <div>
+                                    <span class="text-slate-400 block">Шкала:</span>
+                                    <strong class="text-white">${tempMin}°C — ${tempMax}°C</strong>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
 
-                container.appendChild(card);
+                container.appendChild(cardWrapper);
             }
 
             lucide.createIcons();
         }
 
+        function toggleDayExpand(idx) {
+            if (expandedDayIndex === idx) {
+                expandedDayIndex = null;
+            } else {
+                expandedDayIndex = idx;
+            }
+            if (cachedWeatherData) {
+                renderDailyList(cachedWeatherData.daily, cachedWeatherData.hourly);
+            }
+        }
+
         function switchForecastRange(days) {
             currentForecastRange = days;
+            expandedDayIndex = null;
 
             [5, 16].forEach(d => {
                 const btn = document.getElementById(`tab-${d}`);
                 if (btn) {
                     if (d === days) {
-                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition shadow-md bg-white/30 text-white border border-white/40 min-h-[44px]";
+                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]";
                     } else {
-                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-white/70 hover:text-white active:bg-white/15 min-h-[44px]";
+                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]";
                     }
                 }
             });
 
             if (cachedWeatherData) {
-                renderDailyList(cachedWeatherData.daily);
+                renderDailyList(cachedWeatherData.daily, cachedWeatherData.hourly);
             }
         }
 
@@ -1230,9 +1294,9 @@
         }
 
         function getUVLevelInfo(uv) {
-            if (uv <= 2) return { label: "Низкий", colorClass: "text-emerald-300" };
-            if (uv <= 5) return { label: "Умеренный", colorClass: "text-yellow-300" };
-            if (uv <= 7) return { label: "Высокий", colorClass: "text-orange-300" };
+            if (uv <= 2) return { label: "Низкий", colorClass: "text-emerald-400" };
+            if (uv <= 5) return { label: "Умеренный", colorClass: "text-yellow-400" };
+            if (uv <= 7) return { label: "Высокий", colorClass: "text-orange-400" };
             if (uv <= 10) return { label: "Очень высокий", colorClass: "text-rose-400" };
             return { label: "Экстремальный", colorClass: "text-purple-400" };
         }
