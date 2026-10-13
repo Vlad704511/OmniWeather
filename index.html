@@ -7,11 +7,11 @@
     <!-- Title -->
     <title>OmniWeather — Прогноз погоди</title>
 
-    <!-- Inline SVG Favicon & Apple Touch Icon Data URI -->
+    <!-- Inline SVG Favicon & Apple Touch Icon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='cloud' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3ClinearGradient id='sun' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fbbf24'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230d1527'/%3E%3Ccircle cx='38' cy='38' r='18' fill='url(%23sun)'/%3E%3Cpath d='M30 68a16 16 0 0 1 0-32 18 18 0 0 1 34.5-5A14 14 0 0 1 76 68H30z' fill='url(%23cloud)' opacity='0.95'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='cloud' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3ClinearGradient id='sun' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fbbf24'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230d1527'/%3E%3Ccircle cx='38' cy='38' r='18' fill='url(%23sun)'/%3E%3Cpath d='M30 68a16 16 0 0 1 0-32 18 18 0 0 1 34.5-5A14 14 0 0 1 76 68H30z' fill='url(%23cloud)' opacity='0.95'/%3E%3C/svg%3E">
 
-    <!-- iOS / Android App Fullscreen Tags -->
+    <!-- iOS / Android Fullscreen App Safe Area Tags -->
     <meta name="theme-color" content="#090d16">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -49,7 +49,7 @@
     </script>
 
     <style>
-        /* iOS / Android Strict Overscroll Background Lock */
+        /* Strict iOS / Android Overscroll Dark Background Lock */
         html, body {
             background-color: #090d16 !important;
             margin: 0;
@@ -64,7 +64,7 @@
             -webkit-user-select: none;
         }
 
-        /* Safe area handling for Dynamic Island & Home Bar */
+        /* Safe area insets for iOS Dynamic Island & Home Indicator */
         body {
             padding-top: max(12px, env(safe-area-inset-top));
             padding-bottom: max(32px, env(safe-area-inset-bottom));
@@ -81,7 +81,7 @@
             pointer-events: none;
         }
 
-        /* Glassmorphic Card Styling */
+        /* Glassmorphic Dark Card Styling */
         .clean-card {
             background-color: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
@@ -112,7 +112,7 @@
             outline: none;
         }
 
-        /* Smooth Expand Animation */
+        /* Smooth Expandable Forecast Card */
         .expand-panel {
             max-height: 0;
             opacity: 0;
@@ -125,7 +125,7 @@
             opacity: 1;
         }
 
-        /* SVG Spline Chart Styling */
+        /* SVG Spline Chart Animations */
         .chart-path {
             stroke-dasharray: 2000;
             stroke-dashoffset: 0;
@@ -136,7 +136,7 @@
             transition: transform 0.1s ease, opacity 0.15s ease;
         }
 
-        /* Custom Scrollbar */
+        /* Custom Scrollbars */
         .custom-scrollbar::-webkit-scrollbar {
             height: 4px;
             width: 4px;
@@ -190,33 +190,33 @@
                             </button>
 
                             <!-- LANGUAGE DROPDOWN MENU -->
-                            <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-44 bg-[#0d1527] border border-slate-700 rounded-2xl p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-[200] divide-y divide-slate-800/80">
+                            <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#0d1527] border border-slate-700 rounded-2xl p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-[200] divide-y divide-slate-800/80">
                                 <div class="space-y-0.5">
-                                    <button onclick="changeLanguage('uk')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('uk')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇺🇦</span> Українська</span>
                                         <span class="text-[10px] text-slate-400 font-mono">UK</span>
                                     </button>
-                                    <button onclick="changeLanguage('en')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('en')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇬🇧</span> English</span>
                                         <span class="text-[10px] text-slate-400 font-mono">EN</span>
                                     </button>
-                                    <button onclick="changeLanguage('de')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('de')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇩🇪</span> Deutsch</span>
                                         <span class="text-[10px] text-slate-400 font-mono">DE</span>
                                     </button>
-                                    <button onclick="changeLanguage('pl')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('pl')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇵🇱</span> Polski</span>
                                         <span class="text-[10px] text-slate-400 font-mono">PL</span>
                                     </button>
-                                    <button onclick="changeLanguage('fr')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('fr')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇫🇷</span> Français</span>
                                         <span class="text-[10px] text-slate-400 font-mono">FR</span>
                                     </button>
-                                    <button onclick="changeLanguage('es')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('es')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇪🇸</span> Español</span>
                                         <span class="text-[10px] text-slate-400 font-mono">ES</span>
                                     </button>
-                                    <button onclick="changeLanguage('ru')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('ru')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🌐</span> Русский</span>
                                         <span class="text-[10px] text-slate-400 font-mono">RU</span>
                                     </button>
@@ -507,7 +507,7 @@
     </div>
 
     <script>
-        // MULTI-LANGUAGE DICTIONARY DEFINITION
+        // MULTI-LANGUAGE DICTIONARIES
         const LANGUAGES = {
             uk: { code: 'UK', flag: '🇺🇦', name: 'Українська', locale: 'uk-UA', apiLang: 'uk' },
             en: { code: 'EN', flag: '🇬🇧', name: 'English', locale: 'en-US', apiLang: 'en' },
@@ -516,6 +516,17 @@
             fr: { code: 'FR', flag: '🇫🇷', name: 'Français', locale: 'fr-FR', apiLang: 'fr' },
             es: { code: 'ES', flag: '🇪🇸', name: 'Español', locale: 'es-ES', apiLang: 'es' },
             ru: { code: 'RU', flag: '🌐', name: 'Русский', locale: 'ru-RU', apiLang: 'ru' }
+        };
+
+        // Country code to language mapping
+        const COUNTRY_TO_LANG_MAP = {
+            'UA': 'uk',
+            'PL': 'pl',
+            'DE': 'de', 'AT': 'de', 'CH': 'de',
+            'FR': 'fr', 'BE': 'fr',
+            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CL': 'es', 'CO': 'es',
+            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
+            'GB': 'en', 'US': 'en', 'CA': 'en', 'AU': 'en'
         };
 
         const TRANSLATIONS = {
@@ -905,7 +916,18 @@
             99: { icon: "cloud-lightning", bg: "thunder", effect: "rain", iconColor: "text-purple-400" },
         };
 
-        let currentLangKey = localStorage.getItem('omniweather_lang') || 'uk';
+        // Determine browser default language
+        function getBrowserDefaultLanguage() {
+            const navLangs = navigator.languages || [navigator.language || 'uk'];
+            for (let lang of navLangs) {
+                const code = lang.toLowerCase().split('-')[0];
+                if (LANGUAGES[code]) return code;
+            }
+            return 'uk';
+        }
+
+        let isManualLanguageChoice = localStorage.getItem('omniweather_manual_choice') === 'true';
+        let currentLangKey = localStorage.getItem('omniweather_lang') || getBrowserDefaultLanguage();
         if (!LANGUAGES[currentLangKey]) currentLangKey = 'uk';
 
         let currentCity = {
@@ -923,25 +945,34 @@
         let currentSearchResults = [];
         let expandedDayIndex = null;
 
-        function getWmoInfo(code) {
-            const config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
-            const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
-            const title = descDict[code] || descDict[2] || "Partly cloudy";
-            return { title, ...config };
+        function autoSelectLanguageByCountryCode(countryCode) {
+            if (isManualLanguageChoice) return; // User explicitly selected language, respect manual preference
+            
+            const upperCode = (countryCode || '').toUpperCase();
+            const targetLang = COUNTRY_TO_LANG_MAP[upperCode] || 'en';
+
+            if (targetLang && LANGUAGES[targetLang] && targetLang !== currentLangKey) {
+                currentLangKey = targetLang;
+                localStorage.setItem('omniweather_lang', targetLang);
+                document.documentElement.lang = targetLang;
+
+                document.getElementById('lang-flag').textContent = LANGUAGES[targetLang].flag;
+                document.getElementById('lang-code').textContent = LANGUAGES[targetLang].code;
+
+                translateStaticUI();
+            }
         }
 
-        function getI18n() {
-            return TRANSLATIONS[currentLangKey] || TRANSLATIONS['uk'];
-        }
-
-        function changeLanguage(langKey) {
+        function userSelectLanguage(langKey) {
             if (!LANGUAGES[langKey]) return;
+            isManualLanguageChoice = true;
+            localStorage.setItem('omniweather_manual_choice', 'true');
+            
             currentLangKey = langKey;
             localStorage.setItem('omniweather_lang', langKey);
 
             document.documentElement.lang = langKey;
 
-            // Update language switcher UI
             document.getElementById('lang-flag').textContent = LANGUAGES[langKey].flag;
             document.getElementById('lang-code').textContent = LANGUAGES[langKey].code;
             document.getElementById('lang-dropdown').classList.add('hidden');
@@ -951,6 +982,17 @@
             if (cachedWeatherData) {
                 renderAll(cachedWeatherData);
             }
+        }
+
+        function getWmoInfo(code) {
+            const config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
+            const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
+            const title = descDict[code] || descDict[2] || "Partly cloudy";
+            return { title, ...config };
+        }
+
+        function getI18n() {
+            return TRANSLATIONS[currentLangKey] || TRANSLATIONS['uk'];
         }
 
         function toggleLangDropdown(e) {
@@ -1440,10 +1482,13 @@
         function selectCity(name, region, countryCode, lat, lon) {
             currentCity = { name, region, countryCode, lat, lon };
             expandedDayIndex = null;
+
+            // Trigger auto language selection based on new city's country code (if not manually chosen)
+            autoSelectLanguageByCountryCode(countryCode);
             
             document.getElementById('city-name').textContent = name;
             document.getElementById('city-region').textContent = region;
-            document.getElementById('country-badge').textContent = countryCode;
+            document.getElementById('country-badge').textContent = countryCode || 'UA';
             document.getElementById('footer-city').textContent = name;
 
             document.title = `${name} — OmniWeather`;
@@ -1468,8 +1513,22 @@
                 async (pos) => {
                     const lat = pos.coords.latitude;
                     const lon = pos.coords.longitude;
-                    const t = getI18n();
                     
+                    try {
+                        // Reverse geocoding via Open-Meteo or Nominatim to find exact country code
+                        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${lat.toFixed(2)},${lon.toFixed(2)}&count=1&format=json`);
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.results && data.results[0]) {
+                                const countryCode = data.results[0].country_code;
+                                autoSelectLanguageByCountryCode(countryCode);
+                            }
+                        }
+                    } catch(e) {
+                        console.warn("Reverse geocode lookup warning", e);
+                    }
+
+                    const t = getI18n();
                     currentCity = {
                         name: t.myLocation,
                         region: `${lat.toFixed(2)}° N, ${lon.toFixed(2)}° E`,
@@ -1836,8 +1895,11 @@
         });
 
         window.onload = function() {
-            // Apply saved language setting
-            changeLanguage(currentLangKey);
+            // Apply initial automatic or saved language
+            autoSelectLanguageByCountryCode(currentCity.countryCode);
+            
+            document.getElementById('lang-flag').textContent = LANGUAGES[currentLangKey].flag;
+            document.getElementById('lang-code').textContent = LANGUAGES[currentLangKey].code;
 
             resizeCanvas();
             renderParticleLoop();
