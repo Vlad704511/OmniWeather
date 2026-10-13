@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
+    <!-- Title -->
+    <title>OmniWeather — Прогноз погоды</title>
+
+    <!-- Sleek Inline SVG Favicon Data URI -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='cloud' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3ClinearGradient id='sun' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fbbf24'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230d1527'/%3E%3Ccircle cx='38' cy='38' r='18' fill='url(%23sun)'/%3E%3Cpath d='M30 68a16 16 0 0 1 0-32 18 18 0 0 1 34.5-5A14 14 0 0 1 76 68H30z' fill='url(%23cloud)' opacity='0.95'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='cloud' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3ClinearGradient id='sun' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23fbbf24'/%3E%3Cstop offset='100%25' stop-color='%23f97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='24' fill='%230d1527'/%3E%3Ccircle cx='38' cy='38' r='18' fill='url(%23sun)'/%3E%3Cpath d='M30 68a16 16 0 0 1 0-32 18 18 0 0 1 34.5-5A14 14 0 0 1 76 68H30z' fill='url(%23cloud)' opacity='0.95'/%3E%3C/svg%3E">
+
     <!-- iOS / Android App Fullscreen Tags -->
     <meta name="theme-color" content="#090d16">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Погода">
+    <meta name="apple-mobile-web-app-title" content="OmniWeather">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    
-    <title>OmniWeather</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -76,7 +81,7 @@
             pointer-events: none;
         }
 
-        /* Clean Card Design without Glossy Reflections */
+        /* Clean Card Design */
         .clean-card {
             background-color: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(16px);
@@ -150,7 +155,6 @@
     <!-- RETINA CANVAS OVERLAY FOR WEATHER PARTICLES -->
     <canvas id="weather-canvas" class="fixed-viewport-bg z-0"></canvas>
 
-    <!-- MAIN EDGE-TO-EDGE APPLICATION CONTAINER -->
     <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3.5 sm:space-y-4 px-1.5 sm:px-3 pb-8">
 
         <!-- HEADER & AUTOCOMPLETE SEARCH BAR (HIGH Z-INDEX z-50) -->
@@ -206,7 +210,6 @@
             </div>
         </header>
 
-        <!-- MAIN WEATHER HERO CARD -->
         <main class="relative z-10 space-y-3.5 sm:space-y-4">
             
             <!-- Error Banner -->
@@ -227,7 +230,7 @@
                     <!-- Main Temp & Descriptions -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
                         <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                            <!-- DYNAMIC STATUS BADGE ("НОЧЬ • КРИВОЙ РОГ") -->
+                            <!-- DYNAMIC STATUS BADGE -->
                             <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-slate-800 text-sky-300 border border-slate-700 uppercase tracking-wider shadow-sm">
                                 НОЧЬ • КРИВОЙ РОГ
                             </span>
@@ -323,7 +326,6 @@
             </div>
         </main>
 
-        <!-- HOURLY FORECAST SVG CHART WITH ADAPTIVE TEMPERATURE COLOR GRADIENT -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-3 relative">
             <div class="flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2.5">
@@ -416,7 +418,6 @@
             </div>
         </section>
 
-        <!-- MULTI-RANGE DAILY FORECAST WITH EXPANDABLE DETAILED PANELS -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
             
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
@@ -447,7 +448,7 @@
 
         <!-- FOOTER -->
         <footer class="text-center text-[10px] sm:text-xs text-slate-500 space-y-1 py-3">
-            <p>Погода • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривой Рог</span></p>
+            <p>OmniWeather • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривой Рог</span></p>
             <p>Время: <span id="clock">--:--:--</span></p>
         </footer>
 
@@ -467,7 +468,7 @@
         let hourlyChartPoints = [];
         let searchDebounceTimer = null;
         let currentSearchResults = [];
-        let expandedDayIndex = null; // Track expanded day accordion
+        let expandedDayIndex = null;
 
         // WMO WEATHER MAP & COLOR RULES
         const WEATHER_MAP = {
@@ -505,7 +506,6 @@
             return WEATHER_MAP[code] || { title: "Переменная облачность", icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
         }
 
-        // CANVAS PARTICLE SYSTEM
         const canvas = document.getElementById('weather-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -686,26 +686,22 @@
             const temps = hoursData.map(d => d.temp);
             const avgTemp = temps.reduce((a, b) => a + b, 0) / temps.length;
 
-            // DYNAMIC CHART COLOR SELECTION BASED ON TEMPERATURE
             const legendDot = document.getElementById('chart-legend-dot');
             const legendText = document.getElementById('chart-legend-text');
 
             if (avgTemp > 15) {
-                // WARM (Orange/Amber)
                 areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
                 linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
                 activeDot.setAttribute('stroke', '#f97316');
                 legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
                 legendText.textContent = `Тепло (средн. ${Math.round(avgTemp)}°C)`;
             } else if (avgTemp >= 5) {
-                // MILD (Teal/Cyan)
                 areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
                 linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
                 activeDot.setAttribute('stroke', '#14b8a6');
                 legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
                 legendText.textContent = `Умеренно (средн. ${Math.round(avgTemp)}°C)`;
             } else {
-                // COLD (Ice-Blue/Indigo)
                 areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
                 linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
                 activeDot.setAttribute('stroke', '#38bdf8');
@@ -946,6 +942,9 @@
             document.getElementById('country-badge').textContent = countryCode;
             document.getElementById('footer-city').textContent = name;
 
+            // Dynamically update page title in browser tab
+            document.title = `${name} — OmniWeather`;
+
             searchInput.value = '';
             clearBtn.classList.add('hidden');
             suggestionsBox.classList.add('hidden');
@@ -977,6 +976,7 @@
                     document.getElementById('city-name').textContent = currentCity.name;
                     document.getElementById('city-region').textContent = currentCity.region;
                     document.getElementById('country-badge').textContent = "GPS";
+                    document.title = `${currentCity.name} — OmniWeather`;
                     fetchWeather();
                 },
                 (err) => {
@@ -994,6 +994,9 @@
 
             updateBackgroundAndParticles(codeInfo.bg, current.is_day, codeInfo.effect);
 
+            // Dynamically update page title
+            document.title = `${currentCity.name} — OmniWeather`;
+
             const cityNameUpper = currentCity.name.toUpperCase();
             const dayNightText = current.is_day ? "ДЕНЬ" : "НОЧЬ";
             document.getElementById('condition-badge').textContent = `${dayNightText} • ${cityNameUpper}`;
@@ -1004,7 +1007,6 @@
             document.getElementById('hero-temp-max').textContent = `${Math.round(daily.temperature_2m_max[0])}°`;
             document.getElementById('hero-temp-min').textContent = `${Math.round(daily.temperature_2m_min[0])}°`;
 
-            // Icon Render with exact color coding rules
             document.getElementById('hero-icon-wrapper').innerHTML = `<i data-lucide="${codeInfo.icon}" class="w-24 h-24 sm:w-36 sm:h-36 ${codeInfo.iconColor} drop-shadow-xl"></i>`;
 
             document.getElementById('metric-humidity').textContent = `${current.relative_humidity_2m}%`;
@@ -1107,7 +1109,6 @@
                     widthPercent = Math.max(6, Math.min(100 - leftPercent, widthPercent));
                 }
 
-                // Estimated time-of-day temperature breakdown (Morn/Day/Eve/Night)
                 const dayDateStr = dailyData.time[i];
                 const dayHourlyIndices = [];
                 if (hourlyData && hourlyData.time) {
