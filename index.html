@@ -181,8 +181,11 @@
                         <button onclick="getCurrentLocation()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" title="Мое местоположение">
                             <i data-lucide="crosshair" class="w-5 h-5 text-emerald-400"></i>
                         </button>
+                        <!-- REFRESH BUTTON WITH PROTECTED WRAPPER FOR ROTATION -->
                         <button id="refresh-btn" onclick="fetchWeather()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" title="Обновить">
-                            <i id="refresh-icon" data-lucide="rotate-cw" class="w-5 h-5 text-sky-400"></i>
+                            <span id="refresh-icon-wrap" class="inline-flex items-center justify-center transition-transform">
+                                <i data-lucide="rotate-cw" class="w-5 h-5 text-sky-400"></i>
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -625,11 +628,13 @@
         }
 
         async function fetchWeather() {
-            const refreshIcon = document.getElementById('refresh-icon');
+            // TARGET PROTECTED WRAPPER TO PRESERVE ANIMATION ACROSS LUCIDE DOM REPLACEMENTS
+            const refreshWrap = document.getElementById('refresh-icon-wrap');
             const errorCard = document.getElementById('error-card');
 
-            if (refreshIcon) refreshIcon.classList.add('animate-spin');
-            errorCard.classList.add('hidden');
+            const startTime = Date.now();
+            if (refreshWrap) refreshWrap.classList.add('animate-spin');
+            if (errorCard) errorCard.classList.add('hidden');
 
             const url = `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,pressure_msl,surface_pressure,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
 
@@ -644,11 +649,16 @@
             } catch (err) {
                 console.error("Weather API error:", err);
                 document.getElementById('error-message').textContent = err.message || "Ошибка подключения к API Open-Meteo";
-                errorCard.classList.remove('hidden');
+                if (errorCard) errorCard.classList.remove('hidden');
             } finally {
+                // Guaranteed smooth 360-degree spin animation cycle (minimum 600ms)
+                const elapsedTime = Date.now() - startTime;
+                const minSpinMs = 600;
+                const remainingSpinTime = Math.max(0, minSpinMs - elapsedTime);
+
                 setTimeout(() => {
-                    if (refreshIcon) refreshIcon.classList.remove('animate-spin');
-                }, 500);
+                    if (refreshWrap) refreshWrap.classList.remove('animate-spin');
+                }, remainingSpinTime);
             }
         }
 
