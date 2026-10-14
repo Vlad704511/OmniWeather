@@ -113,10 +113,12 @@
             outline: none;
         }
 
-        /* Smooth Expandable Forecast Card */
+        /* Expandable Forecast Card Padding Fix */
         .expand-panel {
             max-height: 0;
             opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
             overflow: hidden;
             transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-in-out, padding 0.3s ease;
         }
@@ -124,6 +126,8 @@
         .expand-panel.open {
             max-height: 500px;
             opacity: 1;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
         }
 
         /* SVG Spline Chart Animations */
@@ -156,7 +160,8 @@
     <!-- RETINA CANVAS OVERLAY FOR WEATHER PARTICLES -->
     <canvas id="weather-canvas" class="fixed-viewport-bg z-0"></canvas>
 
-    <div class="relative z-10 w-full max-w-md mx-auto sm:max-w-2xl lg:max-w-5xl space-y-3.5 sm:space-y-4 px-1.5 sm:px-3 pb-8">
+    <!-- WIDE CONTAINER (max-w-7xl) -->
+    <div class="relative z-10 w-full max-w-7xl mx-auto space-y-3.5 sm:space-y-4 px-2 sm:px-4 lg:px-6 pb-8">
 
         <!-- HEADER & AUTOCOMPLETE SEARCH BAR (HIGH Z-INDEX z-50) -->
         <header class="clean-card rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
@@ -311,7 +316,7 @@
                         </div>
                     </div>
 
-                    <!-- Weather Icon with Strict Color Rules -->
+                    <!-- Weather Icon -->
                     <div id="hero-icon-wrapper" class="w-28 h-28 sm:w-40 sm:h-40 flex items-center justify-center flex-shrink-0">
                         <i data-lucide="cloud-sun" class="w-24 h-24 sm:w-36 sm:h-36 text-amber-400"></i>
                     </div>
@@ -379,8 +384,35 @@
             </div>
         </main>
 
+        <!-- FEATURE 1: SMART ADVICE CARD -->
+        <section class="clean-card rounded-3xl p-4 sm:p-5 space-y-3">
+            <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                <span id="lbl-smart-advice">Розумні поради</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl flex items-start gap-3">
+                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-xl shrink-0"><i data-lucide="shirt" class="w-5 h-5"></i></div>
+                    <div class="space-y-0.5">
+                        <p id="lbl-what-to-wear" class="font-bold text-slate-200">Що вдягнути</p>
+                        <p id="advice-clothing" class="text-slate-400 leading-relaxed">Аналіз умов...</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl flex items-start gap-3">
+                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0"><i data-lucide="activity" class="w-5 h-5"></i></div>
+                    <div class="space-y-0.5">
+                        <p id="lbl-activities" class="font-bold text-slate-200">Активність</p>
+                        <p id="advice-activity" class="text-slate-400 leading-relaxed">Аналіз умов...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE 2: HOURLY CHART WITH METRIC SWITCHER -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-3 relative">
-            <div class="flex items-center justify-between gap-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                 <div class="flex items-center gap-2.5">
                     <div class="p-2 bg-slate-800 rounded-xl text-sky-400 border border-slate-700">
                         <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5"></i>
@@ -391,10 +423,19 @@
                     </div>
                 </div>
                 
-                <!-- Dynamic Legend Indicator -->
-                <div id="chart-legend" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 flex items-center gap-1.5">
-                    <span id="chart-legend-dot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-                    <span id="chart-legend-text" class="text-slate-300">--°C</span>
+                <!-- Metric Switcher Tabs -->
+                <div class="flex items-center gap-2 flex-wrap">
+                    <div class="bg-slate-900 border border-slate-800 p-1 rounded-2xl flex items-center gap-1 text-xs font-bold">
+                        <button id="btn-metric-temp" onclick="switchHourlyMetric('temp')" class="px-2.5 py-1.5 rounded-xl transition bg-slate-800 text-white border border-slate-700 min-h-[36px]">°C</button>
+                        <button id="btn-metric-pop" onclick="switchHourlyMetric('pop')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">Опади %</button>
+                        <button id="btn-metric-wind" onclick="switchHourlyMetric('wind')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">Вітер м/с</button>
+                        <button id="btn-metric-uv" onclick="switchHourlyMetric('uv')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">УФ</button>
+                    </div>
+
+                    <div id="chart-legend" class="hidden sm:flex text-[10px] font-bold px-2.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 items-center gap-1.5">
+                        <span id="chart-legend-dot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
+                        <span id="chart-legend-text" class="text-slate-300">--°C</span>
+                    </div>
                 </div>
             </div>
 
@@ -451,19 +492,11 @@
                             <span id="tooltip-condition" class="text-[9px] text-slate-300 font-medium truncate max-w-[85px]">Ясно</span>
                         </div>
                         <div class="flex items-center justify-between gap-2 pt-0.5">
-                            <span id="lbl-tt-temp" class="text-slate-400">Температура:</span>
-                            <span id="tooltip-temp" class="text-sm font-black text-white">--°C</span>
+                            <span id="lbl-tt-temp" class="text-slate-400">Значення:</span>
+                            <span id="tooltip-temp" class="text-sm font-black text-white">--</span>
                         </div>
                         <div class="text-[10px] text-sky-300 font-bold text-right" id="tooltip-feels">
                             Відчувається: --°C
-                        </div>
-                        <div class="flex items-center justify-between gap-2 text-[10px] pt-0.5 border-t border-slate-800">
-                            <span class="text-cyan-400 flex items-center gap-1 font-semibold"><i data-lucide="droplet" class="w-3 h-3"></i> <span id="lbl-tt-precip">Опади</span>:</span>
-                            <span id="tooltip-precip" class="font-bold text-white">--%</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2 text-[10px]">
-                            <span class="text-teal-400 flex items-center gap-1 font-semibold"><i data-lucide="wind" class="w-3 h-3"></i> <span id="lbl-tt-wind">Вітер</span>:</span>
-                            <span id="tooltip-wind" class="font-bold text-white">-- м/с</span>
                         </div>
                     </div>
                 </div>
@@ -471,6 +504,40 @@
             </div>
         </section>
 
+        <!-- FEATURE 3: AIR QUALITY & ALLERGENS CARD -->
+        <section class="clean-card rounded-3xl p-4 sm:p-5 space-y-3">
+            <div class="flex items-center justify-between">
+                <h2 id="lbl-air-quality" class="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                    <i data-lucide="wind" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Якість повітря та алергени</span>
+                </h2>
+                <span id="aqi-badge" class="px-3 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AQI --</span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
+                    <p class="text-[10px] text-slate-400 font-bold">PM2.5</p>
+                    <p id="aqi-pm25" class="text-sm font-black text-white mt-0.5">--</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
+                    <p class="text-[10px] text-slate-400 font-bold">PM10</p>
+                    <p id="aqi-pm10" class="text-sm font-black text-white mt-0.5">--</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
+                    <p class="text-[10px] text-slate-400 font-bold">NO₂</p>
+                    <p id="aqi-no2" class="text-sm font-black text-white mt-0.5">--</p>
+                </div>
+                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
+                    <p id="lbl-aqi-o3" class="text-[10px] text-slate-400 font-bold">Озон (O₃)</p>
+                    <p id="aqi-o3" class="text-sm font-black text-white mt-0.5">--</p>
+                </div>
+            </div>
+
+            <div id="pollen-container" class="pt-2 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+            </div>
+        </section>
+
+        <!-- FORECAST SECTION -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
             
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
@@ -519,311 +586,148 @@
             ru: { code: 'RU', flag: '🌐', name: 'Русский', locale: 'ru-RU', apiLang: 'ru' }
         };
 
-        // Country code to language mapping
         const COUNTRY_TO_LANG_MAP = {
-            'UA': 'uk',
-            'PL': 'pl',
-            'DE': 'de', 'AT': 'de', 'CH': 'de',
-            'FR': 'fr', 'BE': 'fr',
-            'ES': 'es', 'MX': 'es', 'AR': 'es', 'CL': 'es', 'CO': 'es',
-            'RU': 'ru', 'BY': 'ru', 'KZ': 'ru',
-            'GB': 'en', 'US': 'en', 'CA': 'en', 'AU': 'en'
+            'UA': 'uk', 'PL': 'pl', 'DE': 'de', 'AT': 'de', 'CH': 'de',
+            'FR': 'fr', 'BE': 'fr', 'ES': 'es', 'MX': 'es', 'RU': 'ru',
+            'BY': 'ru', 'KZ': 'ru', 'GB': 'en', 'US': 'en', 'CA': 'en'
         };
 
         const TRANSLATIONS = {
             uk: {
                 searchPlaceholder: "Пошук міста (напр. Київ, Берлін)...",
-                feelsLike: "Відчувається",
-                max: "Макс",
-                min: "Мін",
-                humidity: "Вологість",
-                dewPoint: "Роса",
-                pressure: "Тиск",
-                pressureUnit: "мм рт. ст.",
-                wind: "Вітер",
-                windUnit: "м/с",
-                uvIndex: "УФ-Індекс",
-                precip: "Опади",
-                clouds: "Хмарність",
-                hourlyTitle: "Погодинний графік",
-                hourlySub: "Проведіть по графіку для деталей",
-                now: "Зараз",
-                forecastTitle: "Прогноз погоди",
-                forecastSub: "Натисніть на день для подробиць",
-                days5: "5 Днів",
-                days16: "16 Днів",
-                today: "Сьогодні",
-                tomorrow: "Завтра",
-                morning: "Ранок",
-                afternoon: "День",
-                evening: "Вечір",
-                night: "Ніч",
-                dayUpper: "ДЕНЬ",
-                nightUpper: "НІЧ",
-                detailedForecast: "Детальний прогноз на день",
-                chartWarm: "Тепло",
-                chartMild: "Умірено",
-                chartCold: "Прохолодно",
-                avg: "середн.",
-                errorTitle: "Помилка мережі",
-                errorMsg: "Не вдалося завантажити дані погоди.",
-                retry: "Повторити спробу",
-                myLocation: "Моє місцерозташування",
-                notFound: "Місто не знайдено",
-                clockLabel: "Час",
-                uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний"
+                feelsLike: "Відчувається", max: "Макс", min: "Мін",
+                humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
+                wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-Індекс", precip: "Опади", clouds: "Хмарність",
+                hourlyTitle: "Погодинний графік", hourlySub: "Проведіть по графіку для деталей",
+                now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
+                days5: "5 Днів", days16: "16 Днів", today: "Сьогодні", tomorrow: "Завтра",
+                morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
+                dayUpper: "ДЕНЬ", nightUpper: "НІЧ", detailedForecast: "Детальний прогноз на день",
+                chartWarm: "Тепло", chartMild: "Умірено", chartCold: "Прохолодно", avg: "середн.",
+                errorTitle: "Помилка мережі", errorMsg: "Не вдалося завантажити дані погоди.", retry: "Повторити спробу",
+                myLocation: "Моє місцерозташування", notFound: "Місто не знайдено", clockLabel: "Час",
+                uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний",
+                smartAdvice: "Розумні поради", whatToWear: "Що вдягнути", activities: "Активність",
+                airQuality: "Якість повітря та алергени", pollenBirch: "Береза", pollenGrass: "Злаки", pollenMugwort: "Полин", pollenAlder: "Вільха",
+                aqiGood: "Відмінне", aqiMod: "Помірне", aqiBad: "Шкідливе", aqiDanger: "Небезпечне",
+                pollenLow: "Низький", pollenMed: "Середній", pollenHigh: "Високий",
+                value: "Значення", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
             },
             en: {
                 searchPlaceholder: "Search city (e.g. London, Kyiv)...",
-                feelsLike: "Feels like",
-                max: "Max",
-                min: "Min",
-                humidity: "Humidity",
-                dewPoint: "Dew point",
-                pressure: "Pressure",
-                pressureUnit: "mmHg",
-                wind: "Wind",
-                windUnit: "m/s",
-                uvIndex: "UV Index",
-                precip: "Precipitation",
-                clouds: "Cloudiness",
-                hourlyTitle: "Hourly Chart",
-                hourlySub: "Drag across chart for details",
-                now: "Now",
-                forecastTitle: "Weather Forecast",
-                forecastSub: "Tap on any day for details",
-                days5: "5 Days",
-                days16: "16 Days",
-                today: "Today",
-                tomorrow: "Tomorrow",
-                morning: "Morning",
-                afternoon: "Afternoon",
-                evening: "Evening",
-                night: "Night",
-                dayUpper: "DAY",
-                nightUpper: "NIGHT",
-                detailedForecast: "Detailed daily forecast",
-                chartWarm: "Warm",
-                chartMild: "Mild",
-                chartCold: "Cool",
-                avg: "avg.",
-                errorTitle: "Network Error",
-                errorMsg: "Failed to fetch weather data.",
-                retry: "Try Again",
-                myLocation: "My Location",
-                notFound: "City not found",
-                clockLabel: "Time",
-                uvLow: "Low", uvMod: "Moderate", uvHigh: "High", uvVeryHigh: "Very High", uvExtreme: "Extreme"
-            },
-            de: {
-                searchPlaceholder: "Stadt suchen (z.B. Berlin, Kiew)...",
-                feelsLike: "Gefühlt",
-                max: "Max",
-                min: "Min",
-                humidity: "Feuchtigkeit",
-                dewPoint: "Taupunkt",
-                pressure: "Luftdruck",
-                pressureUnit: "mmHg",
-                wind: "Wind",
-                windUnit: "m/s",
-                uvIndex: "UV-Index",
-                precip: "Niederschlag",
-                clouds: "Bewölkung",
-                hourlyTitle: "Stündlicher Verlauf",
-                hourlySub: "Über das Diagramm wischen",
-                now: "Jetzt",
-                forecastTitle: "Wettervorhersage",
-                forecastSub: "Tippe auf einen Tag für Details",
-                days5: "5 Tage",
-                days16: "16 Tage",
-                today: "Heute",
-                tomorrow: "Morgen",
-                morning: "Morgen",
-                afternoon: "Tag",
-                evening: "Abend",
-                night: "Nacht",
-                dayUpper: "TAG",
-                nightUpper: "NACHT",
-                detailedForecast: "Detaillierte Tagesvorhersage",
-                chartWarm: "Warm",
-                chartMild: "Mäßig",
-                chartCold: "Kühl",
-                avg: "Schnitt",
-                errorTitle: "Netzwerkfehler",
-                errorMsg: "Wetterdaten konnten nicht geladen werden.",
-                retry: "Wiederholen",
-                myLocation: "Mein Standort",
-                notFound: "Stadt nicht gefunden",
-                clockLabel: "Zeit",
-                uvLow: "Niedrig", uvMod: "Mäßig", uvHigh: "Hoch", uvVeryHigh: "Sehr hoch", uvExtreme: "Extrem"
-            },
-            pl: {
-                searchPlaceholder: "Szukaj miasta (np. Warszawa, Kijów)...",
-                feelsLike: "Odczuwalna",
-                max: "Maks",
-                min: "Min",
-                humidity: "Wilgotność",
-                dewPoint: "Punkt rosy",
-                pressure: "Ciśnienie",
-                pressureUnit: "mmHg",
-                wind: "Wiatr",
-                windUnit: "m/s",
-                uvIndex: "Indeks UV",
-                precip: "Opady",
-                clouds: "Zachmurzenie",
-                hourlyTitle: "Wykres godzinowy",
-                hourlySub: "Przeciągnij palcem po wykresie",
-                now: "Teraz",
-                forecastTitle: "Prognoza pogody",
-                forecastSub: "Kliknij dzień, aby zobaczyć szczegóły",
-                days5: "5 Dni",
-                days16: "16 Dni",
-                today: "Dzisiaj",
-                tomorrow: "Jutro",
-                morning: "Rano",
-                afternoon: "Popołudnie",
-                evening: "Wieczór",
-                night: "Noc",
-                dayUpper: "DZIEŃ",
-                nightUpper: "NOC",
-                detailedForecast: "Szczegółowa prognoza na dzień",
-                chartWarm: "Ciepło",
-                chartMild: "Umiarkowanie",
-                chartCold: "Chłodno",
-                avg: "śr.",
-                errorTitle: "Błąd sieci",
-                errorMsg: "Nie udało się pobrać danych pogodowych.",
-                retry: "Spróbuj ponownie",
-                myLocation: "Moja lokalizacja",
-                notFound: "Nie znaleziono miasta",
-                clockLabel: "Czas",
-                uvLow: "Niski", uvMod: "Umiarkowany", uvHigh: "Wysoki", uvVeryHigh: "Bardzo wysoki", uvExtreme: "Ekstremalny"
-            },
-            fr: {
-                searchPlaceholder: "Rechercher une ville (ex. Paris, Kyiv)...",
-                feelsLike: "Ressenti",
-                max: "Max",
-                min: "Min",
-                humidity: "Humidité",
-                dewPoint: "Point de rosée",
-                pressure: "Pression",
-                pressureUnit: "mmHg",
-                wind: "Vent",
-                windUnit: "m/s",
-                uvIndex: "Indice UV",
-                precip: "Précipitations",
-                clouds: "Nuagiosité",
-                hourlyTitle: "Graphique horaire",
-                hourlySub: "Faites glisser pour les détails",
-                now: "Maintenant",
-                forecastTitle: "Prévisions météo",
-                forecastSub: "Appuyez sur un jour pour les détails",
-                days5: "5 Jours",
-                days16: "16 Jours",
-                today: "Aujourd'hui",
-                tomorrow: "Demain",
-                morning: "Matin",
-                afternoon: "Après-midi",
-                evening: "Soir",
-                night: "Nuit",
-                dayUpper: "JOUR",
-                nightUpper: "NUIT",
-                detailedForecast: "Prévisions quotidiennes détaillées",
-                chartWarm: "Chaud",
-                chartMild: "Modéré",
-                chartCold: "Frais",
-                avg: "moy.",
-                errorTitle: "Erreur réseau",
-                errorMsg: "Impossible de récupérer les données météo.",
-                retry: "Réessayer",
-                myLocation: "Ma position",
-                notFound: "Ville non trouvée",
-                clockLabel: "Heure",
-                uvLow: "Faible", uvMod: "Modéré", uvHigh: "Élevé", uvVeryHigh: "Très élevé", uvExtreme: "Extrême"
-            },
-            es: {
-                searchPlaceholder: "Buscar ciudad (ej. Madrid, Kyiv)...",
-                feelsLike: "Sensación",
-                max: "Máx",
-                min: "Mín",
-                humidity: "Humedad",
-                dewPoint: "Punto de rocío",
-                pressure: "Presión",
-                pressureUnit: "mmHg",
-                wind: "Viento",
-                windUnit: "m/s",
-                uvIndex: "Índice UV",
-                precip: "Precipitación",
-                clouds: "Nubosidad",
-                hourlyTitle: "Gráfico por horas",
-                hourlySub: "Desliza para ver detalles",
-                now: "Ahora",
-                forecastTitle: "Pronóstico del tiempo",
-                forecastSub: "Toca un día para ver detalles",
-                days5: "5 Días",
-                days16: "16 Días",
-                today: "Hoy",
-                tomorrow: "Mañana",
-                morning: "Mañana",
-                afternoon: "Tarde",
-                evening: "Noche",
-                night: "Madrugada",
-                dayUpper: "DÍA",
-                nightUpper: "NOCHE",
-                detailedForecast: "Pronóstico diario detallado",
-                chartWarm: "Cálido",
-                chartMild: "Templado",
-                chartCold: "Fresco",
-                avg: "prom.",
-                errorTitle: "Error de red",
-                errorMsg: "No se pudieron obtener datos del tiempo.",
-                retry: "Reintentar",
-                myLocation: "Mi ubicación",
-                notFound: "Ciudad no encontrada",
-                clockLabel: "Hora",
-                uvLow: "Bajo", uvMod: "Moderado", uvHigh: "Alto", uvVeryHigh: "Muy alto", uvExtreme: "Extremo"
+                feelsLike: "Feels like", max: "Max", min: "Min",
+                humidity: "Humidity", dewPoint: "Dew point", pressure: "Pressure", pressureUnit: "mmHg",
+                wind: "Wind", windUnit: "m/s", uvIndex: "UV Index", precip: "Precipitation", clouds: "Cloudiness",
+                hourlyTitle: "Hourly Chart", hourlySub: "Drag across chart for details",
+                now: "Now", forecastTitle: "Weather Forecast", forecastSub: "Tap on any day for details",
+                days5: "5 Days", days16: "16 Days", today: "Today", tomorrow: "Tomorrow",
+                morning: "Morning", afternoon: "Afternoon", evening: "Evening", night: "Night",
+                dayUpper: "DAY", nightUpper: "NIGHT", detailedForecast: "Detailed daily forecast",
+                chartWarm: "Warm", chartMild: "Mild", chartCold: "Cool", avg: "avg.",
+                errorTitle: "Network Error", errorMsg: "Failed to fetch weather data.", retry: "Try Again",
+                myLocation: "My Location", notFound: "City not found", clockLabel: "Time",
+                uvLow: "Low", uvMod: "Moderate", uvHigh: "High", uvVeryHigh: "Very High", uvExtreme: "Extreme",
+                smartAdvice: "Smart Advice", whatToWear: "What to wear", activities: "Activities",
+                airQuality: "Air Quality & Allergens", pollenBirch: "Birch", pollenGrass: "Grass", pollenMugwort: "Mugwort", pollenAlder: "Alder",
+                aqiGood: "Good", aqiMod: "Moderate", aqiBad: "Unhealthy", aqiDanger: "Hazardous",
+                pollenLow: "Low", pollenMed: "Moderate", pollenHigh: "High",
+                value: "Value", range: "Range", ozone: "Ozone (O₃)", unitMcg: "µg/m³", uvShort: "UV"
             },
             ru: {
                 searchPlaceholder: "Поиск города (напр. Киев, Одесса)...",
-                feelsLike: "Ощущается",
-                max: "Макс",
-                min: "Мин",
-                humidity: "Влажность",
-                dewPoint: "Роса",
-                pressure: "Давление",
-                pressureUnit: "мм рт. ст.",
-                wind: "Ветер",
-                windUnit: "м/с",
-                uvIndex: "УФ-Индекс",
-                precip: "Осадки",
-                clouds: "Облачность",
-                hourlyTitle: "Почасовой график",
-                hourlySub: "Ведите пальцем по графику для деталей",
-                now: "Сейчас",
-                forecastTitle: "Прогноз погоды",
-                forecastSub: "Нажмите на день для подробностей",
-                days5: "5 Дней",
-                days16: "16 Дней",
-                today: "Сегодня",
-                tomorrow: "Завтра",
-                morning: "Утро",
-                afternoon: "День",
-                evening: "Вечер",
-                night: "Ночь",
-                dayUpper: "ДЕНЬ",
-                nightUpper: "НОЧЬ",
-                detailedForecast: "Подробный прогноз на день",
-                chartWarm: "Тепло",
-                chartMild: "Умерено",
-                chartCold: "Прохладно",
-                avg: "средн.",
-                errorTitle: "Ошибка сети",
-                errorMsg: "Не удалось загрузить данные погоды.",
-                retry: "Повторить попытку",
-                myLocation: "Мое местоположение",
-                notFound: "Город не найден",
-                clockLabel: "Время",
-                uvLow: "Низкий", uvMod: "Умеренный", uvHigh: "Высокий", uvVeryHigh: "Очень высокий", uvExtreme: "Экстремальный"
+                feelsLike: "Ощущается", max: "Макс", min: "Мин",
+                humidity: "Влажность", dewPoint: "Роса", pressure: "Давление", pressureUnit: "мм рт. ст.",
+                wind: "Ветер", windUnit: "м/с", uvIndex: "УФ-Индекс", precip: "Осадки", clouds: "Облачность",
+                hourlyTitle: "Почасовой график", hourlySub: "Ведите пальцем по графику для деталей",
+                now: "Сейчас", forecastTitle: "Прогноз погоды", forecastSub: "Нажмите на день для подробностей",
+                days5: "5 Дней", days16: "16 Дней", today: "Сегодня", tomorrow: "Завтра",
+                morning: "Утро", afternoon: "День", evening: "Вечер", night: "Ночь",
+                dayUpper: "ДЕНЬ", nightUpper: "НОЧЬ", detailedForecast: "Подробный прогноз на день",
+                chartWarm: "Тепло", chartMild: "Умерено", chartCold: "Прохладно", avg: "средн.",
+                errorTitle: "Ошибка сети", errorMsg: "Не удалось загрузить данные погоды.", retry: "Повторить попытку",
+                myLocation: "Мое местоположение", notFound: "Город не найден", clockLabel: "Время",
+                uvLow: "Низкий", uvMod: "Умеренный", uvHigh: "Высокий", uvVeryHigh: "Очень высокий", uvExtreme: "Экстремальный",
+                smartAdvice: "Умные советы", whatToWear: "Что надеть", activities: "Активность",
+                airQuality: "Качество воздуха и аллергены", pollenBirch: "Берёза", pollenGrass: "Злаки", pollenMugwort: "Полынь", pollenAlder: "Ольха",
+                aqiGood: "Отличное", aqiMod: "Умеренное", aqiBad: "Вредное", aqiDanger: "Опасное",
+                pollenLow: "Низкая", pollenMed: "Средняя", pollenHigh: "Высокая",
+                value: "Значение", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
+            },
+            de: {
+                searchPlaceholder: "Stadt suchen...", feelsLike: "Gefühlt", max: "Max", min: "Min",
+                humidity: "Feuchtigkeit", dewPoint: "Taupunkt", pressure: "Luftdruck", pressureUnit: "mmHg",
+                wind: "Wind", windUnit: "m/s", uvIndex: "UV-Index", precip: "Niederschlag", clouds: "Bewölkung",
+                hourlyTitle: "Stündlicher Verlauf", hourlySub: "Über das Diagramm wischen",
+                now: "Jetzt", forecastTitle: "Wettervorhersage", forecastSub: "Tippe auf einen Tag für Details",
+                days5: "5 Tage", days16: "16 Tage", today: "Heute", tomorrow: "Morgen",
+                morning: "Morgen", afternoon: "Tag", evening: "Abend", night: "Nacht",
+                dayUpper: "TAG", nightUpper: "NACHT", detailedForecast: "Detaillierte Tagesvorhersage",
+                chartWarm: "Warm", chartMild: "Mäßig", chartCold: "Kühl", avg: "Schnitt",
+                errorTitle: "Netzwerkfehler", errorMsg: "Wetterdaten konnten nicht geladen werden.", retry: "Wiederholen",
+                myLocation: "Mein Standort", notFound: "Stadt nicht gefunden", clockLabel: "Zeit",
+                uvLow: "Niedrig", uvMod: "Mäßig", uvHigh: "Hoch", uvVeryHigh: "Sehr hoch", uvExtreme: "Extrem",
+                smartAdvice: "Smarte Ratschläge", whatToWear: "Was anziehen", activities: "Aktivitäten",
+                airQuality: "Luftqualität & Allergene", pollenBirch: "Birke", pollenGrass: "Gräser", pollenMugwort: "Beifuß", pollenAlder: "Erle",
+                aqiGood: "Gut", aqiMod: "Mäßig", aqiBad: "Ungesund", aqiDanger: "Gefährlich",
+                pollenLow: "Niedrig", pollenMed: "Mittel", pollenHigh: "Hoch",
+                value: "Wert", range: "Bereich", ozone: "Ozon (O₃)", unitMcg: "µg/m³", uvShort: "UV"
+            },
+            pl: {
+                searchPlaceholder: "Szukaj miasta...", feelsLike: "Odczuwalna", max: "Maks", min: "Min",
+                humidity: "Wilgotność", dewPoint: "Punkt rosy", pressure: "Ciśnienie", pressureUnit: "mmHg",
+                wind: "Wiatr", windUnit: "m/s", uvIndex: "Indeks UV", precip: "Opady", clouds: "Zachmurzenie",
+                hourlyTitle: "Wykres godzinowy", hourlySub: "Przeciągnij palcem po wykresie",
+                now: "Teraz", forecastTitle: "Prognoza pogody", forecastSub: "Kliknij dzień dla szczegółów",
+                days5: "5 Dni", days16: "16 Dni", today: "Dzisiaj", tomorrow: "Jutro",
+                morning: "Rano", afternoon: "Popołudnie", evening: "Wieczór", night: "Noc",
+                dayUpper: "DZIEŃ", nightUpper: "NOC", detailedForecast: "Szczegółowa prognoza na dzień",
+                chartWarm: "Ciepło", chartMild: "Umiarkowanie", chartCold: "Chłodno", avg: "śr.",
+                errorTitle: "Błąd sieci", errorMsg: "Nie udało się pobrać danych.", retry: "Spróbuj ponownie",
+                myLocation: "Moja lokalizacja", notFound: "Nie znaleziono miasta", clockLabel: "Czas",
+                uvLow: "Niski", uvMod: "Umiarkowany", uvHigh: "Wysoki", uvVeryHigh: "Bardzo wysoki", uvExtreme: "Ekstremalny",
+                smartAdvice: "Mądre porady", whatToWear: "Co ubrać", activities: "Aktywności",
+                airQuality: "Jakość powietrza i alergeny", pollenBirch: "Brzoza", pollenGrass: "Trawy", pollenMugwort: "Bylica", pollenAlder: "Olsza",
+                aqiGood: "Dobra", aqiMod: "Umiarkowana", aqiBad: "Szkodliwa", aqiDanger: "Niebezpieczna",
+                pollenLow: "Niski", pollenMed: "Średni", pollenHigh: "Wysoki",
+                value: "Wartość", range: "Zakres", ozone: "Ozon (O₃)", unitMcg: "µg/m³", uvShort: "UV"
+            },
+            fr: {
+                searchPlaceholder: "Rechercher...", feelsLike: "Ressenti", max: "Max", min: "Min",
+                humidity: "Humidité", dewPoint: "Point de rosée", pressure: "Pression", pressureUnit: "mmHg",
+                wind: "Vent", windUnit: "m/s", uvIndex: "Indice UV", precip: "Précipitations", clouds: "Nuagiosité",
+                hourlyTitle: "Graphique horaire", hourlySub: "Faites glisser pour les détails",
+                now: "Maintenant", forecastTitle: "Prévisions météo", forecastSub: "Appuyez sur un jour pour les détails",
+                days5: "5 Jours", days16: "16 Jours", today: "Aujourd'hui", tomorrow: "Demain",
+                morning: "Matin", afternoon: "Après-midi", evening: "Soir", night: "Nuit",
+                dayUpper: "JOUR", nightUpper: "NUIT", detailedForecast: "Prévisions quotidiennes détaillées",
+                chartWarm: "Chaud", chartMild: "Modéré", chartCold: "Frais", avg: "moy.",
+                errorTitle: "Erreur réseau", errorMsg: "Erreur de chargement.", retry: "Réessayer",
+                myLocation: "Ma position", notFound: "Ville non trouvée", clockLabel: "Heure",
+                uvLow: "Faible", uvMod: "Modéré", uvHigh: "Élevé", uvVeryHigh: "Très élevé", uvExtreme: "Extrême",
+                smartAdvice: "Conseils intelligents", whatToWear: "Que porter", activities: "Activités",
+                airQuality: "Qualité de l'air & allergènes", pollenBirch: "Bouleau", pollenGrass: "Graminées", pollenMugwort: "Armoise", pollenAlder: "Aulne",
+                aqiGood: "Bonne", aqiMod: "Modérée", aqiBad: "Malsaine", aqiDanger: "Dangereuse",
+                pollenLow: "Faible", pollenMed: "Moyen", pollenHigh: "Élevé",
+                value: "Valeur", range: "Plage", ozone: "Ozone (O₃)", unitMcg: "µg/m³", uvShort: "UV"
+            },
+            es: {
+                searchPlaceholder: "Buscar ciudad...", feelsLike: "Sensación", max: "Máx", min: "Mín",
+                humidity: "Humedad", dewPoint: "Punto de rocío", pressure: "Presión", pressureUnit: "mmHg",
+                wind: "Viento", windUnit: "m/s", uvIndex: "Índice UV", precip: "Precipitación", clouds: "Nubosidad",
+                hourlyTitle: "Gráfico por horas", hourlySub: "Desliza para ver detalles",
+                now: "Ahora", forecastTitle: "Pronóstico del tiempo", forecastSub: "Toca un día para ver detalles",
+                days5: "5 Días", days16: "16 Días", today: "Hoy", tomorrow: "Mañana",
+                morning: "Mañana", afternoon: "Tarde", evening: "Noche", night: "Madrugada",
+                dayUpper: "DÍA", nightUpper: "NOCHE", detailedForecast: "Pronóstico diario detallado",
+                chartWarm: "Cálido", chartMild: "Templado", chartCold: "Fresco", avg: "prom.",
+                errorTitle: "Error de red", errorMsg: "No se pudieron obtener datos.", retry: "Reintentar",
+                myLocation: "Mi ubicación", notFound: "Ciudad no encontrada", clockLabel: "Hora",
+                uvLow: "Bajo", uvMod: "Moderado", uvHigh: "Alto", uvVeryHigh: "Muy alto", uvExtreme: "Extremo",
+                smartAdvice: "Consejos inteligentes", whatToWear: "Qué vestir", activities: "Actividades",
+                airQuality: "Calidad del aire y alérgenos", pollenBirch: "Abedul", pollenGrass: "Gramíneas", pollenMugwort: "Ajenjo", pollenAlder: "Aliso",
+                aqiGood: "Buena", aqiMod: "Moderada", aqiBad: "Perjudicial", aqiDanger: "Peligrosa",
+                pollenLow: "Bajo", pollenMed: "Medio", pollenHigh: "Alto",
+                value: "Valor", range: "Rango", ozone: "Ozono (O₃)", unitMcg: "µg/m³", uvShort: "UV"
             }
         };
 
@@ -843,6 +747,14 @@
                 66: "Freezing rain", 67: "Heavy freezing rain", 71: "Slight snow", 73: "Moderate snow", 75: "Heavy snow",
                 77: "Snow grains", 80: "Slight rain showers", 81: "Moderate rain showers", 82: "Violent rain showers",
                 85: "Slight snow showers", 86: "Heavy snow showers", 95: "Thunderstorm", 96: "Thunderstorm with hail", 99: "Thunderstorm with heavy hail"
+            },
+            ru: {
+                0: "Ясно", 1: "Преимущественно ясно", 2: "Переменная облачность", 3: "Пасмурно",
+                45: "Туман", 48: "Изморось / Туман", 51: "Моросящий дождь", 53: "Умеренный дождь", 55: "Сильный дождь",
+                56: "Ледяная морось", 57: "Сильная ледяная морось", 61: "Небольшой дождь", 63: "Умеренный дождь", 65: "Сильный ливень",
+                66: "Замерзающий дождь", 67: "Сильный замерзающий дождь", 71: "Небольшой снег", 73: "Умеренный снегопад", 75: "Сильный снегопад",
+                77: "Снежные зерна", 80: "Слабый ливень", 81: "Умеренный ливень", 82: "Сильный проливной дождь",
+                85: "Снегопад", 86: "Сильный снегопад", 95: "Гроза", 96: "Гроза с градом", 99: "Гроза с сильным градом"
             },
             de: {
                 0: "Klarer Himmel", 1: "Überwiegend klar", 2: "Teilweise bewölkt", 3: "Bedeckt",
@@ -875,14 +787,6 @@
                 66: "Lluvia helada", 67: "Lluvia helada fuerte", 71: "Nieve ligera", 73: "Nieve moderada", 75: "Nieve fuerte",
                 77: "Granos de nieve", 80: "Chubascos ligeros", 81: "Chubascos moderados", 82: "Chubascos violentos",
                 85: "Chubascos de nieve ligeros", 86: "Chubascos de nieve fuertes", 95: "Tormenta", 96: "Tormenta con granizo", 99: "Tormenta con granizo fuerte"
-            },
-            ru: {
-                0: "Ясно", 1: "Преимущественно ясно", 2: "Переменная облачность", 3: "Пасмурно",
-                45: "Туман", 48: "Изморось / Туман", 51: "Моросящий дождь", 53: "Умеренный дождь", 55: "Сильный дождь",
-                56: "Ледяная морось", 57: "Сильная ледяная морось", 61: "Небольшой дождь", 63: "Умеренный дождь", 65: "Сильный ливень",
-                66: "Замерзающий дождь", 67: "Сильный замерзающий дождь", 71: "Небольшой снег", 73: "Умеренный снегопад", 75: "Сильный снегопад",
-                77: "Снежные зерна", 80: "Слабый ливень", 81: "Умеренный ливень", 82: "Сильный проливной дождь",
-                85: "Снегопад", 86: "Сильный снегопад", 95: "Гроза", 96: "Гроза с градом", 99: "Гроза с сильным градом"
             }
         };
 
@@ -917,7 +821,6 @@
             99: { icon: "cloud-lightning", bg: "thunder", effect: "rain", iconColor: "text-purple-400" },
         };
 
-        // Determine browser default language
         function getBrowserDefaultLanguage() {
             const navLangs = navigator.languages || [navigator.language || 'uk'];
             for (let lang of navLangs) {
@@ -940,15 +843,16 @@
         };
 
         let currentForecastRange = 5;
+        let activeHourlyMetric = 'temp';
         let cachedWeatherData = null;
+        let cachedAirQualityData = null;
         let hourlyChartPoints = [];
         let searchDebounceTimer = null;
         let currentSearchResults = [];
         let expandedDayIndex = null;
 
         function autoSelectLanguageByCountryCode(countryCode) {
-            if (isManualLanguageChoice) return; // User explicitly selected language, respect manual preference
-            
+            if (isManualLanguageChoice) return;
             const upperCode = (countryCode || '').toUpperCase();
             const targetLang = COUNTRY_TO_LANG_MAP[upperCode] || 'en';
 
@@ -980,9 +884,7 @@
 
             translateStaticUI();
 
-            if (cachedWeatherData) {
-                renderAll(cachedWeatherData);
-            }
+            if (cachedWeatherData) renderAll(cachedWeatherData, cachedAirQualityData);
         }
 
         function getWmoInfo(code) {
@@ -998,8 +900,7 @@
 
         function toggleLangDropdown(e) {
             e.stopPropagation();
-            const dropdown = document.getElementById('lang-dropdown');
-            dropdown.classList.toggle('hidden');
+            document.getElementById('lang-dropdown').classList.toggle('hidden');
         }
 
         document.addEventListener('click', (e) => {
@@ -1025,11 +926,20 @@
             document.getElementById('lbl-metric-precip').textContent = t.precip;
             document.getElementById('lbl-metric-clouds').textContent = t.clouds;
             
+            document.getElementById('lbl-smart-advice').textContent = t.smartAdvice;
+            document.getElementById('lbl-what-to-wear').textContent = t.whatToWear;
+            document.getElementById('lbl-activities').textContent = t.activities;
+
+            document.getElementById('lbl-air-quality').lastElementChild.textContent = t.airQuality;
+            document.getElementById('lbl-aqi-o3').textContent = t.ozone;
+
             document.getElementById('lbl-chart-title').textContent = t.hourlyTitle;
             document.getElementById('lbl-chart-sub').textContent = t.hourlySub;
-            document.getElementById('lbl-tt-temp').textContent = t.hourlyTitle + ":";
-            document.getElementById('lbl-tt-precip').textContent = t.precip;
-            document.getElementById('lbl-tt-wind').textContent = t.wind;
+            document.getElementById('lbl-tt-temp').textContent = t.value + ":";
+
+            document.getElementById('btn-metric-pop').textContent = `${t.precip} %`;
+            document.getElementById('btn-metric-wind').textContent = `${t.wind} ${t.windUnit}`;
+            document.getElementById('btn-metric-uv').textContent = t.uvShort;
 
             document.getElementById('lbl-forecast-title').childNodes[2].nodeValue = " " + t.forecastTitle;
             document.getElementById('lbl-forecast-sub').textContent = t.forecastSub;
@@ -1043,6 +953,7 @@
             document.getElementById('lbl-footer-time').textContent = t.clockLabel;
         }
 
+        // RETINA PARTICLES CANVAS
         const canvas = document.getElementById('weather-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -1055,7 +966,6 @@
             canvas.style.width = window.innerWidth + 'px';
             canvas.style.height = window.innerHeight + 'px';
             ctx.scale(dpr, dpr);
-
             initParticles(currentParticleType);
         }
         window.addEventListener('resize', resizeCanvas);
@@ -1169,16 +1079,23 @@
             if (refreshWrap) refreshWrap.classList.add('animate-spin');
             if (errorCard) errorCard.classList.add('hidden');
 
-            const url = `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,pressure_msl,surface_pressure,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
+            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,pressure_msl,surface_pressure,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
+            const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=us_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,birch_pollen,grass_pollen,mugwort_pollen,alder_pollen`;
 
             try {
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(getI18n().errorMsg);
-                
-                const data = await res.json();
-                cachedWeatherData = data;
-                
-                renderAll(data);
+                const [wRes, aqRes] = await Promise.allSettled([fetch(weatherUrl), fetch(aqUrl)]);
+
+                if (wRes.status === 'fulfilled' && wRes.value.ok) {
+                    cachedWeatherData = await wRes.value.json();
+                } else {
+                    throw new Error(getI18n().errorMsg);
+                }
+
+                if (aqRes.status === 'fulfilled' && aqRes.value.ok) {
+                    cachedAirQualityData = await aqRes.value.json();
+                }
+
+                renderAll(cachedWeatherData, cachedAirQualityData);
             } catch (err) {
                 console.error("Weather API error:", err);
                 document.getElementById('error-message').textContent = err.message || getI18n().errorMsg;
@@ -1192,6 +1109,81 @@
                     if (refreshWrap) refreshWrap.classList.remove('animate-spin');
                 }, remainingSpinTime);
             }
+        }
+
+        // FEATURE 1: SMART ADVICE CALCULATION
+        function renderSmartAdvice(current, daily, hourly) {
+            const t = current.apparent_temperature;
+            const pop = hourly.precipitation_probability ? hourly.precipitation_probability[0] || 0 : 0;
+            const uv = daily.uv_index_max ? daily.uv_index_max[0] || 0 : 0;
+            const wind = current.wind_speed_10m;
+
+            let clothing = "";
+            let activity = "";
+
+            if (currentLangKey === 'uk') {
+                if (t < -5) clothing = "Теплий пуховик, термобілизна, рукавички та шапка.";
+                else if (t < 5) clothing = "Зимова куртка, шарф та тепле взуття.";
+                else if (t < 15) clothing = "Осіння куртка або щільний светр.";
+                else if (t < 22) clothing = "Легка кофта, худі або вітровка.";
+                else clothing = "Футболка, шорти та легкий одяг.";
+
+                if (pop > 30) clothing += " Візьміть парасольку ☂️";
+                if (uv >= 3) clothing += " Сонцезахисні окуляри 🕶️";
+
+                if (pop > 50 || wind > 12) activity = "Несприятливі умови. Краще залишитися в приміщенні.";
+                else if (t >= 10 && t <= 22 && wind < 6) activity = "Чудова погода для бігу, прогулянок та спорту! 🏃";
+                else activity = "Погода підходить для коротких прогулянок 🐕";
+
+            } else if (currentLangKey === 'ru') {
+                if (t < -5) clothing = "Теплый пуховик, термобелье, перчатки и шапка.";
+                else if (t < 5) clothing = "Зимняя куртка, шарф и тёплая обувь.";
+                else if (t < 15) clothing = "Осенняя куртка или плотный свитер.";
+                else if (t < 22) clothing = "Легкая кофта, худи или ветровка.";
+                else clothing = "Футболка, шорты и легкая одежда.";
+
+                if (pop > 30) clothing += " Возьмите зонт ☂️";
+                if (uv >= 3) clothing += " Солнцезащитные очки 🕶️";
+
+                if (pop > 50 || wind > 12) activity = "Неблагоприятные условия. Лучше провести время в помещении.";
+                else if (t >= 10 && t <= 22 && wind < 6) activity = "Отличная погода для бега, прогулок и спорта! 🏃";
+                else activity = "Погода подходит для коротких прогулок 🐕";
+
+            } else {
+                if (t < -5) clothing = "Warm down jacket, thermal underwear, gloves and hat.";
+                else if (t < 5) clothing = "Winter jacket, scarf and warm boots.";
+                else if (t < 15) clothing = "Light autumn jacket or heavy sweater.";
+                else if (t < 22) clothing = "Light hoodie or windbreaker.";
+                else clothing = "T-shirt, shorts and lightweight clothes.";
+
+                if (pop > 30) clothing += " Take an umbrella ☂️";
+                if (uv >= 3) clothing += " Sunglasses 🕶️";
+
+                if (pop > 50 || wind > 12) activity = "Unfavorable conditions. Better stay indoors.";
+                else if (t >= 10 && t <= 22 && wind < 6) activity = "Great weather for running and outdoor activities! 🏃";
+                else activity = "Good weather for short walks 🐕";
+            }
+
+            document.getElementById('advice-clothing').textContent = clothing;
+            document.getElementById('advice-activity').textContent = activity;
+        }
+
+        // FEATURE 2: HOURLY CHART WITH METRIC SWITCHER
+        function switchHourlyMetric(metric) {
+            activeHourlyMetric = metric;
+
+            ['temp', 'pop', 'wind', 'uv'].forEach(m => {
+                const btn = document.getElementById(`btn-metric-${m}`);
+                if (btn) {
+                    if (m === metric) {
+                        btn.className = "px-2.5 py-1.5 rounded-xl transition bg-slate-800 text-white border border-slate-700 min-h-[36px]";
+                    } else {
+                        btn.className = "px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]";
+                    }
+                }
+            });
+
+            if (cachedWeatherData) renderHourlyChart(cachedWeatherData.hourly);
         }
 
         function renderHourlyChart(hourly) {
@@ -1211,54 +1203,90 @@
             const hoursData = [];
 
             const localeStr = LANGUAGES[currentLangKey].locale;
+            const tDict = getI18n();
 
             for (let i = 0; i < 24; i++) {
                 const idx = startIdx + i;
                 if (!hourly.time[idx]) break;
+
+                let metricVal = 0;
+                let unit = "°C";
+
+                if (activeHourlyMetric === 'temp') {
+                    metricVal = Math.round(hourly.temperature_2m[idx]);
+                    unit = "°C";
+                } else if (activeHourlyMetric === 'pop') {
+                    metricVal = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
+                    unit = "%";
+                } else if (activeHourlyMetric === 'wind') {
+                    metricVal = hourly.wind_speed_10m ? parseFloat(hourly.wind_speed_10m[idx].toFixed(1)) : 0;
+                    unit = ` ${tDict.windUnit}`;
+                } else if (activeHourlyMetric === 'uv') {
+                    metricVal = hourly.uv_index ? Math.round(hourly.uv_index[idx]) : 0;
+                    unit = ` ${tDict.uvShort}`;
+                }
+
                 hoursData.push({
                     time: new Date(hourly.time[idx]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }),
-                    temp: Math.round(hourly.temperature_2m[idx]),
+                    val: metricVal,
+                    unit: unit,
                     apparentTemp: Math.round(hourly.apparent_temperature[idx]),
-                    weatherCode: hourly.weather_code[idx],
-                    precipProb: hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0,
-                    windSpeed: hourly.wind_speed_10m ? hourly.wind_speed_10m[idx].toFixed(1) : 0,
+                    weatherCode: hourly.weather_code[idx]
                 });
             }
 
             if (hoursData.length === 0) return;
 
-            const temps = hoursData.map(d => d.temp);
-            const avgTemp = temps.reduce((a, b) => a + b, 0) / temps.length;
+            const vals = hoursData.map(d => d.val);
+            const avgVal = vals.reduce((a, b) => a + b, 0) / vals.length;
 
             const legendDot = document.getElementById('chart-legend-dot');
             const legendText = document.getElementById('chart-legend-text');
-            const t = getI18n();
 
-            if (avgTemp > 15) {
-                areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
-                linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
-                activeDot.setAttribute('stroke', '#f97316');
-                legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
-                legendText.textContent = `${t.chartWarm} (${t.avg} ${Math.round(avgTemp)}°C)`;
-            } else if (avgTemp >= 5) {
+            if (activeHourlyMetric === 'temp') {
+                if (avgVal > 15) {
+                    areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
+                    linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
+                    activeDot.setAttribute('stroke', '#f97316');
+                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
+                    legendText.textContent = `${tDict.chartWarm} (${tDict.avg} ${Math.round(avgVal)}°C)`;
+                } else if (avgVal >= 5) {
+                    areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
+                    linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
+                    activeDot.setAttribute('stroke', '#14b8a6');
+                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
+                    legendText.textContent = `${tDict.chartMild} (${tDict.avg} ${Math.round(avgVal)}°C)`;
+                } else {
+                    areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
+                    linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
+                    activeDot.setAttribute('stroke', '#38bdf8');
+                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]";
+                    legendText.textContent = `${tDict.chartCold} (${tDict.avg} ${Math.round(avgVal)}°C)`;
+                }
+            } else if (activeHourlyMetric === 'pop') {
+                areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
+                linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
+                activeDot.setAttribute('stroke', '#38bdf8');
+                legendDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8]";
+                legendText.textContent = `${tDict.precip} (${tDict.avg} ${Math.round(avgVal)}%)`;
+            } else if (activeHourlyMetric === 'wind') {
                 areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
                 linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
                 activeDot.setAttribute('stroke', '#14b8a6');
                 legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
-                legendText.textContent = `${t.chartMild} (${t.avg} ${Math.round(avgTemp)}°C)`;
-            } else {
-                areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
-                linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
-                activeDot.setAttribute('stroke', '#38bdf8');
-                legendDot.className = "w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]";
-                legendText.textContent = `${t.chartCold} (${t.avg} ${Math.round(avgTemp)}°C)`;
+                legendText.textContent = `${tDict.wind} (${tDict.avg} ${avgVal.toFixed(1)} ${tDict.windUnit})`;
+            } else if (activeHourlyMetric === 'uv') {
+                areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
+                linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
+                activeDot.setAttribute('stroke', '#f97316');
+                legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
+                legendText.textContent = `${tDict.uvIndex} (${tDict.avg} ${Math.round(avgVal)})`;
             }
 
-            let minTemp = Math.min(...temps);
-            let maxTemp = Math.max(...temps);
+            let minVal = Math.min(...vals);
+            let maxVal = Math.max(...vals);
 
-            if (minTemp === maxTemp) { minTemp -= 2; maxTemp += 2; }
-            else { minTemp -= 1; maxTemp += 1; }
+            if (minVal === maxVal) { minVal = Math.max(0, minVal - 2); maxVal += 2; }
 
             const paddingTop = 25;
             const paddingBottom = 25;
@@ -1270,7 +1298,7 @@
 
             hourlyChartPoints = hoursData.map((d, i) => {
                 const x = paddingLeft + (i / (hoursData.length - 1)) * graphWidth;
-                const y = paddingTop + (1 - (d.temp - minTemp) / (maxTemp - minTemp)) * graphHeight;
+                const y = paddingTop + (1 - (d.val - minVal) / (maxVal - minVal)) * graphHeight;
                 return { x, y, data: d };
             });
 
@@ -1278,10 +1306,10 @@
             const gridSteps = 2;
             for (let g = 0; g <= gridSteps; g++) {
                 const gy = paddingTop + (g / gridSteps) * graphHeight;
-                const gTemp = Math.round(maxTemp - (g / gridSteps) * (maxTemp - minTemp));
+                const gVal = (maxVal - (g / gridSteps) * (maxVal - minVal));
                 gridGroup.innerHTML += `
                     <line x1="${paddingLeft}" y1="${gy}" x2="${width - paddingRight}" y2="${gy}" />
-                    <text x="${paddingLeft + 2}" y="${gy - 3}" fill="rgba(148,163,184,0.6)" font-size="8" font-weight="bold">${gTemp}°</text>
+                    <text x="${paddingLeft + 2}" y="${gy - 3}" fill="rgba(148,163,184,0.6)" font-size="8" font-weight="bold">${activeHourlyMetric === 'wind' ? gVal.toFixed(1) : Math.round(gVal)}</text>
                 `;
             }
 
@@ -1318,13 +1346,13 @@
                 if (i % 3 === 0 || i === hourlyChartPoints.length - 1) {
                     staticDotsGroup.innerHTML += `
                         <circle cx="${pt.x}" cy="${pt.y}" r="2.8" fill="#ffffff" opacity="0.8" />
-                        <text x="${pt.x}" y="${pt.y - 8}" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">${pt.data.temp}°</text>
+                        <text x="${pt.x}" y="${pt.y - 8}" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">${pt.data.val}${pt.data.unit}</text>
                     `;
                 }
 
                 if (i % 4 === 0) {
                     const labelSpan = document.createElement('span');
-                    labelSpan.textContent = i === 0 ? t.now : pt.data.time;
+                    labelSpan.textContent = i === 0 ? tDict.now : pt.data.time;
                     xLabelsContainer.appendChild(labelSpan);
                 }
             });
@@ -1369,10 +1397,8 @@
 
                 document.getElementById('tooltip-time').textContent = closestIdx === 0 ? t.now : d.time;
                 document.getElementById('tooltip-condition').textContent = codeInfo.title;
-                document.getElementById('tooltip-temp').textContent = `${d.temp}°C`;
+                document.getElementById('tooltip-temp').textContent = `${d.val}${d.unit}`;
                 document.getElementById('tooltip-feels').textContent = `${t.feelsLike}: ${d.apparentTemp}°C`;
-                document.getElementById('tooltip-precip').textContent = `${d.precipProb}%`;
-                document.getElementById('tooltip-wind').textContent = `${d.windSpeed} ${t.windUnit}`;
 
                 tooltip.classList.remove('hidden');
                 
@@ -1394,15 +1420,60 @@
 
             container.onmousemove = (e) => handlePointer(e.clientX);
             container.onmouseleave = handleLeave;
-
-            container.ontouchstart = (e) => {
-                if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX);
-            };
-            container.ontouchmove = (e) => {
-                if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX);
-            };
+            container.ontouchstart = (e) => { if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX); };
+            container.ontouchmove = (e) => { if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX); };
             container.ontouchend = handleLeave;
             container.ontouchcancel = handleLeave;
+        }
+
+        // FEATURE 3: AIR QUALITY & ALLERGENS RENDERING
+        function renderAirQuality(aqData) {
+            if (!aqData || !aqData.current) return;
+            const curr = aqData.current;
+            const t = getI18n();
+
+            const aqi = curr.us_aqi || 0;
+            const badge = document.getElementById('aqi-badge');
+
+            let statusText = t.aqiGood;
+            let badgeClass = "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+
+            if (aqi > 150) { statusText = t.aqiDanger; badgeClass = "bg-rose-500/20 text-rose-400 border-rose-500/30"; }
+            else if (aqi > 100) { statusText = t.aqiBad; badgeClass = "bg-amber-500/20 text-amber-400 border-amber-500/30"; }
+            else if (aqi > 50) { statusText = t.aqiMod; badgeClass = "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"; }
+
+            badge.textContent = `AQI ${aqi} • ${statusText}`;
+            badge.className = `px-3 py-0.5 rounded-full text-[10px] font-black border ${badgeClass}`;
+
+            document.getElementById('aqi-pm25').textContent = `${Math.round(curr.pm2_5 || 0)} ${t.unitMcg}`;
+            document.getElementById('aqi-pm10').textContent = `${Math.round(curr.pm10 || 0)} ${t.unitMcg}`;
+            document.getElementById('aqi-no2').textContent = `${Math.round(curr.nitrogen_dioxide || 0)} ${t.unitMcg}`;
+            document.getElementById('aqi-o3').textContent = `${Math.round(curr.ozone || 0)} ${t.unitMcg}`;
+
+            const pollenContainer = document.getElementById('pollen-container');
+            pollenContainer.innerHTML = '';
+
+            const pollens = [
+                { label: t.pollenBirch, val: curr.birch_pollen || 0 },
+                { label: t.pollenGrass, val: curr.grass_pollen || 0 },
+                { label: t.pollenMugwort, val: curr.mugwort_pollen || 0 },
+                { label: t.pollenAlder, val: curr.alder_pollen || 0 }
+            ];
+
+            pollens.forEach(p => {
+                let lvl = t.pollenLow;
+                let color = "text-emerald-400";
+                if (p.val > 10) { lvl = t.pollenHigh; color = "text-rose-400"; }
+                else if (p.val > 2) { lvl = t.pollenMed; color = "text-amber-400"; }
+
+                const item = document.createElement('div');
+                item.className = 'bg-slate-900/80 border border-slate-800 p-2 rounded-xl flex items-center justify-between';
+                item.innerHTML = `
+                    <span class="text-slate-400 font-medium">${p.label}:</span>
+                    <span class="font-bold ${color}">${lvl}</span>
+                `;
+                pollenContainer.appendChild(item);
+            });
         }
 
         const searchInput = document.getElementById('city-search');
@@ -1484,7 +1555,6 @@
             currentCity = { name, region, countryCode, lat, lon };
             expandedDayIndex = null;
 
-            // Trigger auto language selection based on new city's country code (if not manually chosen)
             autoSelectLanguageByCountryCode(countryCode);
             
             document.getElementById('city-name').textContent = name;
@@ -1516,7 +1586,6 @@
                     const lon = pos.coords.longitude;
                     
                     try {
-                        // Reverse geocoding via Open-Meteo or Nominatim to find exact country code
                         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${lat.toFixed(2)},${lon.toFixed(2)}&count=1&format=json`);
                         if (res.ok) {
                             const data = await res.json();
@@ -1549,7 +1618,7 @@
             );
         }
 
-        function renderAll(data) {
+        function renderAll(data, aqData) {
             translateStaticUI();
 
             const current = data.current;
@@ -1606,6 +1675,8 @@
             const sunsetStr = daily.sunset ? new Date(daily.sunset[0]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }) : "--:--";
             document.getElementById('metric-sun-times').textContent = `🌅 ${sunriseStr} | 🌇 ${sunsetStr}`;
 
+            renderSmartAdvice(current, daily, hourly);
+            renderAirQuality(aqData);
             renderHourlyChart(hourly);
             renderDailyList(daily, hourly);
 
@@ -1689,8 +1760,11 @@
                 }
 
                 function getHourlyVal(hourNum, key) {
-                    if (dayHourlyIndices.length >= 24 && hourlyData[key]) {
-                        return Math.round(hourlyData[key][dayHourlyIndices[hourNum] || dayHourlyIndices[0]]);
+                    if (dayHourlyIndices.length > 0 && hourlyData && hourlyData[key]) {
+                        const targetIdx = dayHourlyIndices[Math.min(hourNum, dayHourlyIndices.length - 1)];
+                        if (targetIdx !== undefined && hourlyData[key][targetIdx] !== undefined) {
+                            return Math.round(hourlyData[key][targetIdx]);
+                        }
                     }
                     if (key === 'temperature_2m') {
                         if (hourNum === 8) return Math.round(tempMin + (tempMax - tempMin) * 0.4);
@@ -1698,6 +1772,7 @@
                         if (hourNum === 20) return Math.round(tempMin + (tempMax - tempMin) * 0.6);
                         return tempMin;
                     }
+                    if (key === 'apparent_temperature') return Math.round(tempMin);
                     return "--";
                 }
 
@@ -1716,10 +1791,8 @@
                 cardWrapper.className = `clean-card rounded-2xl overflow-hidden clean-card-interactive transition-all ${isExpanded ? 'border-sky-500/80 bg-slate-900' : ''}`;
                 
                 cardWrapper.innerHTML = `
-                    <!-- CLICKABLE SUMMARY ROW -->
                     <div onclick="toggleDayExpand(${i})" class="p-3 flex items-center justify-between gap-1.5 sm:gap-3 text-xs cursor-pointer select-none">
                         
-                        <!-- 1. Day & Weather Icon -->
                         <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
                             <div class="p-1.5 sm:p-2 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
                                 <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5 ${codeInfo.iconColor}"></i>
@@ -1730,13 +1803,11 @@
                             </div>
                         </div>
 
-                        <!-- 2. Precipitation % -->
                         <div class="flex items-center gap-1 font-semibold text-cyan-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[40px]">
                             <i data-lucide="cloud-rain" class="w-3.5 h-3.5"></i>
                             <span>${precipProb}%</span>
                         </div>
 
-                        <!-- 3. TEMPERATURE RANGE IN MIDDLE -->
                         <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
                             <span class="text-[11px] sm:text-xs text-slate-400 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
                             <div class="flex-1 h-2 bg-slate-950 rounded-full overflow-hidden relative max-w-[110px] border border-slate-800">
@@ -1746,22 +1817,19 @@
                             <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
                         </div>
 
-                        <!-- 4. Wind Speed & Chevron indicator -->
                         <div class="flex items-center justify-end gap-1 font-semibold text-teal-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[55px] sm:min-w-[65px] text-right">
                             <i data-lucide="wind" class="w-3.5 h-3.5"></i>
                             <span>${windSpeed} ${t.windUnit}</span>
-                            <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}"></i>
+                            <i data-lucide="chevron-down" id="chevron-${i}" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}"></i>
                         </div>
                     </div>
 
-                    <!-- EXPANDABLE DETAILED PANEL -->
-                    <div class="expand-panel ${isExpanded ? 'open' : ''} border-t border-slate-800 bg-slate-950/60 p-3 sm:p-4 space-y-3">
+                    <div id="panel-${i}" class="expand-panel ${isExpanded ? 'open' : ''} border-t border-slate-800 bg-slate-950/60 px-3 sm:px-4 space-y-3">
                         <div class="text-[11px] font-bold text-sky-300 flex items-center justify-between border-b border-slate-800 pb-1.5">
                             <span class="flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5"></i> ${t.detailedForecast}</span>
                             <span class="text-slate-400 font-normal text-[10px]">${codeInfo.title}</span>
                         </div>
 
-                        <!-- 4 Time Slot Temperature Breakdown -->
                         <div class="grid grid-cols-4 gap-1.5 text-center">
                             <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
                                 <span class="text-[9px] text-slate-400 block font-semibold">${t.morning}</span>
@@ -1785,7 +1853,6 @@
                             </div>
                         </div>
 
-                        <!-- Additional Weather Parameter Badges -->
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-slate-300 pt-1">
                             <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
                                 <i data-lucide="cloud-rain" class="w-4 h-4 text-cyan-400"></i>
@@ -1814,7 +1881,7 @@
                             <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
                                 <i data-lucide="gauge" class="w-4 h-4 text-emerald-400"></i>
                                 <div>
-                                    <span class="text-slate-400 block">Шкала:</span>
+                                    <span class="text-slate-400 block">${t.range}:</span>
                                     <strong class="text-white">${tempMin}°C — ${tempMax}°C</strong>
                                 </div>
                             </div>
@@ -1829,13 +1896,28 @@
         }
 
         function toggleDayExpand(idx) {
-            if (expandedDayIndex === idx) {
+            const targetPanel = document.getElementById(`panel-${idx}`);
+            const targetChevron = document.getElementById(`chevron-${idx}`);
+
+            if (!targetPanel) return;
+
+            const isOpen = targetPanel.classList.contains('open');
+
+            if (expandedDayIndex !== null && expandedDayIndex !== idx) {
+                const prevPanel = document.getElementById(`panel-${expandedDayIndex}`);
+                const prevChevron = document.getElementById(`chevron-${expandedDayIndex}`);
+                if (prevPanel) prevPanel.classList.remove('open');
+                if (prevChevron) prevChevron.classList.remove('rotate-180', 'text-sky-400');
+            }
+
+            if (isOpen) {
+                targetPanel.classList.remove('open');
+                if (targetChevron) targetChevron.classList.remove('rotate-180', 'text-sky-400');
                 expandedDayIndex = null;
             } else {
+                targetPanel.classList.add('open');
+                if (targetChevron) targetChevron.classList.add('rotate-180', 'text-sky-400');
                 expandedDayIndex = idx;
-            }
-            if (cachedWeatherData) {
-                renderDailyList(cachedWeatherData.daily, cachedWeatherData.hourly);
             }
         }
 
@@ -1896,7 +1978,6 @@
         });
 
         window.onload = function() {
-            // Apply initial automatic or saved language
             autoSelectLanguageByCountryCode(currentCity.countryCode);
             
             document.getElementById('lang-flag').textContent = LANGUAGES[currentLangKey].flag;
