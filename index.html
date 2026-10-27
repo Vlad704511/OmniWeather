@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <link rel="manifest" href="manifest.json">
-    
+
     <!-- Title -->
     <title>OmniWeather — Прогноз погоди</title>
 
@@ -19,7 +19,7 @@
     <meta name="apple-mobile-web-app-title" content="OmniWeather">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -130,17 +130,6 @@
             padding-bottom: 0.75rem;
         }
 
-        /* SVG Spline Chart Animations */
-        .chart-path {
-            stroke-dasharray: 2000;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 0.8s ease-in-out;
-        }
-
-        .chart-hover-dot {
-            transition: transform 0.1s ease, opacity 0.15s ease;
-        }
-
         /* Custom Scrollbars */
         .custom-scrollbar::-webkit-scrollbar {
             height: 4px;
@@ -152,6 +141,17 @@
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(148, 163, 184, 0.3);
             border-radius: 9999px;
+        }
+
+        .hourly-cube {
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .hourly-cube.active {
+            border-color: #38bdf8 !important;
+            background-color: rgba(30, 41, 59, 0.95) !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -166,10 +166,10 @@
         <!-- HEADER & AUTOCOMPLETE SEARCH BAR (HIGH Z-INDEX z-50) -->
         <header class="clean-card rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
             <div class="flex flex-col gap-3">
-                
+
                 <!-- City Information & Action Controls -->
                 <div class="flex items-center justify-between gap-2">
-                    
+
                     <!-- City Name Badge -->
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="p-2.5 bg-slate-800 rounded-2xl text-amber-400 flex-shrink-0 border border-slate-700">
@@ -186,7 +186,7 @@
 
                     <!-- Header Controls: Language Selector, GPS, Refresh -->
                     <div class="flex items-center gap-2 flex-shrink-0">
-                        
+
                         <!-- MULTI-LANGUAGE SWITCHER DROPDOWN BUTTON -->
                         <div class="relative">
                             <button id="lang-btn" onclick="toggleLangDropdown(event)" class="min-h-[44px] px-3 flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 text-xs font-bold text-slate-200 transition">
@@ -249,7 +249,7 @@
                 <div class="relative w-full z-[100]">
                     <div class="relative flex items-center z-50">
                         <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-slate-400 pointer-events-none"></i>
-                        <input type="text" id="city-search" placeholder="Пошук міста (напр. Київ, Берлін)..." 
+                        <input type="text" id="city-search" placeholder="Пошук міста (напр. Київ, Берлін)..."
                             autocomplete="off"
                             autocorrect="off"
                             capitalize="off"
@@ -269,7 +269,7 @@
         </header>
 
         <main class="relative z-10 space-y-3.5 sm:space-y-4">
-            
+
             <!-- Error Banner -->
             <div id="error-card" class="hidden clean-card rounded-3xl p-5 bg-red-950/40 border-red-800 text-center space-y-3">
                 <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400 mx-auto"></i>
@@ -282,9 +282,9 @@
 
             <!-- Hero Display Panel -->
             <div id="weather-hero" class="clean-card rounded-3xl p-5 sm:p-7 space-y-5 relative overflow-hidden">
-                
+
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10">
-                    
+
                     <!-- Main Temp & Descriptions -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
                         <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
@@ -306,7 +306,7 @@
 
                         <!-- Condition Name -->
                         <p id="weather-description" class="text-xl sm:text-2xl font-bold capitalize tracking-wide text-slate-100">--</p>
-                        
+
                         <div class="flex items-center justify-center sm:justify-start gap-3 text-xs text-slate-300 font-semibold pt-0.5">
                             <span><span id="lbl-feels">Відчувається</span>: <strong id="feels-like" class="text-sky-300">--°C</strong></span>
                             <span>•</span>
@@ -325,7 +325,7 @@
 
                 <!-- 6-Grid Weather Metrics -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 relative z-10 pt-3 border-t border-slate-800">
-                    
+
                     <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
                         <div class="text-sky-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="droplets" class="w-4 h-4"></i>
@@ -410,97 +410,26 @@
             </div>
         </section>
 
-        <!-- FEATURE 2: HOURLY CHART WITH METRIC SWITCHER -->
-        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-3 relative">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+        <!-- FEATURE 2: HOURLY CUBES FORECAST -->
+        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4 relative">
+            <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
                 <div class="flex items-center gap-2.5">
                     <div class="p-2 bg-slate-800 rounded-xl text-sky-400 border border-slate-700">
-                        <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                        <i data-lucide="clock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </div>
                     <div>
-                        <h2 id="lbl-chart-title" class="text-base sm:text-lg font-extrabold text-white">Погодинний графік</h2>
-                        <p id="lbl-chart-sub" class="text-[10px] sm:text-xs text-slate-400">Проведіть по графіку для деталей</p>
-                    </div>
-                </div>
-                
-                <!-- Metric Switcher Tabs -->
-                <div class="flex items-center gap-2 flex-wrap">
-                    <div class="bg-slate-900 border border-slate-800 p-1 rounded-2xl flex items-center gap-1 text-xs font-bold">
-                        <button id="btn-metric-temp" onclick="switchHourlyMetric('temp')" class="px-2.5 py-1.5 rounded-xl transition bg-slate-800 text-white border border-slate-700 min-h-[36px]">°C</button>
-                        <button id="btn-metric-pop" onclick="switchHourlyMetric('pop')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">Опади %</button>
-                        <button id="btn-metric-wind" onclick="switchHourlyMetric('wind')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">Вітер м/с</button>
-                        <button id="btn-metric-uv" onclick="switchHourlyMetric('uv')" class="px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]">УФ</button>
-                    </div>
-
-                    <div id="chart-legend" class="hidden sm:flex text-[10px] font-bold px-2.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 items-center gap-1.5">
-                        <span id="chart-legend-dot" class="w-2.5 h-2.5 rounded-full bg-sky-400"></span>
-                        <span id="chart-legend-text" class="text-slate-300">--°C</span>
+                        <h2 id="lbl-chart-title" class="text-base sm:text-lg font-extrabold text-white">Погодинний прогноз</h2>
+                        <p id="lbl-chart-sub" class="text-[10px] sm:text-xs text-slate-400">Натисніть на картку для деталей</p>
                     </div>
                 </div>
             </div>
 
-            <!-- SVG Spline Chart Container -->
-            <div id="chart-container" class="relative w-full h-56 pt-3 pb-2 select-none touch-pan-y">
-                
-                <svg id="hourly-svg" class="w-full h-full overflow-visible" preserveAspectRatio="none">
-                    <defs>
-                        <!-- Dynamic Area & Stroke Gradients -->
-                        <linearGradient id="chartWarmAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="rgba(249, 115, 22, 0.4)" />
-                            <stop offset="100%" stop-color="rgba(249, 115, 22, 0.0)" />
-                        </linearGradient>
-                        <linearGradient id="chartWarmStrokeGradient" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#f97316" />
-                            <stop offset="100%" stop-color="#eab308" />
-                        </linearGradient>
+            <!-- Scrollable Cubes Grid/Row -->
+            <div id="hourly-cubes-container" class="flex gap-2.5 overflow-x-auto custom-scrollbar p-2.5 select-none">
+            </div>
 
-                        <linearGradient id="chartMildAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="rgba(20, 184, 166, 0.4)" />
-                            <stop offset="100%" stop-color="rgba(20, 184, 166, 0.0)" />
-                        </linearGradient>
-                        <linearGradient id="chartMildStrokeGradient" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#14b8a6" />
-                            <stop offset="100%" stop-color="#06b6d4" />
-                        </linearGradient>
-
-                        <linearGradient id="chartColdAreaGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="rgba(56, 189, 248, 0.4)" />
-                            <stop offset="100%" stop-color="rgba(56, 189, 248, 0.0)" />
-                        </linearGradient>
-                        <linearGradient id="chartColdStrokeGradient" x1="0" y1="0" x2="1" y2="0">
-                            <stop offset="0%" stop-color="#38bdf8" />
-                            <stop offset="100%" stop-color="#6366f1" />
-                        </linearGradient>
-                    </defs>
-
-                    <g id="svg-grid-lines" stroke="rgba(71, 85, 105, 0.3)" stroke-dasharray="3 3" stroke-width="1"></g>
-                    <path id="svg-area-path" fill="url(#chartMildAreaGradient)" d="" />
-                    <path id="svg-line-path" fill="none" stroke="url(#chartMildStrokeGradient)" stroke-width="3.5" stroke-linecap="round" class="chart-path" d="" />
-                    <g id="svg-static-dots"></g>
-                    <line id="svg-guide-line" x1="0" y1="0" x2="0" y2="100%" stroke="rgba(255, 255, 255, 0.6)" stroke-width="1.5" stroke-dasharray="3 3" class="opacity-0 pointer-events-none" />
-                    <circle id="svg-active-dot" r="6.5" fill="#ffffff" stroke="#38bdf8" stroke-width="3" class="chart-hover-dot opacity-0 pointer-events-none" />
-                </svg>
-
-                <div id="chart-x-labels" class="absolute bottom-0 left-0 right-0 flex justify-between pointer-events-none text-[9px] text-slate-400 font-bold px-2">
-                </div>
-
-                <!-- Floating Touch Scrubbing Tooltip -->
-                <div id="chart-tooltip" class="absolute top-0 left-0 hidden pointer-events-none z-30 transition-all duration-75 transform -translate-x-1/2 -translate-y-full mb-2">
-                    <div class="bg-[#0d1527] p-2.5 rounded-2xl shadow-2xl border border-slate-700 text-[11px] space-y-1 min-w-[155px]">
-                        <div class="flex items-center justify-between border-b border-slate-700 pb-1">
-                            <span id="tooltip-time" class="font-extrabold text-amber-400">12:00</span>
-                            <span id="tooltip-condition" class="text-[9px] text-slate-300 font-medium truncate max-w-[85px]">Ясно</span>
-                        </div>
-                        <div class="flex items-center justify-between gap-2 pt-0.5">
-                            <span id="lbl-tt-temp" class="text-slate-400">Значення:</span>
-                            <span id="tooltip-temp" class="text-sm font-black text-white">--</span>
-                        </div>
-                        <div class="text-[10px] text-sky-300 font-bold text-right" id="tooltip-feels">
-                            Відчувається: --°C
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Selected Hour Detailed Popup/Panel -->
+            <div id="hourly-detail-panel" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3 transition-all duration-300">
             </div>
         </section>
 
@@ -539,7 +468,7 @@
 
         <!-- FORECAST SECTION -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
-            
+
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
                 <div>
                     <h2 id="lbl-forecast-title" class="text-base sm:text-lg font-extrabold flex items-center gap-2 text-white">
@@ -568,7 +497,7 @@
 
         <!-- FOOTER -->
         <footer class="text-center text-[10px] sm:text-xs text-slate-500 space-y-1 py-3">
-            <p>OmniWeather by Владислав Будзинський • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривий Ріг</span></p>
+            <p>OmniWeather • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривий Ріг</span></p>
             <p><span id="lbl-footer-time">Час</span>: <span id="clock">--:--:--</span></p>
         </footer>
 
@@ -598,7 +527,7 @@
                 feelsLike: "Відчувається", max: "Макс", min: "Мін",
                 humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
                 wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-Індекс", precip: "Опади", clouds: "Хмарність",
-                hourlyTitle: "Погодинний графік", hourlySub: "Проведіть по графіку для деталей",
+                hourlyTitle: "Погодинний прогноз", hourlySub: "Натисніть на картку для деталей",
                 now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
                 days5: "5 Днів", days16: "16 Днів", today: "Сьогодні", tomorrow: "Завтра",
                 morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
@@ -618,7 +547,7 @@
                 feelsLike: "Feels like", max: "Max", min: "Min",
                 humidity: "Humidity", dewPoint: "Dew point", pressure: "Pressure", pressureUnit: "mmHg",
                 wind: "Wind", windUnit: "m/s", uvIndex: "UV Index", precip: "Precipitation", clouds: "Cloudiness",
-                hourlyTitle: "Hourly Chart", hourlySub: "Drag across chart for details",
+                hourlyTitle: "Hourly Forecast", hourlySub: "Tap a card for details",
                 now: "Now", forecastTitle: "Weather Forecast", forecastSub: "Tap on any day for details",
                 days5: "5 Days", days16: "16 Days", today: "Today", tomorrow: "Tomorrow",
                 morning: "Morning", afternoon: "Afternoon", evening: "Evening", night: "Night",
@@ -638,7 +567,7 @@
                 feelsLike: "Ощущается", max: "Макс", min: "Мин",
                 humidity: "Влажность", dewPoint: "Роса", pressure: "Давление", pressureUnit: "мм рт. ст.",
                 wind: "Ветер", windUnit: "м/с", uvIndex: "УФ-Индекс", precip: "Осадки", clouds: "Облачность",
-                hourlyTitle: "Почасовой график", hourlySub: "Ведите пальцем по графику для деталей",
+                hourlyTitle: "Почасовой прогноз", hourlySub: "Нажмите на карточку для деталей",
                 now: "Сейчас", forecastTitle: "Прогноз погоды", forecastSub: "Нажмите на день для подробностей",
                 days5: "5 Дней", days16: "16 Дней", today: "Сегодня", tomorrow: "Завтра",
                 morning: "Утро", afternoon: "День", evening: "Вечер", night: "Ночь",
@@ -657,7 +586,7 @@
                 searchPlaceholder: "Stadt suchen...", feelsLike: "Gefühlt", max: "Max", min: "Min",
                 humidity: "Feuchtigkeit", dewPoint: "Taupunkt", pressure: "Luftdruck", pressureUnit: "mmHg",
                 wind: "Wind", windUnit: "m/s", uvIndex: "UV-Index", precip: "Niederschlag", clouds: "Bewölkung",
-                hourlyTitle: "Stündlicher Verlauf", hourlySub: "Über das Diagramm wischen",
+                hourlyTitle: "Stündliche Vorhersage", hourlySub: "Tippe auf eine Karte für Details",
                 now: "Jetzt", forecastTitle: "Wettervorhersage", forecastSub: "Tippe auf einen Tag für Details",
                 days5: "5 Tage", days16: "16 Tage", today: "Heute", tomorrow: "Morgen",
                 morning: "Morgen", afternoon: "Tag", evening: "Abend", night: "Nacht",
@@ -676,7 +605,7 @@
                 searchPlaceholder: "Szukaj miasta...", feelsLike: "Odczuwalna", max: "Maks", min: "Min",
                 humidity: "Wilgotność", dewPoint: "Punkt rosy", pressure: "Ciśnienie", pressureUnit: "mmHg",
                 wind: "Wiatr", windUnit: "m/s", uvIndex: "Indeks UV", precip: "Opady", clouds: "Zachmurzenie",
-                hourlyTitle: "Wykres godzinowy", hourlySub: "Przeciągnij palcem po wykresie",
+                hourlyTitle: "Prognoza godzinowa", hourlySub: "Kliknij kartę dla szczegółów",
                 now: "Teraz", forecastTitle: "Prognoza pogody", forecastSub: "Kliknij dzień dla szczegółów",
                 days5: "5 Dni", days16: "16 Dni", today: "Dzisiaj", tomorrow: "Jutro",
                 morning: "Rano", afternoon: "Popołudnie", evening: "Wieczór", night: "Noc",
@@ -695,7 +624,7 @@
                 searchPlaceholder: "Rechercher...", feelsLike: "Ressenti", max: "Max", min: "Min",
                 humidity: "Humidité", dewPoint: "Point de rosée", pressure: "Pression", pressureUnit: "mmHg",
                 wind: "Vent", windUnit: "m/s", uvIndex: "Indice UV", precip: "Précipitations", clouds: "Nuagiosité",
-                hourlyTitle: "Graphique horaire", hourlySub: "Faites glisser pour les détails",
+                hourlyTitle: "Prévisions horaires", hourlySub: "Appuyez sur une carte pour les détails",
                 now: "Maintenant", forecastTitle: "Prévisions météo", forecastSub: "Appuyez sur un jour pour les détails",
                 days5: "5 Jours", days16: "16 Jours", today: "Aujourd'hui", tomorrow: "Demain",
                 morning: "Matin", afternoon: "Après-midi", evening: "Soir", night: "Nuit",
@@ -714,7 +643,7 @@
                 searchPlaceholder: "Buscar ciudad...", feelsLike: "Sensación", max: "Máx", min: "Mín",
                 humidity: "Humedad", dewPoint: "Punto de rocío", pressure: "Presión", pressureUnit: "mmHg",
                 wind: "Viento", windUnit: "m/s", uvIndex: "Índice UV", precip: "Precipitación", clouds: "Nubosidad",
-                hourlyTitle: "Gráfico por horas", hourlySub: "Desliza para ver detalles",
+                hourlyTitle: "Pronóstico por horas", hourlySub: "Toca una tarjeta para ver detalles",
                 now: "Ahora", forecastTitle: "Pronóstico del tiempo", forecastSub: "Toca un día para ver detalles",
                 days5: "5 Días", days16: "16 Días", today: "Hoy", tomorrow: "Mañana",
                 morning: "Mañana", afternoon: "Tarde", evening: "Noche", night: "Madrugada",
@@ -733,11 +662,11 @@
 
         const WMO_DESCRIPTIONS = {
             uk: {
-                0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Похмуро",
+                0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Пасмурно",
                 45: "Туман", 48: "Паморозь / Туман", 51: "Легка мряка", 53: "Помірна мряка", 55: "Густа мряка",
                 56: "Крижана мряка", 57: "Сильна крижана мряка", 61: "Невеликий дощ", 63: "Помірний дощ", 65: "Сильний дощ",
-                66: "Замерзаючий дощ", 67: "Крижаний дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
-                77: "Снігові зерна", 80: "Слабка злива", 81: "Помірна злива", 82: "Сильна проливна злива",
+                66: "Замерзаючий дощ", 67: "Сильний замерзаючий дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
+                77: "Снігові зерна", 80: "Слабкий злива", 81: "Помірна злива", 82: "Сильна проливна злива",
                 85: "Снігопад", 86: "Сильний снігопад", 95: "Гроза", 96: "Гроза з градом", 99: "Гроза з сильним градом"
             },
             en: {
@@ -843,13 +772,12 @@
         };
 
         let currentForecastRange = 5;
-        let activeHourlyMetric = 'temp';
         let cachedWeatherData = null;
         let cachedAirQualityData = null;
-        let hourlyChartPoints = [];
         let searchDebounceTimer = null;
         let currentSearchResults = [];
         let expandedDayIndex = null;
+        let selectedHourlyIndex = 0;
 
         function autoSelectLanguageByCountryCode(countryCode) {
             if (isManualLanguageChoice) return;
@@ -872,7 +800,7 @@
             if (!LANGUAGES[langKey]) return;
             isManualLanguageChoice = true;
             localStorage.setItem('omniweather_manual_choice', 'true');
-            
+
             currentLangKey = langKey;
             localStorage.setItem('omniweather_lang', langKey);
 
@@ -925,7 +853,7 @@
             document.getElementById('lbl-metric-uv').textContent = t.uvIndex;
             document.getElementById('lbl-metric-precip').textContent = t.precip;
             document.getElementById('lbl-metric-clouds').textContent = t.clouds;
-            
+
             document.getElementById('lbl-smart-advice').textContent = t.smartAdvice;
             document.getElementById('lbl-what-to-wear').textContent = t.whatToWear;
             document.getElementById('lbl-activities').textContent = t.activities;
@@ -935,11 +863,6 @@
 
             document.getElementById('lbl-chart-title').textContent = t.hourlyTitle;
             document.getElementById('lbl-chart-sub').textContent = t.hourlySub;
-            document.getElementById('lbl-tt-temp').textContent = t.value + ":";
-
-            document.getElementById('btn-metric-pop').textContent = `${t.precip} %`;
-            document.getElementById('btn-metric-wind').textContent = `${t.wind} ${t.windUnit}`;
-            document.getElementById('btn-metric-uv').textContent = t.uvShort;
 
             document.getElementById('lbl-forecast-title').childNodes[2].nodeValue = " " + t.forecastTitle;
             document.getElementById('lbl-forecast-sub').textContent = t.forecastSub;
@@ -974,7 +897,7 @@
             currentParticleType = type;
             particles = [];
             const isMobile = window.innerWidth < 640;
-            const count = isMobile 
+            const count = isMobile
                 ? (type === 'rain' ? 35 : (type === 'snow' ? 30 : (type === 'stars' ? 25 : 10)))
                 : (type === 'rain' ? 90 : (type === 'snow' ? 70 : (type === 'stars' ? 50 : 20)));
 
@@ -1168,40 +1091,13 @@
             document.getElementById('advice-activity').textContent = activity;
         }
 
-        // FEATURE 2: HOURLY CHART WITH METRIC SWITCHER
-        function switchHourlyMetric(metric) {
-            activeHourlyMetric = metric;
-
-            ['temp', 'pop', 'wind', 'uv'].forEach(m => {
-                const btn = document.getElementById(`btn-metric-${m}`);
-                if (btn) {
-                    if (m === metric) {
-                        btn.className = "px-2.5 py-1.5 rounded-xl transition bg-slate-800 text-white border border-slate-700 min-h-[36px]";
-                    } else {
-                        btn.className = "px-2.5 py-1.5 rounded-xl transition text-slate-400 hover:text-white min-h-[36px]";
-                    }
-                }
-            });
-
-            if (cachedWeatherData) renderHourlyChart(cachedWeatherData.hourly);
-        }
-
-        function renderHourlyChart(hourly) {
-            const container = document.getElementById('chart-container');
-            const areaPath = document.getElementById('svg-area-path');
-            const linePath = document.getElementById('svg-line-path');
-            const gridGroup = document.getElementById('svg-grid-lines');
-            const staticDotsGroup = document.getElementById('svg-static-dots');
-            const xLabelsContainer = document.getElementById('chart-x-labels');
-            const activeDot = document.getElementById('svg-active-dot');
-
-            const width = container.clientWidth || 360;
-            const height = container.clientHeight || 200;
+        // FEATURE 2: HOURLY CUBES RENDER
+        function renderHourlyCubes(hourly) {
+            const container = document.getElementById('hourly-cubes-container');
+            container.innerHTML = '';
 
             const now = new Date();
             const startIdx = hourly.time.findIndex(t => new Date(t) >= now) || 0;
-            const hoursData = [];
-
             const localeStr = LANGUAGES[currentLangKey].locale;
             const tDict = getI18n();
 
@@ -1209,221 +1105,116 @@
                 const idx = startIdx + i;
                 if (!hourly.time[idx]) break;
 
-                let metricVal = 0;
-                let unit = "°C";
+                const timeDate = new Date(hourly.time[idx]);
+                const timeStr = i === 0 ? tDict.now : timeDate.toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' });
+                const temp = Math.round(hourly.temperature_2m[idx]);
+                const codeInfo = getWmoInfo(hourly.weather_code[idx]);
+                const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
 
-                if (activeHourlyMetric === 'temp') {
-                    metricVal = Math.round(hourly.temperature_2m[idx]);
-                    unit = "°C";
-                } else if (activeHourlyMetric === 'pop') {
-                    metricVal = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
-                    unit = "%";
-                } else if (activeHourlyMetric === 'wind') {
-                    metricVal = hourly.wind_speed_10m ? parseFloat(hourly.wind_speed_10m[idx].toFixed(1)) : 0;
-                    unit = ` ${tDict.windUnit}`;
-                } else if (activeHourlyMetric === 'uv') {
-                    metricVal = hourly.uv_index ? Math.round(hourly.uv_index[idx]) : 0;
-                    unit = ` ${tDict.uvShort}`;
-                }
+                const cube = document.createElement('div');
+                cube.className = `hourly-cube min-w-[76px] sm:min-w-[85px] p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col items-center justify-between text-center cursor-pointer select-none space-y-1 ${i === selectedHourlyIndex ? 'active' : ''}`;
+                cube.onclick = () => selectHourlyCube(i);
 
-                hoursData.push({
-                    time: new Date(hourly.time[idx]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }),
-                    val: metricVal,
-                    unit: unit,
-                    apparentTemp: Math.round(hourly.apparent_temperature[idx]),
-                    weatherCode: hourly.weather_code[idx]
-                });
-            }
-
-            if (hoursData.length === 0) return;
-
-            const vals = hoursData.map(d => d.val);
-            const avgVal = vals.reduce((a, b) => a + b, 0) / vals.length;
-
-            const legendDot = document.getElementById('chart-legend-dot');
-            const legendText = document.getElementById('chart-legend-text');
-
-            if (activeHourlyMetric === 'temp') {
-                if (avgVal > 15) {
-                    areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
-                    linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
-                    activeDot.setAttribute('stroke', '#f97316');
-                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
-                    legendText.textContent = `${tDict.chartWarm} (${tDict.avg} ${Math.round(avgVal)}°C)`;
-                } else if (avgVal >= 5) {
-                    areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
-                    linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
-                    activeDot.setAttribute('stroke', '#14b8a6');
-                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
-                    legendText.textContent = `${tDict.chartMild} (${tDict.avg} ${Math.round(avgVal)}°C)`;
-                } else {
-                    areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
-                    linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
-                    activeDot.setAttribute('stroke', '#38bdf8');
-                    legendDot.className = "w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_8px_#38bdf8]";
-                    legendText.textContent = `${tDict.chartCold} (${tDict.avg} ${Math.round(avgVal)}°C)`;
-                }
-            } else if (activeHourlyMetric === 'pop') {
-                areaPath.setAttribute('fill', 'url(#chartColdAreaGradient)');
-                linePath.setAttribute('stroke', 'url(#chartColdStrokeGradient)');
-                activeDot.setAttribute('stroke', '#38bdf8');
-                legendDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8]";
-                legendText.textContent = `${tDict.precip} (${tDict.avg} ${Math.round(avgVal)}%)`;
-            } else if (activeHourlyMetric === 'wind') {
-                areaPath.setAttribute('fill', 'url(#chartMildAreaGradient)');
-                linePath.setAttribute('stroke', 'url(#chartMildStrokeGradient)');
-                activeDot.setAttribute('stroke', '#14b8a6');
-                legendDot.className = "w-2.5 h-2.5 rounded-full bg-teal-400 shadow-[0_0_8px_#14b8a6]";
-                legendText.textContent = `${tDict.wind} (${tDict.avg} ${avgVal.toFixed(1)} ${tDict.windUnit})`;
-            } else if (activeHourlyMetric === 'uv') {
-                areaPath.setAttribute('fill', 'url(#chartWarmAreaGradient)');
-                linePath.setAttribute('stroke', 'url(#chartWarmStrokeGradient)');
-                activeDot.setAttribute('stroke', '#f97316');
-                legendDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_#f97316]";
-                legendText.textContent = `${tDict.uvIndex} (${tDict.avg} ${Math.round(avgVal)})`;
-            }
-
-            let minVal = Math.min(...vals);
-            let maxVal = Math.max(...vals);
-
-            if (minVal === maxVal) { minVal = Math.max(0, minVal - 2); maxVal += 2; }
-
-            const paddingTop = 25;
-            const paddingBottom = 25;
-            const paddingLeft = 12;
-            const paddingRight = 12;
-
-            const graphWidth = width - paddingLeft - paddingRight;
-            const graphHeight = height - paddingTop - paddingBottom;
-
-            hourlyChartPoints = hoursData.map((d, i) => {
-                const x = paddingLeft + (i / (hoursData.length - 1)) * graphWidth;
-                const y = paddingTop + (1 - (d.val - minVal) / (maxVal - minVal)) * graphHeight;
-                return { x, y, data: d };
-            });
-
-            gridGroup.innerHTML = '';
-            const gridSteps = 2;
-            for (let g = 0; g <= gridSteps; g++) {
-                const gy = paddingTop + (g / gridSteps) * graphHeight;
-                const gVal = (maxVal - (g / gridSteps) * (maxVal - minVal));
-                gridGroup.innerHTML += `
-                    <line x1="${paddingLeft}" y1="${gy}" x2="${width - paddingRight}" y2="${gy}" />
-                    <text x="${paddingLeft + 2}" y="${gy - 3}" fill="rgba(148,163,184,0.6)" font-size="8" font-weight="bold">${activeHourlyMetric === 'wind' ? gVal.toFixed(1) : Math.round(gVal)}</text>
+                cube.innerHTML = `
+                    <span class="text-[10px] sm:text-xs font-bold ${i === 0 ? 'text-amber-400 font-extrabold' : 'text-slate-400'}">${timeStr}</span>
+                    <i data-lucide="${codeInfo.icon}" class="w-5 h-5 sm:w-6 sm:h-6 ${codeInfo.iconColor} my-1"></i>
+                    <span class="text-sm sm:text-base font-black text-white">${temp}°C</span>
+                    <span class="text-[9px] font-bold text-cyan-400 flex items-center gap-0.5">
+                        <i data-lucide="cloud-rain" class="w-2.5 h-2.5"></i> ${pop}%
+                    </span>
                 `;
+
+                container.appendChild(cube);
             }
 
-            function getControlPoints(p0, p1, p2, p3, t = 0.16) {
-                let cp1x = p1.x + (p2.x - p0.x) * t;
-                let cp1y = p1.y + (p2.y - p0.y) * t;
-                let cp2x = p2.x - (p3.x - p1.x) * t;
-                let cp2y = p2.y - (p3.y - p1.y) * t;
-                return { cp1: { x: cp1x, y: cp1y }, cp2: { x: cp2x, y: cp2y } };
-            }
-
-            let pathD = `M ${hourlyChartPoints[0].x},${hourlyChartPoints[0].y}`;
-            for (let i = 0; i < hourlyChartPoints.length - 1; i++) {
-                const p0 = hourlyChartPoints[i === 0 ? i : i - 1];
-                const p1 = hourlyChartPoints[i];
-                const p2 = hourlyChartPoints[i + 1];
-                const p3 = hourlyChartPoints[i + 2 < hourlyChartPoints.length ? i + 2 : i + 1];
-
-                const { cp1, cp2 } = getControlPoints(p0, p1, p2, p3, 0.16);
-                pathD += ` C ${cp1.x},${cp1.y} ${cp2.x},${cp2.y} ${p2.x},${p2.y}`;
-            }
-
-            linePath.setAttribute('d', pathD);
-
-            const lastPt = hourlyChartPoints[hourlyChartPoints.length - 1];
-            const firstPt = hourlyChartPoints[0];
-            const areaD = `${pathD} L ${lastPt.x},${height - paddingBottom} L ${firstPt.x},${height - paddingBottom} Z`;
-            areaPath.setAttribute('d', areaD);
-
-            staticDotsGroup.innerHTML = '';
-            xLabelsContainer.innerHTML = '';
-
-            hourlyChartPoints.forEach((pt, i) => {
-                if (i % 3 === 0 || i === hourlyChartPoints.length - 1) {
-                    staticDotsGroup.innerHTML += `
-                        <circle cx="${pt.x}" cy="${pt.y}" r="2.8" fill="#ffffff" opacity="0.8" />
-                        <text x="${pt.x}" y="${pt.y - 8}" fill="#ffffff" font-size="9" font-weight="800" text-anchor="middle">${pt.data.val}${pt.data.unit}</text>
-                    `;
-                }
-
-                if (i % 4 === 0) {
-                    const labelSpan = document.createElement('span');
-                    labelSpan.textContent = i === 0 ? tDict.now : pt.data.time;
-                    xLabelsContainer.appendChild(labelSpan);
-                }
-            });
-
-            setupTouchAndMouseEvents(container);
+            selectHourlyCube(selectedHourlyIndex, false);
+            lucide.createIcons();
         }
 
-        function setupTouchAndMouseEvents(container) {
-            const guideLine = document.getElementById('svg-guide-line');
-            const activeDot = document.getElementById('svg-active-dot');
-            const tooltip = document.getElementById('chart-tooltip');
-            const t = getI18n();
+        function selectHourlyCube(index, triggerIconRefresh = true) {
+            if (!cachedWeatherData || !cachedWeatherData.hourly) return;
+            selectedHourlyIndex = index;
 
-            function handlePointer(clientX) {
-                if (!hourlyChartPoints || hourlyChartPoints.length === 0) return;
+            const cubes = document.querySelectorAll('.hourly-cube');
+            cubes.forEach((c, idx) => {
+                if (idx === index) c.classList.add('active');
+                else c.classList.remove('active');
+            });
 
-                const rect = container.getBoundingClientRect();
-                const mouseX = clientX - rect.left;
+            const hourly = cachedWeatherData.hourly;
+            const now = new Date();
+            const startIdx = hourly.time.findIndex(t => new Date(t) >= now) || 0;
+            const idx = startIdx + index;
 
-                let closestIdx = 0;
-                let minDist = Math.abs(mouseX - hourlyChartPoints[0].x);
+            if (!hourly.time[idx]) return;
 
-                for (let i = 1; i < hourlyChartPoints.length; i++) {
-                    const dist = Math.abs(mouseX - hourlyChartPoints[i].x);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        closestIdx = i;
-                    }
-                }
+            const tDict = getI18n();
+            const localeStr = LANGUAGES[currentLangKey].locale;
+            const timeDate = new Date(hourly.time[idx]);
+            const timeStr = index === 0 ? tDict.now : timeDate.toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' });
 
-                const pt = hourlyChartPoints[closestIdx];
-                const d = pt.data;
-                const codeInfo = getWmoInfo(d.weatherCode);
+            const temp = Math.round(hourly.temperature_2m[idx]);
+            const feelsLike = Math.round(hourly.apparent_temperature[idx]);
+            const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
+            const precipSum = hourly.precipitation ? hourly.precipitation[idx].toFixed(1) : "0.0";
+            const windSpeed = hourly.wind_speed_10m ? hourly.wind_speed_10m[idx].toFixed(1) : "0.0";
+            const windDir = hourly.wind_direction_10m ? getWindDirectionLocalized(hourly.wind_direction_10m[idx]) : "--";
+            const uv = hourly.uv_index ? Math.round(hourly.uv_index[idx]) : 0;
+            const uvInfo = getUVLevelInfo(uv);
+            const codeInfo = getWmoInfo(hourly.weather_code[idx]);
 
-                activeDot.setAttribute('cx', pt.x);
-                activeDot.setAttribute('cy', pt.y);
-                activeDot.classList.remove('opacity-0');
+            const panel = document.getElementById('hourly-detail-panel');
+            panel.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="${codeInfo.icon}" class="w-5 h-5 ${codeInfo.iconColor}"></i>
+                        <span class="text-xs sm:text-sm font-extrabold text-white">${timeStr} • ${codeInfo.title}</span>
+                    </div>
+                    <span class="text-base sm:text-lg font-black text-white">${temp}°C</span>
+                </div>
 
-                guideLine.setAttribute('x1', pt.x);
-                guideLine.setAttribute('x2', pt.x);
-                guideLine.classList.remove('opacity-0');
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
 
-                document.getElementById('tooltip-time').textContent = closestIdx === 0 ? t.now : d.time;
-                document.getElementById('tooltip-condition').textContent = codeInfo.title;
-                document.getElementById('tooltip-temp').textContent = `${d.val}${d.unit}`;
-                document.getElementById('tooltip-feels').textContent = `${t.feelsLike}: ${d.apparentTemp}°C`;
+                    <!-- 1. Feels Like -->
+                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1 bg-sky-500/10 text-sky-400 rounded-lg mb-1">
+                            <i data-lucide="thermometer" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.feelsLike}</span>
+                        <strong class="text-sm font-extrabold text-sky-300 mt-0.5">${feelsLike}°C</strong>
+                    </div>
 
-                tooltip.classList.remove('hidden');
-                
-                let tooltipX = pt.x;
-                const minEdge = 80;
-                const maxEdge = rect.width - 80;
-                if (pt.x < minEdge) tooltipX = minEdge;
-                if (pt.x > maxEdge) tooltipX = maxEdge;
+                    <!-- 2. Precipitation -->
+                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1 bg-cyan-500/10 text-cyan-400 rounded-lg mb-1">
+                            <i data-lucide="cloud-rain" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.precip}</span>
+                        <strong class="text-sm font-extrabold text-cyan-300 mt-0.5">${pop}% (${precipSum} мм)</strong>
+                    </div>
 
-                tooltip.style.left = `${tooltipX}px`;
-                tooltip.style.top = `${Math.max(10, pt.y - 10)}px`;
-            }
+                    <!-- 3. Wind -->
+                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1 bg-teal-500/10 text-teal-400 rounded-lg mb-1">
+                            <i data-lucide="wind" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.wind}</span>
+                        <strong class="text-sm font-extrabold text-teal-300 mt-0.5">${windSpeed} ${tDict.windUnit} (${windDir})</strong>
+                    </div>
 
-            function handleLeave() {
-                guideLine.classList.add('opacity-0');
-                activeDot.classList.add('opacity-0');
-                tooltip.classList.add('hidden');
-            }
+                    <!-- 4. UV Index -->
+                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1 bg-amber-500/10 text-amber-400 rounded-lg mb-1">
+                            <i data-lucide="sun" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.uvIndex}</span>
+                        <strong class="text-sm font-extrabold ${uvInfo.colorClass} mt-0.5">${uv} (${uvInfo.label})</strong>
+                    </div>
 
-            container.onmousemove = (e) => handlePointer(e.clientX);
-            container.onmouseleave = handleLeave;
-            container.ontouchstart = (e) => { if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX); };
-            container.ontouchmove = (e) => { if (e.touches && e.touches.length > 0) handlePointer(e.touches[0].clientX); };
-            container.ontouchend = handleLeave;
-            container.ontouchcancel = handleLeave;
+                </div>
+            `;
+
+            if (triggerIconRefresh) lucide.createIcons();
         }
 
         // FEATURE 3: AIR QUALITY & ALLERGENS RENDERING
@@ -1534,7 +1325,7 @@
         suggestionsBox.addEventListener('pointerdown', (e) => {
             const target = e.target.closest('[data-city-idx]');
             if (!target) return;
-            
+
             e.preventDefault();
 
             const idx = parseInt(target.getAttribute('data-city-idx'), 10);
@@ -1554,9 +1345,10 @@
         function selectCity(name, region, countryCode, lat, lon) {
             currentCity = { name, region, countryCode, lat, lon };
             expandedDayIndex = null;
+            selectedHourlyIndex = 0;
 
             autoSelectLanguageByCountryCode(countryCode);
-            
+
             document.getElementById('city-name').textContent = name;
             document.getElementById('city-region').textContent = region;
             document.getElementById('country-badge').textContent = countryCode || 'UA';
@@ -1584,7 +1376,7 @@
                 async (pos) => {
                     const lat = pos.coords.latitude;
                     const lon = pos.coords.longitude;
-                    
+
                     try {
                         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${lat.toFixed(2)},${lon.toFixed(2)}&count=1&format=json`);
                         if (res.ok) {
@@ -1645,7 +1437,7 @@
             document.getElementById('hero-icon-wrapper').innerHTML = `<i data-lucide="${codeInfo.icon}" class="w-24 h-24 sm:w-36 sm:h-36 ${codeInfo.iconColor} drop-shadow-xl"></i>`;
 
             document.getElementById('metric-humidity').textContent = `${current.relative_humidity_2m}%`;
-            
+
             const now = new Date();
             const hourIdx = hourly.time.findIndex(timeStr => new Date(timeStr) >= now) || 0;
             const dewPoint = hourly.dew_point_2m ? Math.round(hourly.dew_point_2m[hourIdx]) : "--";
@@ -1669,7 +1461,7 @@
             document.getElementById('metric-precip-sum').textContent = `${precipSum} мм`;
 
             document.getElementById('metric-clouds').textContent = `${current.cloud_cover}%`;
-            
+
             const localeStr = LANGUAGES[currentLangKey].locale;
             const sunriseStr = daily.sunrise ? new Date(daily.sunrise[0]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }) : "--:--";
             const sunsetStr = daily.sunset ? new Date(daily.sunset[0]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }) : "--:--";
@@ -1677,7 +1469,7 @@
 
             renderSmartAdvice(current, daily, hourly);
             renderAirQuality(aqData);
-            renderHourlyChart(hourly);
+            renderHourlyCubes(hourly);
             renderDailyList(daily, hourly);
 
             lucide.createIcons();
@@ -1789,10 +1581,10 @@
 
                 const cardWrapper = document.createElement('div');
                 cardWrapper.className = `clean-card rounded-2xl overflow-hidden clean-card-interactive transition-all ${isExpanded ? 'border-sky-500/80 bg-slate-900' : ''}`;
-                
+
                 cardWrapper.innerHTML = `
                     <div onclick="toggleDayExpand(${i})" class="p-3 flex items-center justify-between gap-1.5 sm:gap-3 text-xs cursor-pointer select-none">
-                        
+
                         <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
                             <div class="p-1.5 sm:p-2 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
                                 <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5 ${codeInfo.iconColor}"></i>
@@ -1811,7 +1603,7 @@
                         <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
                             <span class="text-[11px] sm:text-xs text-slate-400 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
                             <div class="flex-1 h-2 bg-slate-950 rounded-full overflow-hidden relative max-w-[110px] border border-slate-800">
-                                <div class="h-full bg-gradient-to-r from-sky-400 via-teal-400 to-amber-400 rounded-full absolute transition-all duration-300" 
+                                <div class="h-full bg-gradient-to-r from-sky-400 via-teal-400 to-amber-400 rounded-full absolute transition-all duration-300"
                                      style="left: ${leftPercent}%; width: ${widthPercent}%;"></div>
                             </div>
                             <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
@@ -1971,23 +1763,17 @@
             document.getElementById('clock').textContent = now.toLocaleTimeString(localeStr);
         }
 
-        window.addEventListener('resize', () => {
-            if (cachedWeatherData) {
-                renderHourlyChart(cachedWeatherData.hourly);
-            }
-        });
-
         window.onload = function() {
             autoSelectLanguageByCountryCode(currentCity.countryCode);
-            
+
             document.getElementById('lang-flag').textContent = LANGUAGES[currentLangKey].flag;
             document.getElementById('lang-code').textContent = LANGUAGES[currentLangKey].code;
 
             resizeCanvas();
             renderParticleLoop();
-            
+
             fetchWeather();
-            
+
             updateClock();
             setInterval(updateClock, 1000);
             setInterval(fetchWeather, 600000);
