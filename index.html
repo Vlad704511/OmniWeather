@@ -126,20 +126,20 @@
         .expand-panel.open {
             max-height: 500px;
             opacity: 1;
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
         }
 
         /* Custom Scrollbars */
         .custom-scrollbar::-webkit-scrollbar {
-            height: 4px;
-            width: 4px;
+            height: 5px;
+            width: 5px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: rgba(148, 163, 184, 0.3);
+            background: rgba(148, 163, 184, 0.35);
             border-radius: 9999px;
         }
 
@@ -150,7 +150,7 @@
         .hourly-cube.active {
             border-color: #38bdf8 !important;
             background-color: rgba(30, 41, 59, 0.95) !important;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.35);
             transform: translateY(-2px);
         }
     </style>
@@ -161,23 +161,23 @@
     <canvas id="weather-canvas" class="fixed-viewport-bg z-0"></canvas>
 
     <!-- WIDE CONTAINER (max-w-7xl) -->
-    <div class="relative z-10 w-full max-w-7xl mx-auto space-y-3.5 sm:space-y-4 px-2 sm:px-4 lg:px-6 pb-8">
+    <div class="relative z-10 w-full max-w-7xl mx-auto space-y-4 sm:space-y-5 px-2 sm:px-4 lg:px-6 pb-8">
 
         <!-- HEADER & AUTOCOMPLETE SEARCH BAR (HIGH Z-INDEX z-50) -->
-        <header class="clean-card rounded-3xl p-3.5 sm:p-5 space-y-3 relative z-50 mt-1 sm:mt-2">
+        <header class="clean-card rounded-3xl p-4 sm:p-5 space-y-3.5 relative z-50 mt-1 sm:mt-2">
             <div class="flex flex-col gap-3">
 
                 <!-- City Information & Action Controls -->
                 <div class="flex items-center justify-between gap-2">
 
-                    <!-- City Name Badge -->
+                    <!-- City Name Badge (Icon removed as requested) -->
                     <div class="flex items-center gap-3 min-w-0">
                         <div class="min-w-0">
-                            <div class="flex items-center gap-1.5">
-                                <h1 id="city-name" class="text-xl sm:text-2xl font-black tracking-tight leading-tight truncate text-white">Кривий Ріг</h1>
-                                <span id="country-badge" class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-sky-300">UA</span>
+                            <div class="flex items-center gap-2">
+                                <h1 id="city-name" class="text-2xl sm:text-3xl font-black tracking-tight leading-tight truncate text-white">Кривий Ріг</h1>
+                                <span id="country-badge" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-sky-300">UA</span>
                             </div>
-                            <p id="city-region" class="text-xs text-slate-400 font-medium truncate">Дніпропетровська область, Україна</p>
+                            <p id="city-region" class="text-sm text-slate-300 font-medium truncate mt-0.5">Дніпропетровська область, Україна</p>
                         </div>
                     </div>
 
@@ -186,42 +186,42 @@
 
                         <!-- MULTI-LANGUAGE SWITCHER DROPDOWN BUTTON -->
                         <div class="relative">
-                            <button id="lang-btn" onclick="toggleLangDropdown(event)" class="min-h-[44px] px-3 flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 text-xs font-bold text-slate-200 transition">
-                                <span id="lang-flag" class="text-sm">🇺🇦</span>
+                            <button id="lang-btn" onclick="toggleLangDropdown(event)" class="min-h-[44px] px-3.5 flex items-center gap-2 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 text-sm font-bold text-slate-200 transition">
+                                <span id="lang-flag" class="text-base">🇺🇦</span>
                                 <span id="lang-code" class="font-extrabold text-sky-300">UK</span>
-                                <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400"></i>
+                                <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                             </button>
 
                             <!-- LANGUAGE DROPDOWN MENU -->
                             <div id="lang-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-[#0d1527] border border-slate-700 rounded-2xl p-1.5 shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-[200] divide-y divide-slate-800/80">
                                 <div class="space-y-0.5">
-                                    <button onclick="userSelectLanguage('uk')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('uk')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇺🇦</span> Українська</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">UK</span>
+                                        <span class="text-xs text-slate-400 font-mono">UK</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('en')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('en')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇬🇧</span> English</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">EN</span>
+                                        <span class="text-xs text-slate-400 font-mono">EN</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('de')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('de')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇩🇪</span> Deutsch</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">DE</span>
+                                        <span class="text-xs text-slate-400 font-mono">DE</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('pl')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('pl')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇵🇱</span> Polski</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">PL</span>
+                                        <span class="text-xs text-slate-400 font-mono">PL</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('fr')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('fr')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇫🇷</span> Français</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">FR</span>
+                                        <span class="text-xs text-slate-400 font-mono">FR</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('es')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('es')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🇪🇸</span> Español</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">ES</span>
+                                        <span class="text-xs text-slate-400 font-mono">ES</span>
                                     </button>
-                                    <button onclick="userSelectLanguage('ru')" class="w-full px-3 py-2 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs font-semibold text-slate-200 transition min-h-[40px]">
+                                    <button onclick="userSelectLanguage('ru')" class="w-full px-3 py-2.5 text-left rounded-xl hover:bg-slate-800 active:bg-slate-700 flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 transition min-h-[40px]">
                                         <span class="flex items-center gap-2"><span>🌐</span> Русский</span>
-                                        <span class="text-[10px] text-slate-400 font-mono">RU</span>
+                                        <span class="text-xs text-slate-400 font-mono">RU</span>
                                     </button>
                                 </div>
                             </div>
@@ -232,8 +232,8 @@
                             <i data-lucide="crosshair" class="w-5 h-5 text-emerald-400"></i>
                         </button>
 
-                        <!-- Refresh Button with Protected Rotation Wrapper -->
-                        <button id="refresh-btn" onclick="fetchWeather()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" id="refresh-btn-title" title="Оновити">
+                        <!-- Refresh Button -->
+                        <button id="refresh-btn" onclick="fetchWeather()" class="min-w-[44px] min-h-[44px] flex items-center justify-center bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-2xl border border-slate-700 transition" title="Оновити">
                             <span id="refresh-icon-wrap" class="inline-flex items-center justify-center transition-transform">
                                 <i data-lucide="rotate-cw" class="w-5 h-5 text-sky-400"></i>
                             </span>
@@ -245,19 +245,19 @@
                 <!-- Search Input Field -->
                 <div class="relative w-full z-[100]">
                     <div class="relative flex items-center z-50">
-                        <i data-lucide="search" class="w-4 h-4 absolute left-3.5 text-slate-400 pointer-events-none"></i>
+                        <i data-lucide="search" class="w-4 h-4 sm:w-5 sm:h-5 absolute left-3.5 text-slate-400 pointer-events-none"></i>
                         <input type="text" id="city-search" placeholder="Пошук міста (напр. Київ, Берлін)..."
                             autocomplete="off"
                             autocorrect="off"
                             capitalize="off"
                             spellcheck="false"
-                            class="w-full clean-input text-sm text-white placeholder-slate-400 pl-10 pr-10 py-3 rounded-2xl focus:outline-none transition shadow-lg min-h-[44px]">
+                            class="w-full clean-input text-sm sm:text-base text-white placeholder-slate-400 pl-10 sm:pl-11 pr-10 py-3 rounded-2xl focus:outline-none transition shadow-lg min-h-[46px]">
                         <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-2.5 text-slate-400 hover:text-white p-2 min-w-[44px] min-h-[44px] flex items-center justify-center">
-                            <i data-lucide="x" class="w-4 h-4"></i>
+                            <i data-lucide="x" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </button>
                     </div>
 
-                    <!-- Solid Dark City Autocomplete Dropdown (#0d1527) -->
+                    <!-- Solid Dark City Autocomplete Dropdown -->
                     <div id="search-suggestions" class="hidden absolute top-full left-0 right-0 mt-2 bg-[#0d1527] rounded-2xl overflow-hidden z-[200] shadow-[0_20px_50px_rgba(0,0,0,0.9)] border border-slate-700 divide-y divide-slate-800/80 max-h-64 overflow-y-auto custom-scrollbar">
                     </div>
                 </div>
@@ -265,14 +265,14 @@
             </div>
         </header>
 
-        <main class="relative z-10 space-y-3.5 sm:space-y-4">
+        <main class="relative z-10 space-y-4 sm:space-y-5">
 
             <!-- Error Banner -->
             <div id="error-card" class="hidden clean-card rounded-3xl p-5 bg-red-950/40 border-red-800 text-center space-y-3">
                 <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400 mx-auto"></i>
                 <h2 id="error-title" class="text-lg font-bold">Помилка мережі</h2>
-                <p id="error-message" class="text-xs text-slate-300">Не вдалося завантажити дані погоди.</p>
-                <button onclick="fetchWeather()" id="retry-btn" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-xl text-xs font-bold transition min-h-[44px] border border-slate-600">
+                <p id="error-message" class="text-sm text-slate-200">Не вдалося завантажити дані погоди.</p>
+                <button onclick="fetchWeather()" id="retry-btn" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 rounded-xl text-sm font-bold transition min-h-[44px] border border-slate-600">
                     Повторити спробу
                 </button>
             </div>
@@ -285,12 +285,11 @@
                     <!-- Main Temp & Descriptions -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
                         <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                            <!-- DYNAMIC STATUS BADGE -->
-                            <span id="condition-badge" class="px-3 py-1 rounded-full text-[10px] sm:text-xs font-black bg-slate-800 text-sky-300 border border-slate-700 uppercase tracking-wider shadow-sm">
+                            <span id="condition-badge" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold bg-slate-800 text-sky-300 border border-slate-700 uppercase tracking-wider shadow-sm">
                                 НІЧ • КРИВИЙ РІГ
                             </span>
-                            <span id="effect-badge" class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 shadow-sm">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span id="effect-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 shadow-sm">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                                 <span id="effect-text">Норма</span>
                             </span>
                         </div>
@@ -302,9 +301,9 @@
                         </div>
 
                         <!-- Condition Name -->
-                        <p id="weather-description" class="text-xl sm:text-2xl font-bold capitalize tracking-wide text-slate-100">--</p>
+                        <p id="weather-description" class="text-2xl sm:text-3xl font-extrabold capitalize tracking-wide text-slate-100">--</p>
 
-                        <div class="flex items-center justify-center sm:justify-start gap-3 text-xs text-slate-300 font-semibold pt-0.5">
+                        <div class="flex items-center justify-center sm:justify-start gap-3 text-sm sm:text-base text-slate-200 font-bold pt-1">
                             <span><span id="lbl-feels">Відчувається</span>: <strong id="feels-like" class="text-sky-300">--°C</strong></span>
                             <span>•</span>
                             <span><span id="lbl-max">Макс</span>: <strong id="hero-temp-max" class="text-white">--°</strong></span>
@@ -321,60 +320,60 @@
                 </div>
 
                 <!-- 6-Grid Weather Metrics -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 relative z-10 pt-3 border-t border-slate-800">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5 relative z-10 pt-4 border-t border-slate-800">
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-sky-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="droplets" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-sky-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="droplets" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-humidity" class="text-[10px] text-slate-400 font-semibold">Вологість</span>
-                        <span id="metric-humidity" class="text-base font-extrabold text-white">--%</span>
-                        <span class="text-[9px] text-slate-400"><span id="lbl-dew-short">Роса</span>: <span id="metric-dew">--°</span></span>
+                        <span id="lbl-metric-humidity" class="text-xs sm:text-sm text-slate-300 font-bold">Вологість</span>
+                        <span id="metric-humidity" class="text-lg sm:text-xl font-black text-white">--%</span>
+                        <span class="text-xs text-slate-300"><span id="lbl-dew-short">Роса</span>: <span id="metric-dew" class="font-bold text-white">--°</span></span>
                     </div>
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-emerald-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="gauge" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-emerald-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="gauge" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-pressure" class="text-[10px] text-slate-400 font-semibold">Тиск</span>
-                        <span id="metric-pressure" class="text-base font-extrabold text-white">--</span>
-                        <span id="lbl-pressure-unit" class="text-[9px] text-slate-400">мм рт. ст.</span>
+                        <span id="lbl-metric-pressure" class="text-xs sm:text-sm text-slate-300 font-bold">Тиск</span>
+                        <span id="metric-pressure" class="text-lg sm:text-xl font-black text-white">--</span>
+                        <span id="lbl-pressure-unit" class="text-xs text-slate-300">мм рт. ст.</span>
                     </div>
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-teal-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="wind" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-teal-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="wind" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-wind" class="text-[10px] text-slate-400 font-semibold">Вітер</span>
-                        <span id="metric-wind" class="text-base font-extrabold text-white">-- м/с</span>
-                        <span id="metric-wind-dir" class="text-[9px] text-sky-300 uppercase font-bold">--</span>
+                        <span id="lbl-metric-wind" class="text-xs sm:text-sm text-slate-300 font-bold">Вітер</span>
+                        <span id="metric-wind" class="text-lg sm:text-xl font-black text-white">-- м/с</span>
+                        <span id="metric-wind-dir" class="text-xs text-sky-300 uppercase font-extrabold">--</span>
                     </div>
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-amber-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="sun" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-amber-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="sun" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-uv" class="text-[10px] text-slate-400 font-semibold">УФ-Індекс</span>
-                        <span id="metric-uv" class="text-base font-extrabold text-white">--</span>
-                        <span id="metric-uv-level" class="text-[9px] font-bold text-emerald-400">--</span>
+                        <span id="lbl-metric-uv" class="text-xs sm:text-sm text-slate-300 font-bold">УФ-Індекс</span>
+                        <span id="metric-uv" class="text-lg sm:text-xl font-black text-white">--</span>
+                        <span id="metric-uv-level" class="text-xs font-bold text-emerald-400">--</span>
                     </div>
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-cyan-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="cloud-rain" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-cyan-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="cloud-rain" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-precip" class="text-[10px] text-slate-400 font-semibold">Опади</span>
-                        <span id="metric-precip-prob" class="text-base font-extrabold text-white">--%</span>
-                        <span id="metric-precip-sum" class="text-[9px] text-slate-400">-- мм</span>
+                        <span id="lbl-metric-precip" class="text-xs sm:text-sm text-slate-300 font-bold">Опади</span>
+                        <span id="metric-precip-prob" class="text-lg sm:text-xl font-black text-white">--%</span>
+                        <span id="metric-precip-sum" class="text-xs text-slate-300 font-medium">-- мм</span>
                     </div>
 
-                    <div class="bg-slate-900/90 border border-slate-800 p-3 rounded-2xl flex flex-col items-center text-center space-y-0.5">
-                        <div class="text-indigo-400 p-1.5 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
-                            <i data-lucide="cloud" class="w-4 h-4"></i>
+                    <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
+                        <div class="text-indigo-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
+                            <i data-lucide="cloud" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-clouds" class="text-[10px] text-slate-400 font-semibold">Хмарність</span>
-                        <span id="metric-clouds" class="text-base font-extrabold text-white">--%</span>
-                        <span id="metric-sun-times" class="text-[9px] text-slate-400">🌅 -- | 🌇 --</span>
+                        <span id="lbl-metric-clouds" class="text-xs sm:text-sm text-slate-300 font-bold">Хмарність</span>
+                        <span id="metric-clouds" class="text-lg sm:text-xl font-black text-white">--%</span>
+                        <span id="metric-sun-times" class="text-xs text-slate-300 font-medium">🌅 -- | 🌇 --</span>
                     </div>
 
                 </div>
@@ -382,26 +381,26 @@
         </main>
 
         <!-- FEATURE 1: SMART ADVICE CARD -->
-        <section class="clean-card rounded-3xl p-4 sm:p-5 space-y-3">
-            <h2 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-3.5">
+            <h2 class="text-sm sm:text-base font-extrabold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-amber-400"></i>
                 <span id="lbl-smart-advice">Розумні поради</span>
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl flex items-start gap-3">
-                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-xl shrink-0"><i data-lucide="shirt" class="w-5 h-5"></i></div>
-                    <div class="space-y-0.5">
-                        <p id="lbl-what-to-wear" class="font-bold text-slate-200">Що вдягнути</p>
-                        <p id="advice-clothing" class="text-slate-400 leading-relaxed">Аналіз умов...</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 text-sm">
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl flex items-start gap-3.5">
+                    <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-xl shrink-0"><i data-lucide="shirt" class="w-6 h-6"></i></div>
+                    <div class="space-y-1">
+                        <p id="lbl-what-to-wear" class="font-extrabold text-sm sm:text-base text-white">Що вдягнути</p>
+                        <p id="advice-clothing" class="text-slate-200 text-xs sm:text-sm leading-relaxed">Аналіз умов...</p>
                     </div>
                 </div>
 
-                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl flex items-start gap-3">
-                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0"><i data-lucide="activity" class="w-5 h-5"></i></div>
-                    <div class="space-y-0.5">
-                        <p id="lbl-activities" class="font-bold text-slate-200">Активність</p>
-                        <p id="advice-activity" class="text-slate-400 leading-relaxed">Аналіз умов...</p>
+                <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl flex items-start gap-3.5">
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0"><i data-lucide="activity" class="w-6 h-6"></i></div>
+                    <div class="space-y-1">
+                        <p id="lbl-activities" class="font-extrabold text-sm sm:text-base text-white">Активність</p>
+                        <p id="advice-activity" class="text-slate-200 text-xs sm:text-sm leading-relaxed">Аналіз умов...</p>
                     </div>
                 </div>
             </div>
@@ -410,92 +409,92 @@
         <!-- FEATURE 2: HOURLY CUBES FORECAST -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4 relative">
             <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
-                <div class="flex items-center gap-2.5">
-                    <div class="p-2 bg-slate-800 rounded-xl text-sky-400 border border-slate-700">
-                        <i data-lucide="clock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-slate-800 rounded-xl text-sky-400 border border-slate-700">
+                        <i data-lucide="clock" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                     </div>
                     <div>
-                        <h2 id="lbl-chart-title" class="text-base sm:text-lg font-extrabold text-white">Погодинний прогноз</h2>
-                        <p id="lbl-chart-sub" class="text-[10px] sm:text-xs text-slate-400">Натисніть на картку для деталей</p>
+                        <h2 id="lbl-chart-title" class="text-lg sm:text-xl font-extrabold text-white">Погодинний прогноз</h2>
+                        <p id="lbl-chart-sub" class="text-xs sm:text-sm text-slate-300">Натисніть на картку для деталей</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Scrollable Cubes Grid/Row -->
-            <div id="hourly-cubes-container" class="flex gap-2.5 overflow-x-auto custom-scrollbar p-2.5 select-none">
+            <!-- Scrollable Cubes Grid/Row (Fixed padding to prevent shadow cutoff) -->
+            <div id="hourly-cubes-container" class="flex gap-3 overflow-x-auto custom-scrollbar p-2.5 select-none">
             </div>
 
             <!-- Selected Hour Detailed Popup/Panel -->
-            <div id="hourly-detail-panel" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-3 transition-all duration-300">
+            <div id="hourly-detail-panel" class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-3.5 transition-all duration-300">
             </div>
         </section>
 
         <!-- FEATURE 3: AIR QUALITY & ALLERGENS CARD -->
-        <section class="clean-card rounded-3xl p-4 sm:p-5 space-y-3">
-            <div class="flex items-center justify-between">
-                <h2 id="lbl-air-quality" class="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-                    <i data-lucide="wind" class="w-4 h-4 text-emerald-400"></i>
+        <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+                <h2 id="lbl-air-quality" class="text-sm sm:text-base font-extrabold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                    <i data-lucide="wind" class="w-5 h-5 text-emerald-400"></i>
                     <span>Якість повітря та алергени</span>
                 </h2>
-                <span id="aqi-badge" class="px-3 py-0.5 rounded-full text-[10px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AQI --</span>
+                <span id="aqi-badge" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">AQI --</span>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
-                    <p class="text-[10px] text-slate-400 font-bold">PM2.5</p>
-                    <p id="aqi-pm25" class="text-sm font-black text-white mt-0.5">--</p>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs sm:text-sm">
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-xs sm:text-sm text-slate-300 font-bold">PM2.5</p>
+                    <p id="aqi-pm25" class="text-base sm:text-lg font-black text-white">--</p>
                 </div>
-                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
-                    <p class="text-[10px] text-slate-400 font-bold">PM10</p>
-                    <p id="aqi-pm10" class="text-sm font-black text-white mt-0.5">--</p>
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-xs sm:text-sm text-slate-300 font-bold">PM10</p>
+                    <p id="aqi-pm10" class="text-base sm:text-lg font-black text-white">--</p>
                 </div>
-                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
-                    <p class="text-[10px] text-slate-400 font-bold">NO₂</p>
-                    <p id="aqi-no2" class="text-sm font-black text-white mt-0.5">--</p>
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p class="text-xs sm:text-sm text-slate-300 font-bold">NO₂</p>
+                    <p id="aqi-no2" class="text-base sm:text-lg font-black text-white">--</p>
                 </div>
-                <div class="bg-slate-900/80 border border-slate-800 p-3 rounded-2xl text-center">
-                    <p id="lbl-aqi-o3" class="text-[10px] text-slate-400 font-bold">Озон (O₃)</p>
-                    <p id="aqi-o3" class="text-sm font-black text-white mt-0.5">--</p>
+                <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-2xl text-center space-y-0.5">
+                    <p id="lbl-aqi-o3" class="text-xs sm:text-sm text-slate-300 font-bold">Озон (O₃)</p>
+                    <p id="aqi-o3" class="text-base sm:text-lg font-black text-white">--</p>
                 </div>
             </div>
 
-            <div id="pollen-container" class="pt-2 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
+            <div id="pollen-container" class="pt-2 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs sm:text-sm">
             </div>
         </section>
 
         <!-- FORECAST SECTION -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
 
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3.5">
                 <div>
-                    <h2 id="lbl-forecast-title" class="text-base sm:text-lg font-extrabold flex items-center gap-2 text-white">
-                        <i data-lucide="calendar-days" class="w-4 h-4 text-emerald-400"></i>
+                    <h2 id="lbl-forecast-title" class="text-lg sm:text-xl font-extrabold flex items-center gap-2 text-white">
+                        <i data-lucide="calendar-days" class="w-5 h-5 text-emerald-400"></i>
                         Прогноз погоди
                     </h2>
-                    <p id="lbl-forecast-sub" class="text-[10px] sm:text-xs text-slate-400">Натисніть на день для подробиць</p>
+                    <p id="lbl-forecast-sub" class="text-xs sm:text-sm text-slate-300 mt-0.5">Натисніть на день для подробиць</p>
                 </div>
 
                 <!-- 5 vs 16 Days Tab Toggle -->
                 <div class="bg-slate-900 border border-slate-800 p-1 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
-                    <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]">
+                    <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]">
                         5 Днів
                     </button>
-                    <button id="tab-16" onclick="switchForecastRange(16)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]">
+                    <button id="tab-16" onclick="switchForecastRange(16)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]">
                         16 Днів
                     </button>
                 </div>
             </div>
 
             <!-- Daily Items Container -->
-            <div id="daily-forecast-container" class="grid grid-cols-1 gap-2.5">
+            <div id="daily-forecast-container" class="grid grid-cols-1 gap-3">
             </div>
 
         </section>
 
         <!-- FOOTER -->
-        <footer class="text-center text-[10px] sm:text-xs text-slate-500 space-y-1 py-3">
-            <p>OmniWeather by Владислав Будзинський • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-300">Open-Meteo API</a> • <span id="footer-city">Кривий Ріг</span></p>
-            <p><span id="lbl-footer-time">Час</span>: <span id="clock">--:--:--</span></p>
+        <footer class="text-center text-xs sm:text-sm text-slate-400 space-y-1 py-3 font-medium">
+            <p>OmniWeather • <a href="https://open-meteo.com/" target="_blank" rel="noopener" class="underline hover:text-slate-200">Open-Meteo API</a> • <span id="footer-city">Кривий Ріг</span></p>
+            <p><span id="lbl-footer-time">Час</span>: <span id="clock" class="font-bold text-white">--:--:--</span></p>
         </footer>
 
     </div>
@@ -519,26 +518,26 @@
         };
 
         const TRANSLATIONS = {
-            uk: {
-                searchPlaceholder: "Пошук міста (напр. Київ, Берлін)...",
-                feelsLike: "Відчувається", max: "Макс", min: "Мін",
-                humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
-                wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-Індекс", precip: "Опади", clouds: "Хмарність",
-                hourlyTitle: "Погодинний прогноз", hourlySub: "Натисніть на картку для деталей",
-                now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
-                days5: "5 Днів", days16: "16 Днів", today: "Сьогодні", tomorrow: "Завтра",
-                morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
-                dayUpper: "ДЕНЬ", nightUpper: "НІЧ", detailedForecast: "Детальний прогноз на день",
-                chartWarm: "Тепло", chartMild: "Умірено", chartCold: "Прохолодно", avg: "середн.",
-                errorTitle: "Помилка мережі", errorMsg: "Не вдалося завантажити дані погоди.", retry: "Повторити спробу",
-                myLocation: "Моє місцерозташування", notFound: "Місто не знайдено", clockLabel: "Час",
-                uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний",
-                smartAdvice: "Розумні поради", whatToWear: "Що вдягнути", activities: "Активність",
-                airQuality: "Якість повітря та алергени", pollenBirch: "Береза", pollenGrass: "Злаки", pollenMugwort: "Полин", pollenAlder: "Вільха",
-                aqiGood: "Відмінне", aqiMod: "Помірне", aqiBad: "Шкідливе", aqiDanger: "Небезпечне",
-                pollenLow: "Низький", pollenMed: "Середній", pollenHigh: "Високий",
-                value: "Значення", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
-            },
+        uk: {
+                        searchPlaceholder: "Пошук міста (напр. Київ, Берлін)...",
+                        feelsLike: "Відчувається", max: "Макс", min: "Мін",
+                        humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
+                        wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-індекс", precip: "Опади", clouds: "Хмарність",
+                        hourlyTitle: "Погодинний прогноз", hourlySub: "Натисніть на картку для деталей",
+                        now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
+                        days5: "5 днів", days16: "16 днів", today: "Сьогодні", tomorrow: "Завтра",
+                        morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
+                        dayUpper: "ДЕНЬ", nightUpper: "НІЧ", detailedForecast: "Детальний прогноз на день",
+                        chartWarm: "Тепло", chartMild: "Помірно", chartCold: "Прохолодно", avg: "сер.",
+                        errorTitle: "Помилка мережі", errorMsg: "Не вдалося завантажити дані погоди.", retry: "Повторити спробу",
+                        myLocation: "Моє розташування", notFound: "Місто не знайдено", clockLabel: "Час",
+                        uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний",
+                        smartAdvice: "Розумні поради", whatToWear: "Що вдягнути", activities: "Активність",
+                        airQuality: "Якість повітря та алергени", pollenBirch: "Береза", pollenGrass: "Злаки", pollenMugwort: "Полин", pollenAlder: "Вільха",
+                        aqiGood: "Відмінна", aqiMod: "Помірна", aqiBad: "Шкідлива", aqiDanger: "Небезпечна",
+                        pollenLow: "Низький", pollenMed: "Середній", pollenHigh: "Високий",
+                        value: "Значення", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
+                    },
             en: {
                 searchPlaceholder: "Search city (e.g. London, Kyiv)...",
                 feelsLike: "Feels like", max: "Max", min: "Min",
@@ -658,14 +657,14 @@
         };
 
         const WMO_DESCRIPTIONS = {
-            uk: {
-                0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Похмуро",
-                45: "Туман", 48: "Паморозь / Туман", 51: "Легка мряка", 53: "Помірна мряка", 55: "Густа мряка",
-                56: "Крижана мряка", 57: "Сильна крижана мряка", 61: "Невеликий дощ", 63: "Помірний дощ", 65: "Сильний дощ",
-                66: "Замерзаючий дощ", 67: "Сильний замерзаючий дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
-                77: "Снігові зерна", 80: "Слабка злива", 81: "Помірна злива", 82: "Сильна проливна злива",
-                85: "Снігопад", 86: "Сильний снігопад", 95: "Гроза", 96: "Гроза з градом", 99: "Гроза з сильним градом"
-            },
+          uk: {
+                          0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Похмуро",
+                          45: "Туман", 48: "Туман із памороззю", 51: "Легка мряка", 53: "Помірна мряка", 55: "Густа мряка",
+                          56: "Крижана мряка", 57: "Сильна крижана мряка", 61: "Невеликий дощ", 63: "Помірний дощ", 65: "Сильний дощ",
+                          66: "Крижаний дощ", 67: "Сильний крижаний дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
+                          77: "Снігові зерна", 80: "Слабка злива", 81: "Помірна злива", 82: "Сильна злива",
+                          85: "Снігопад", 86: "Сильний снігопад", 95: "Гроза", 96: "Гроза з градом", 99: "Гроза з сильним градом"
+                      },
             en: {
                 0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
                 45: "Fog", 48: "Depositing rime fog", 51: "Light drizzle", 53: "Moderate drizzle", 55: "Dense drizzle",
@@ -1109,15 +1108,15 @@
                 const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
 
                 const cube = document.createElement('div');
-                cube.className = `hourly-cube min-w-[76px] sm:min-w-[85px] p-2.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col items-center justify-between text-center cursor-pointer select-none space-y-1 ${i === selectedHourlyIndex ? 'active' : ''}`;
+                cube.className = `hourly-cube min-w-[82px] sm:min-w-[90px] p-3 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col items-center justify-between text-center cursor-pointer select-none space-y-1.5 ${i === selectedHourlyIndex ? 'active' : ''}`;
                 cube.onclick = () => selectHourlyCube(i);
 
                 cube.innerHTML = `
-                    <span class="text-[10px] sm:text-xs font-bold ${i === 0 ? 'text-amber-400 font-extrabold' : 'text-slate-400'}">${timeStr}</span>
-                    <i data-lucide="${codeInfo.icon}" class="w-5 h-5 sm:w-6 sm:h-6 ${codeInfo.iconColor} my-1"></i>
-                    <span class="text-sm sm:text-base font-black text-white">${temp}°C</span>
-                    <span class="text-[9px] font-bold text-cyan-400 flex items-center gap-0.5">
-                        <i data-lucide="cloud-rain" class="w-2.5 h-2.5"></i> ${pop}%
+                    <span class="text-xs sm:text-sm font-bold ${i === 0 ? 'text-amber-400 font-extrabold' : 'text-slate-300'}">${timeStr}</span>
+                    <i data-lucide="${codeInfo.icon}" class="w-6 h-6 sm:w-7 sm:h-7 ${codeInfo.iconColor} my-0.5"></i>
+                    <span class="text-base sm:text-lg font-black text-white">${temp}°C</span>
+                    <span class="text-xs font-bold text-cyan-400 flex items-center gap-1">
+                        <i data-lucide="cloud-rain" class="w-3 h-3"></i> ${pop}%
                     </span>
                 `;
 
@@ -1162,50 +1161,50 @@
 
             const panel = document.getElementById('hourly-detail-panel');
             panel.innerHTML = `
-                <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="${codeInfo.icon}" class="w-5 h-5 ${codeInfo.iconColor}"></i>
-                        <span class="text-xs sm:text-sm font-extrabold text-white">${timeStr} • ${codeInfo.title}</span>
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-2.5">
+                        <i data-lucide="${codeInfo.icon}" class="w-6 h-6 ${codeInfo.iconColor}"></i>
+                        <span class="text-sm sm:text-base font-extrabold text-white">${timeStr} • ${codeInfo.title}</span>
                     </div>
-                    <span class="text-base sm:text-lg font-black text-white">${temp}°C</span>
+                    <span class="text-xl sm:text-2xl font-black text-white">${temp}°C</span>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 text-xs">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 text-xs sm:text-sm">
 
                     <!-- 1. Feels Like -->
-                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
-                        <div class="p-1 bg-sky-500/10 text-sky-400 rounded-lg mb-1">
-                            <i data-lucide="thermometer" class="w-4 h-4"></i>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1.5 bg-sky-500/10 text-sky-400 rounded-lg mb-1">
+                            <i data-lucide="thermometer" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </div>
-                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.feelsLike}</span>
-                        <strong class="text-sm font-extrabold text-sky-300 mt-0.5">${feelsLike}°C</strong>
+                        <span class="text-xs sm:text-sm text-slate-300 font-semibold">${tDict.feelsLike}</span>
+                        <strong class="text-base sm:text-lg font-black text-sky-300 mt-0.5">${feelsLike}°C</strong>
                     </div>
 
                     <!-- 2. Precipitation -->
-                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
-                        <div class="p-1 bg-cyan-500/10 text-cyan-400 rounded-lg mb-1">
-                            <i data-lucide="cloud-rain" class="w-4 h-4"></i>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1.5 bg-cyan-500/10 text-cyan-400 rounded-lg mb-1">
+                            <i data-lucide="cloud-rain" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </div>
-                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.precip}</span>
-                        <strong class="text-sm font-extrabold text-cyan-300 mt-0.5">${pop}% (${precipSum} мм)</strong>
+                        <span class="text-xs sm:text-sm text-slate-300 font-semibold">${tDict.precip}</span>
+                        <strong class="text-base sm:text-lg font-black text-cyan-300 mt-0.5">${pop}% (${precipSum} мм)</strong>
                     </div>
 
                     <!-- 3. Wind -->
-                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
-                        <div class="p-1 bg-teal-500/10 text-teal-400 rounded-lg mb-1">
-                            <i data-lucide="wind" class="w-4 h-4"></i>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1.5 bg-teal-500/10 text-teal-400 rounded-lg mb-1">
+                            <i data-lucide="wind" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </div>
-                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.wind}</span>
-                        <strong class="text-sm font-extrabold text-teal-300 mt-0.5">${windSpeed} ${tDict.windUnit} (${windDir})</strong>
+                        <span class="text-xs sm:text-sm text-slate-300 font-semibold">${tDict.wind}</span>
+                        <strong class="text-base sm:text-lg font-black text-teal-300 mt-0.5">${windSpeed} ${tDict.windUnit} (${windDir})</strong>
                     </div>
 
                     <!-- 4. UV Index -->
-                    <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex flex-col items-center text-center">
-                        <div class="p-1 bg-amber-500/10 text-amber-400 rounded-lg mb-1">
-                            <i data-lucide="sun" class="w-4 h-4"></i>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-col items-center text-center">
+                        <div class="p-1.5 bg-amber-500/10 text-amber-400 rounded-lg mb-1">
+                            <i data-lucide="sun" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                         </div>
-                        <span class="text-[10px] text-slate-400 font-semibold">${tDict.uvIndex}</span>
-                        <strong class="text-sm font-extrabold ${uvInfo.colorClass} mt-0.5">${uv} (${uvInfo.label})</strong>
+                        <span class="text-xs sm:text-sm text-slate-300 font-semibold">${tDict.uvIndex}</span>
+                        <strong class="text-base sm:text-lg font-black ${uvInfo.colorClass} mt-0.5">${uv} (${uvInfo.label})</strong>
                     </div>
 
                 </div>
@@ -1231,7 +1230,7 @@
             else if (aqi > 50) { statusText = t.aqiMod; badgeClass = "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"; }
 
             badge.textContent = `AQI ${aqi} • ${statusText}`;
-            badge.className = `px-3 py-0.5 rounded-full text-[10px] font-black border ${badgeClass}`;
+            badge.className = `px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold border ${badgeClass}`;
 
             document.getElementById('aqi-pm25').textContent = `${Math.round(curr.pm2_5 || 0)} ${t.unitMcg}`;
             document.getElementById('aqi-pm10').textContent = `${Math.round(curr.pm10 || 0)} ${t.unitMcg}`;
@@ -1255,10 +1254,10 @@
                 else if (p.val > 2) { lvl = t.pollenMed; color = "text-amber-400"; }
 
                 const item = document.createElement('div');
-                item.className = 'bg-slate-900/80 border border-slate-800 p-2 rounded-xl flex items-center justify-between';
+                item.className = 'bg-slate-900/80 border border-slate-800 p-2.5 rounded-xl flex items-center justify-between text-xs sm:text-sm';
                 item.innerHTML = `
-                    <span class="text-slate-400 font-medium">${p.label}:</span>
-                    <span class="font-bold ${color}">${lvl}</span>
+                    <span class="text-slate-300 font-bold">${p.label}:</span>
+                    <span class="font-extrabold ${color}">${lvl}</span>
                 `;
                 pollenContainer.appendChild(item);
             });
@@ -1296,7 +1295,7 @@
                 const data = await res.json();
 
                 if (!data.results || data.results.length === 0) {
-                    suggestionsBox.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center font-medium bg-[#0d1527]">${getI18n().notFound}</div>`;
+                    suggestionsBox.innerHTML = `<div class="p-4 text-sm text-slate-300 text-center font-medium bg-[#0d1527]">${getI18n().notFound}</div>`;
                     suggestionsBox.classList.remove('hidden');
                     return;
                 }
@@ -1304,12 +1303,12 @@
                 currentSearchResults = data.results;
 
                 suggestionsBox.innerHTML = data.results.map((item, idx) => `
-                    <div data-city-idx="${idx}" class="p-3.5 bg-[#0d1527] hover:bg-slate-800 active:bg-slate-700 cursor-pointer flex items-center justify-between transition text-xs sm:text-sm min-h-[46px] select-none border-b border-slate-800/80 last:border-0">
+                    <div data-city-idx="${idx}" class="p-3.5 bg-[#0d1527] hover:bg-slate-800 active:bg-slate-700 cursor-pointer flex items-center justify-between transition text-sm sm:text-base min-h-[48px] select-none border-b border-slate-800/80 last:border-0">
                         <div class="pr-2 min-w-0 pointer-events-none">
-                            <span class="font-bold text-white block truncate text-sm">${item.name}</span>
-                            <span class="text-slate-400 text-xs block truncate font-medium mt-0.5">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
+                            <span class="font-bold text-white block truncate text-base">${item.name}</span>
+                            <span class="text-slate-300 text-xs sm:text-sm block truncate font-medium mt-0.5">${item.admin1 ? item.admin1 + ', ' : ''}${item.country || ''}</span>
                         </div>
-                        <span class="text-[10px] font-mono bg-slate-800 text-sky-300 font-extrabold px-2 py-0.5 rounded-full border border-slate-700 flex-shrink-0 pointer-events-none shadow-sm">${item.country_code || ''}</span>
+                        <span class="text-xs font-mono bg-slate-800 text-sky-300 font-extrabold px-2.5 py-1 rounded-full border border-slate-700 flex-shrink-0 pointer-events-none shadow-sm">${item.country_code || ''}</span>
                     </div>
                 `).join('');
 
@@ -1450,7 +1449,7 @@
             document.getElementById('metric-uv').textContent = uvMax;
             const uvLevelInfo = getUVLevelInfo(uvMax);
             document.getElementById('metric-uv-level').textContent = uvLevelInfo.label;
-            document.getElementById('metric-uv-level').className = `text-[9px] font-bold ${uvLevelInfo.colorClass}`;
+            document.getElementById('metric-uv-level').className = `text-xs font-bold ${uvLevelInfo.colorClass}`;
 
             const precipProb = daily.precipitation_probability_max ? daily.precipitation_probability_max[0] : 0;
             const precipSum = daily.precipitation_sum ? daily.precipitation_sum[0] : 0;
@@ -1501,14 +1500,6 @@
             const availableDays = dailyData.time.length;
             const countToDisplay = Math.min(currentForecastRange, availableDays);
 
-            const displayedMins = dailyData.temperature_2m_min.slice(0, countToDisplay).map(Math.round);
-            const displayedMaxs = dailyData.temperature_2m_max.slice(0, countToDisplay).map(Math.round);
-
-            const globalMin = Math.min(...displayedMins);
-            const globalMax = Math.max(...displayedMaxs);
-            let totalRange = globalMax - globalMin;
-            if (totalRange === 0) totalRange = 1;
-
             for (let i = 0; i < countToDisplay; i++) {
                 const dateObj = new Date(dailyData.time[i]);
                 let dayTitle = "";
@@ -1530,15 +1521,6 @@
                 const windSpeed = dailyData.wind_speed_10m_max ? Math.round(dailyData.wind_speed_10m_max[i]) : 0;
                 const windDir = dailyData.wind_direction_10m_dominant ? getWindDirectionLocalized(dailyData.wind_direction_10m_dominant[i]) : "--";
                 const uvMax = dailyData.uv_index_max ? Math.round(dailyData.uv_index_max[i]) : 0;
-
-                const leftPercent = Math.max(0, Math.min(94, ((tempMin - globalMin) / totalRange) * 100));
-                let widthPercent = ((tempMax - tempMin) / totalRange) * 100;
-
-                if (tempMin === tempMax) {
-                    widthPercent = 6;
-                } else {
-                    widthPercent = Math.max(6, Math.min(100 - leftPercent, widthPercent));
-                }
 
                 const dayDateStr = dailyData.time[i];
                 const dayHourlyIndices = [];
@@ -1580,98 +1562,92 @@
                 cardWrapper.className = `clean-card rounded-2xl overflow-hidden clean-card-interactive transition-all ${isExpanded ? 'border-sky-500/80 bg-slate-900' : ''}`;
 
                 cardWrapper.innerHTML = `
-                    <div onclick="toggleDayExpand(${i})" class="p-3 flex items-center justify-between gap-1.5 sm:gap-3 text-xs cursor-pointer select-none">
+                    <div onclick="toggleDayExpand(${i})" class="p-3.5 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-4 cursor-pointer select-none">
 
-                        <div class="flex items-center gap-2 min-w-[95px] sm:min-w-[130px] flex-shrink-0">
-                            <div class="p-1.5 sm:p-2 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
-                                <i data-lucide="${codeInfo.icon}" class="w-4 h-4 sm:w-5 sm:h-5 ${codeInfo.iconColor}"></i>
+                        <!-- Icon + Day Name + Condition -->
+                        <div class="flex items-center gap-3 min-w-0 flex-1">
+                            <div class="p-2 sm:p-2.5 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
+                                <i data-lucide="${codeInfo.icon}" class="w-5 h-5 sm:w-6 sm:h-6 ${codeInfo.iconColor}"></i>
                             </div>
-                            <div class="overflow-hidden">
-                                <p class="font-extrabold text-xs sm:text-sm capitalize text-white truncate">${dayTitle}</p>
-                                <p class="text-[9px] sm:text-xs text-slate-400 truncate font-medium hidden sm:block">${codeInfo.title}</p>
+                            <div class="min-w-0">
+                                <p class="font-extrabold text-sm sm:text-base capitalize text-white truncate">${dayTitle}</p>
+                                <p class="text-xs sm:text-sm text-slate-300 truncate font-medium">${codeInfo.title}</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-1 font-semibold text-cyan-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[40px]">
-                            <i data-lucide="cloud-rain" class="w-3.5 h-3.5"></i>
+                        <!-- Rain Probability -->
+                        <div class="flex items-center gap-1 font-bold text-cyan-400 text-xs sm:text-sm flex-shrink-0">
+                            <i data-lucide="cloud-rain" class="w-4 h-4"></i>
                             <span>${precipProb}%</span>
                         </div>
 
-                        <div class="flex-1 flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-3 min-w-0">
-                            <span class="text-[11px] sm:text-xs text-slate-400 font-bold w-5 sm:w-6 text-right flex-shrink-0">${tempMin}°</span>
-                            <div class="flex-1 h-2 bg-slate-950 rounded-full overflow-hidden relative max-w-[110px] border border-slate-800">
-                                <div class="h-full bg-gradient-to-r from-sky-400 via-teal-400 to-amber-400 rounded-full absolute transition-all duration-300"
-                                     style="left: ${leftPercent}%; width: ${widthPercent}%;"></div>
-                            </div>
-                            <span class="text-[11px] sm:text-xs font-black text-white w-5 sm:w-6 flex-shrink-0">${tempMax}°</span>
+                        <!-- Min / Max Temperatures -->
+                        <div class="flex items-center justify-end gap-1.5 px-1 sm:px-2 flex-shrink-0">
+                            <span class="text-xs sm:text-sm text-slate-400 font-bold">${tempMin}°</span>
+                            <span class="text-slate-600 text-xs font-bold">/</span>
+                            <span class="text-sm sm:text-base font-black text-white">${tempMax}°</span>
                         </div>
 
-                        <div class="flex items-center justify-end gap-1 font-semibold text-teal-400 text-[11px] sm:text-xs flex-shrink-0 min-w-[55px] sm:min-w-[65px] text-right">
-                            <i data-lucide="wind" class="w-3.5 h-3.5"></i>
-                            <span>${windSpeed} ${t.windUnit}</span>
-                            <i data-lucide="chevron-down" id="chevron-${i}" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}"></i>
+                        <!-- Wind Speed & Toggle Arrow -->
+                        <div class="flex items-center justify-end gap-1.5 font-bold text-teal-400 text-xs sm:text-sm flex-shrink-0">
+                            <i data-lucide="wind" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">${windSpeed} ${t.windUnit}</span>
+                            <i data-lucide="chevron-down" id="chevron-${i}" class="w-4 h-4 text-slate-400 transition-transform duration-200 ${isExpanded ? 'rotate-180 text-sky-400' : ''}"></i>
                         </div>
                     </div>
 
-                    <div id="panel-${i}" class="expand-panel ${isExpanded ? 'open' : ''} border-t border-slate-800 bg-slate-950/60 px-3 sm:px-4 space-y-3">
-                        <div class="text-[11px] font-bold text-sky-300 flex items-center justify-between border-b border-slate-800 pb-1.5">
-                            <span class="flex items-center gap-1.5"><i data-lucide="info" class="w-3.5 h-3.5"></i> ${t.detailedForecast}</span>
-                            <span class="text-slate-400 font-normal text-[10px]">${codeInfo.title}</span>
+                    <!-- Expanded Day Detail Panel -->
+                    <div id="panel-${i}" class="expand-panel ${isExpanded ? 'open' : ''} border-t border-slate-800 bg-slate-950/60 px-3.5 sm:px-5 space-y-3">
+                        <div class="text-xs sm:text-sm font-extrabold text-sky-300 flex items-center justify-between border-b border-slate-800/80 pb-2">
+                            <span class="flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4"></i> ${t.detailedForecast}</span>
+                            <span class="text-slate-300 font-medium text-xs sm:text-sm">${codeInfo.title}</span>
                         </div>
 
-                        <div class="grid grid-cols-4 gap-1.5 text-center">
-                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
-                                <span class="text-[9px] text-slate-400 block font-semibold">${t.morning}</span>
-                                <span class="text-xs font-black text-white block mt-0.5">${morningTemp}°C</span>
-                                <span class="text-[8px] text-sky-300 block">${t.feelsLike.slice(0, 3)}: ${morningFeels}°</span>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-center">
+                            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+                                <span class="text-xs sm:text-sm text-slate-300 block font-bold">${t.morning}</span>
+                                <span class="text-sm sm:text-base font-black text-white block mt-0.5">${morningTemp}°C</span>
+                                <span class="text-xs text-sky-300 block font-medium">${t.feelsLike}: ${morningFeels}°</span>
                             </div>
-                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
-                                <span class="text-[9px] text-slate-400 block font-semibold">${t.afternoon}</span>
-                                <span class="text-xs font-black text-amber-400 block mt-0.5">${afternoonTemp}°C</span>
-                                <span class="text-[8px] text-sky-300 block">${t.feelsLike.slice(0, 3)}: ${afternoonFeels}°</span>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+                                <span class="text-xs sm:text-sm text-slate-300 block font-bold">${t.afternoon}</span>
+                                <span class="text-sm sm:text-base font-black text-amber-400 block mt-0.5">${afternoonTemp}°C</span>
+                                <span class="text-xs text-sky-300 block font-medium">${t.feelsLike}: ${afternoonFeels}°</span>
                             </div>
-                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
-                                <span class="text-[9px] text-slate-400 block font-semibold">${t.evening}</span>
-                                <span class="text-xs font-black text-white block mt-0.5">${eveningTemp}°C</span>
-                                <span class="text-[8px] text-sky-300 block">${t.feelsLike.slice(0, 3)}: ${eveningFeels}°</span>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+                                <span class="text-xs sm:text-sm text-slate-300 block font-bold">${t.evening}</span>
+                                <span class="text-sm sm:text-base font-black text-white block mt-0.5">${eveningTemp}°C</span>
+                                <span class="text-xs text-sky-300 block font-medium">${t.feelsLike}: ${eveningFeels}°</span>
                             </div>
-                            <div class="bg-slate-900/90 border border-slate-800 p-2 rounded-xl">
-                                <span class="text-[9px] text-slate-400 block font-semibold">${t.night}</span>
-                                <span class="text-xs font-black text-indigo-300 block mt-0.5">${nightTemp}°C</span>
-                                <span class="text-[8px] text-sky-300 block">${t.feelsLike.slice(0, 3)}: ${nightFeels}°</span>
+                            <div class="bg-slate-900/90 border border-slate-800 p-2.5 rounded-xl">
+                                <span class="text-xs sm:text-sm text-slate-300 block font-bold">${t.night}</span>
+                                <span class="text-sm sm:text-base font-black text-indigo-300 block mt-0.5">${nightTemp}°C</span>
+                                <span class="text-xs text-sky-300 block font-medium">${t.feelsLike}: ${nightFeels}°</span>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] text-slate-300 pt-1">
-                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
-                                <i data-lucide="cloud-rain" class="w-4 h-4 text-cyan-400"></i>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm text-slate-200 pt-1">
+                            <div class="flex items-center gap-2.5 bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                                <i data-lucide="cloud-rain" class="w-4 h-4 sm:w-5 sm:h-5 text-cyan-400 shrink-0"></i>
                                 <div>
-                                    <span class="text-slate-400 block">${t.precip}:</span>
-                                    <strong class="text-white">${precipSum} мм (${precipProb}%)</strong>
+                                    <span class="text-slate-300 block text-xs font-bold">${t.precip}:</span>
+                                    <strong class="text-white text-xs sm:text-sm font-extrabold">${precipSum} мм (${precipProb}%)</strong>
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
-                                <i data-lucide="wind" class="w-4 h-4 text-teal-400"></i>
+                            <div class="flex items-center gap-2.5 bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                                <i data-lucide="wind" class="w-4 h-4 sm:w-5 sm:h-5 text-teal-400 shrink-0"></i>
                                 <div>
-                                    <span class="text-slate-400 block">${t.max} ${t.wind.toLowerCase()}:</span>
-                                    <strong class="text-white">${windSpeed} ${t.windUnit} (${windDir})</strong>
+                                    <span class="text-slate-300 block text-xs font-bold">${t.max} ${t.wind.toLowerCase()}:</span>
+                                    <strong class="text-white text-xs sm:text-sm font-extrabold">${windSpeed} ${t.windUnit} (${windDir})</strong>
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
-                                <i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>
+                            <div class="flex items-center gap-2.5 bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                                <i data-lucide="sun" class="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 shrink-0"></i>
                                 <div>
-                                    <span class="text-slate-400 block">${t.uvIndex}:</span>
-                                    <strong class="text-white">${uvMax} (${getUVLevelInfo(uvMax).label})</strong>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-2 bg-slate-900 p-2 rounded-xl border border-slate-800">
-                                <i data-lucide="gauge" class="w-4 h-4 text-emerald-400"></i>
-                                <div>
-                                    <span class="text-slate-400 block">${t.range}:</span>
-                                    <strong class="text-white">${tempMin}°C — ${tempMax}°C</strong>
+                                    <span class="text-slate-300 block text-xs font-bold">${t.uvIndex}:</span>
+                                    <strong class="text-white text-xs sm:text-sm font-extrabold">${uvMax} (${getUVLevelInfo(uvMax).label})</strong>
                                 </div>
                             </div>
                         </div>
@@ -1718,9 +1694,9 @@
                 const btn = document.getElementById(`tab-${d}`);
                 if (btn) {
                     if (d === days) {
-                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]";
+                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]";
                     } else {
-                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]";
+                        btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]";
                     }
                 }
             });
@@ -1731,19 +1707,19 @@
         }
 
         function getWindDirectionLocalized(deg) {
-            const dirsByLang = {
-                uk: ['С', 'СВ', 'В', 'ПДВ', 'ПД', 'ПДЗ', 'З', 'СЗ'],
-                en: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
-                de: ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'],
-                pl: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
-                fr: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
-                es: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
-                ru: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ']
-            };
-            const dirs = dirsByLang[currentLangKey] || dirsByLang['en'];
-            const idx = Math.round(((deg %= 360) < 0 ? deg + 360 : deg) / 45) % 8;
-            return dirs[idx];
-        }
+                    const dirsByLang = {
+                        uk: ['Пн', 'ПнСх', 'Сх', 'ПдСх', 'Пд', 'ПдЗх', 'Зх', 'ПнЗх'],
+                        en: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
+                        de: ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'],
+                        pl: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
+                        fr: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
+                        es: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
+                        ru: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ']
+                    };
+                    const dirs = dirsByLang[currentLangKey] || dirsByLang['en'];
+                    const idx = Math.round(((deg %= 360) < 0 ? deg + 360 : deg) / 45) % 8;
+                    return dirs[idx];
+                }
 
         function getUVLevelInfo(uv) {
             const t = getI18n();
