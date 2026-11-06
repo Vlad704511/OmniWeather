@@ -811,12 +811,26 @@
             if (cachedWeatherData) renderAll(cachedWeatherData, cachedAirQualityData);
         }
 
-        function getWmoInfo(code) {
-            const config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
-            const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
-            const title = descDict[code] || descDict[2] || "Partly cloudy";
-            return { title, ...config };
+        function getWmoInfo(code, isDay = 1) {
+    const config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
+    const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
+    const title = descDict[code] || descDict[2] || "Partly cloudy";
+    
+    let icon = config.icon;
+    let iconColor = config.iconColor;
+
+    if (!isDay) {
+        if (icon === "sun" || icon === "sun-medium") {
+            icon = "moon";
+            iconColor = "text-indigo-300";
+        } else if (icon === "cloud-sun") {
+            icon = "cloud-moon";
+            iconColor = "text-indigo-200";
         }
+    }
+
+    return { title, ...config, icon, iconColor };
+}
 
         function getI18n() {
             return TRANSLATIONS[currentLangKey] || TRANSLATIONS['uk'];
@@ -998,7 +1012,7 @@
             if (refreshWrap) refreshWrap.classList.add('animate-spin');
             if (errorCard) errorCard.classList.add('hidden');
 
-            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,pressure_msl,surface_pressure,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
+            const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,pressure_msl,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,weather_code,pressure_msl,surface_pressure,cloud_cover,visibility,wind_speed_10m,wind_direction_10m,uv_index,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_sum,rain_sum,showers_sum,snowfall_sum,precipitation_hours,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&timezone=auto&forecast_days=16`;
             const aqUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${currentCity.lat}&longitude=${currentCity.lon}&current=us_aqi,pm10,pm2_5,nitrogen_dioxide,ozone,birch_pollen,grass_pollen,mugwort_pollen,alder_pollen`;
 
             try {
@@ -1104,7 +1118,8 @@
                 const timeDate = new Date(hourly.time[idx]);
                 const timeStr = i === 0 ? tDict.now : timeDate.toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' });
                 const temp = Math.round(hourly.temperature_2m[idx]);
-                const codeInfo = getWmoInfo(hourly.weather_code[idx]);
+                const isDay = (hourly.is_day && hourly.is_day[idx] !== undefined) ? hourly.is_day[idx] : 1;
+                const codeInfo = getWmoInfo(hourly.weather_code[idx], isDay);
                 const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
 
                 const cube = document.createElement('div');
@@ -1157,7 +1172,8 @@
             const windDir = hourly.wind_direction_10m ? getWindDirectionLocalized(hourly.wind_direction_10m[idx]) : "--";
             const uv = hourly.uv_index ? Math.round(hourly.uv_index[idx]) : 0;
             const uvInfo = getUVLevelInfo(uv);
-            const codeInfo = getWmoInfo(hourly.weather_code[idx]);
+            const isDay = (hourly.is_day && hourly.is_day[idx] !== undefined) ? hourly.is_day[idx] : 1;
+            const codeInfo = getWmoInfo(hourly.weather_code[idx], isDay);
 
             const panel = document.getElementById('hourly-detail-panel');
             panel.innerHTML = `
@@ -1414,7 +1430,7 @@
             const hourly = data.hourly;
             const t = getI18n();
 
-            const codeInfo = getWmoInfo(current.weather_code);
+            const codeInfo = getWmoInfo(current.weather_code, current.is_day);
 
             updateBackgroundAndParticles(codeInfo.bg, current.is_day, codeInfo.effect);
 
