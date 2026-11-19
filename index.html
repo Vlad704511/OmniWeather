@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <link rel="manifest" href="manifest.json">
-
+    
     <!-- Title -->
     <title>OmniWeather — Прогноз погоди</title>
 
@@ -19,7 +19,7 @@
     <meta name="apple-mobile-web-app-title" content="OmniWeather">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-
+    
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons CDN -->
@@ -263,7 +263,7 @@
         </header>
 
         <main class="relative z-10 space-y-4 sm:space-y-5">
-
+            
             <!-- Error Banner -->
             <div id="error-card" class="hidden clean-card rounded-3xl p-5 bg-red-950/40 border-red-800 text-center space-y-3">
                 <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400 mx-auto"></i>
@@ -276,21 +276,11 @@
 
             <!-- Hero Display Panel -->
             <div id="weather-hero" class="clean-card rounded-3xl p-5 sm:p-7 space-y-5 relative overflow-hidden">
-
+                
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 relative z-10">
-
+                    
                     <!-- Main Temp & Descriptions -->
                     <div class="text-center sm:text-left space-y-2 w-full sm:w-auto">
-                        <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-                            <span id="condition-badge" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold bg-slate-800 text-sky-300 border border-slate-700 uppercase tracking-wider shadow-sm">
-                                НІЧ • КРИВИЙ РІГ
-                            </span>
-                            <span id="effect-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800 flex items-center gap-1.5 shadow-sm">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                                <span id="effect-text">Норма</span>
-                            </span>
-                        </div>
-
                         <!-- Current Temperature -->
                         <div class="flex items-baseline justify-center sm:justify-start gap-1 py-1">
                             <span id="current-temp" class="text-7xl sm:text-8xl lg:text-9xl font-black tracking-tight text-white">--</span>
@@ -299,7 +289,7 @@
 
                         <!-- Condition Name -->
                         <p id="weather-description" class="text-2xl sm:text-3xl font-extrabold capitalize tracking-wide text-slate-100">--</p>
-
+                        
                         <div class="flex items-center justify-center sm:justify-start gap-3 text-sm sm:text-base text-slate-200 font-bold pt-1">
                             <span><span id="lbl-feels">Відчувається</span>: <strong id="feels-like" class="text-sky-300">--°C</strong></span>
                             <span>•</span>
@@ -318,7 +308,7 @@
 
                 <!-- 6-Grid Weather Metrics -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3.5 relative z-10 pt-4 border-t border-slate-800">
-
+                    
                     <div class="bg-slate-900/90 border border-slate-800 p-3.5 rounded-2xl flex flex-col items-center text-center space-y-1">
                         <div class="text-sky-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="droplets" class="w-5 h-5"></i>
@@ -350,7 +340,7 @@
                         <div class="text-amber-400 p-2 bg-slate-800 rounded-xl mb-0.5 border border-slate-700">
                             <i data-lucide="sun" class="w-5 h-5"></i>
                         </div>
-                        <span id="lbl-metric-uv" class="text-xs sm:text-sm text-slate-300 font-bold">УФ-Індекс</span>
+                        <span id="lbl-metric-uv" class="text-xs sm:text-sm text-slate-300 font-bold">УФ-індекс</span>
                         <span id="metric-uv" class="text-lg sm:text-xl font-black text-white">--</span>
                         <span id="metric-uv-level" class="text-xs font-bold text-emerald-400">--</span>
                     </div>
@@ -417,7 +407,7 @@
                 </div>
             </div>
 
-            <!-- Scrollable Cubes Grid/Row (Fixed padding to prevent shadow cutoff) -->
+            <!-- Scrollable Cubes Grid/Row -->
             <div id="hourly-cubes-container" class="flex gap-3 overflow-x-auto custom-scrollbar p-2.5 select-none">
             </div>
 
@@ -461,7 +451,7 @@
 
         <!-- FORECAST SECTION -->
         <section class="clean-card rounded-3xl p-4 sm:p-6 space-y-4">
-
+            
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-3.5">
                 <div>
                     <h2 id="lbl-forecast-title" class="text-lg sm:text-xl font-extrabold flex items-center gap-2 text-white">
@@ -474,10 +464,10 @@
                 <!-- 5 vs 16 Days Tab Toggle -->
                 <div class="bg-slate-900 border border-slate-800 p-1 rounded-2xl flex items-center gap-1 w-full sm:w-auto">
                     <button id="tab-5" onclick="switchForecastRange(5)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition bg-slate-800 text-white border border-slate-700 min-h-[44px]">
-                        5 Днів
+                        5 днів
                     </button>
                     <button id="tab-16" onclick="switchForecastRange(16)" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition text-slate-400 hover:text-white active:bg-slate-800 min-h-[44px]">
-                        16 Днів
+                        16 днів
                     </button>
                 </div>
             </div>
@@ -515,26 +505,26 @@
         };
 
         const TRANSLATIONS = {
-        uk: {
-                        searchPlaceholder: "Пошук міста (напр. Київ, Берлін)...",
-                        feelsLike: "Відчувається", max: "Макс", min: "Мін",
-                        humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
-                        wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-індекс", precip: "Опади", clouds: "Хмарність",
-                        hourlyTitle: "Погодинний прогноз", hourlySub: "Натисніть на картку для деталей",
-                        now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
-                        days5: "5 днів", days16: "16 днів", today: "Сьогодні", tomorrow: "Завтра",
-                        morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
-                        dayUpper: "ДЕНЬ", nightUpper: "НІЧ", detailedForecast: "Детальний прогноз на день",
-                        chartWarm: "Тепло", chartMild: "Помірно", chartCold: "Прохолодно", avg: "сер.",
-                        errorTitle: "Помилка мережі", errorMsg: "Не вдалося завантажити дані погоди.", retry: "Повторити спробу",
-                        myLocation: "Моє розташування", notFound: "Місто не знайдено", clockLabel: "Час",
-                        uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний",
-                        smartAdvice: "Розумні поради", whatToWear: "Що вдягнути", activities: "Активність",
-                        airQuality: "Якість повітря та алергени", pollenBirch: "Береза", pollenGrass: "Злаки", pollenMugwort: "Полин", pollenAlder: "Вільха",
-                        aqiGood: "Відмінна", aqiMod: "Помірна", aqiBad: "Шкідлива", aqiDanger: "Небезпечна",
-                        pollenLow: "Низький", pollenMed: "Середній", pollenHigh: "Високий",
-                        value: "Значення", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
-                    },
+            uk: {
+                searchPlaceholder: "Пошук міста (напр. Київ, Берлін)...",
+                feelsLike: "Відчувається", max: "Макс", min: "Мін",
+                humidity: "Вологість", dewPoint: "Роса", pressure: "Тиск", pressureUnit: "мм рт. ст.",
+                wind: "Вітер", windUnit: "м/с", uvIndex: "УФ-індекс", precip: "Опади", clouds: "Хмарність",
+                hourlyTitle: "Погодинний прогноз", hourlySub: "Натисніть на картку для деталей",
+                now: "Зараз", forecastTitle: "Прогноз погоди", forecastSub: "Натисніть на день для подробиць",
+                days5: "5 днів", days16: "16 днів", today: "Сьогодні", tomorrow: "Завтра",
+                morning: "Ранок", afternoon: "День", evening: "Вечір", night: "Ніч",
+                dayUpper: "ДЕНЬ", nightUpper: "НІЧ", detailedForecast: "Детальний прогноз на день",
+                chartWarm: "Тепло", chartMild: "Помірно", chartCold: "Прохолодно", avg: "сер.",
+                errorTitle: "Помилка мережі", errorMsg: "Не вдалося завантажити дані погоди.", retry: "Повторити спробу",
+                myLocation: "Моє розташування", notFound: "Місто не знайдено", clockLabel: "Час",
+                uvLow: "Низький", uvMod: "Помірний", uvHigh: "Високий", uvVeryHigh: "Дуже високий", uvExtreme: "Екстремальний",
+                smartAdvice: "Розумні поради", whatToWear: "Що вдягнути", activities: "Активність",
+                airQuality: "Якість повітря та алергени", pollenBirch: "Береза", pollenGrass: "Злаки", pollenMugwort: "Полин", pollenAlder: "Вільха",
+                aqiGood: "Відмінна", aqiMod: "Помірна", aqiBad: "Шкідлива", aqiDanger: "Небезпечна",
+                pollenLow: "Низький", pollenMed: "Середній", pollenHigh: "Високий",
+                value: "Значення", range: "Шкала", ozone: "Озон (O₃)", unitMcg: "мкг/м³", uvShort: "УФ"
+            },
             en: {
                 searchPlaceholder: "Search city (e.g. London, Kyiv)...",
                 feelsLike: "Feels like", max: "Max", min: "Min",
@@ -654,14 +644,14 @@
         };
 
         const WMO_DESCRIPTIONS = {
-          uk: {
-                          0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Похмуро",
-                          45: "Туман", 48: "Туман із памороззю", 51: "Легка мряка", 53: "Помірна мряка", 55: "Густа мряка",
-                          56: "Крижана мряка", 57: "Сильна крижана мряка", 61: "Невеликий дощ", 63: "Помірний дощ", 65: "Сильний дощ",
-                          66: "Крижаний дощ", 67: "Сильний крижаний дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
-                          77: "Снігові зерна", 80: "Слабка злива", 81: "Помірна злива", 82: "Сильна злива",
-                          85: "Снігопад", 86: "Сильний снігопад", 95: "Гроза", 96: "Гроза з градом", 99: "Гроза з сильним градом"
-                      },
+            uk: {
+                0: "Ясно", 1: "Переважно ясно", 2: "Мінлива хмарність", 3: "Похмуро",
+                45: "Туман", 48: "Туман із памороззю", 51: "Легка мряка", 53: "Помірна мряка", 55: "Густа мряка",
+                56: "Крижана мряка", 57: "Сильна крижана мряка", 61: "Невеликий дощ", 63: "Помірний дощ", 65: "Сильний дощ",
+                66: "Крижаний дощ", 67: "Сильний крижаний дощ", 71: "Невеликий сніг", 73: "Помірний сніг", 75: "Сильний сніг",
+                77: "Снігові зерна", 80: "Слабка злива", 81: "Помірна злива", 82: "Сильна злива",
+                85: "Снігопад", 86: "Сильний снігопад", 95: "Гроза", 96: "Гроза з градом", 99: "Гроза з сильним градом"
+            },
             en: {
                 0: "Clear sky", 1: "Mainly clear", 2: "Partly cloudy", 3: "Overcast",
                 45: "Fog", 48: "Depositing rime fog", 51: "Light drizzle", 53: "Moderate drizzle", 55: "Dense drizzle",
@@ -793,7 +783,7 @@
             if (!LANGUAGES[langKey]) return;
             isManualLanguageChoice = true;
             localStorage.setItem('omniweather_manual_choice', 'true');
-
+            
             currentLangKey = langKey;
             localStorage.setItem('omniweather_lang', langKey);
 
@@ -809,25 +799,23 @@
         }
 
         function getWmoInfo(code, isDay = 1) {
-    const config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
-    const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
-    const title = descDict[code] || descDict[2] || "Partly cloudy";
-    
-    let icon = config.icon;
-    let iconColor = config.iconColor;
+            let config = WEATHER_ICONS_CONFIG[code] || { icon: "cloud-sun", bg: "cloudy", effect: "clear", iconColor: "text-slate-100" };
+            config = { ...config };
 
-    if (!isDay) {
-        if (icon === "sun" || icon === "sun-medium") {
-            icon = "moon";
-            iconColor = "text-indigo-300";
-        } else if (icon === "cloud-sun") {
-            icon = "cloud-moon";
-            iconColor = "text-indigo-200";
+            if (isDay === 0) {
+                if (config.icon === 'sun' || config.icon === 'sun-medium') {
+                    config.icon = 'moon';
+                    config.iconColor = 'text-indigo-300';
+                } else if (config.icon === 'cloud-sun') {
+                    config.icon = 'cloud-moon';
+                    config.iconColor = 'text-indigo-200';
+                }
+            }
+
+            const descDict = WMO_DESCRIPTIONS[currentLangKey] || WMO_DESCRIPTIONS['en'];
+            const title = descDict[code] || descDict[2] || "Partly cloudy";
+            return { title, ...config };
         }
-    }
-
-    return { title, ...config, icon, iconColor };
-}
 
         function getI18n() {
             return TRANSLATIONS[currentLangKey] || TRANSLATIONS['uk'];
@@ -860,7 +848,7 @@
             document.getElementById('lbl-metric-uv').textContent = t.uvIndex;
             document.getElementById('lbl-metric-precip').textContent = t.precip;
             document.getElementById('lbl-metric-clouds').textContent = t.clouds;
-
+            
             document.getElementById('lbl-smart-advice').textContent = t.smartAdvice;
             document.getElementById('lbl-what-to-wear').textContent = t.whatToWear;
             document.getElementById('lbl-activities').textContent = t.activities;
@@ -904,7 +892,7 @@
             currentParticleType = type;
             particles = [];
             const isMobile = window.innerWidth < 640;
-            const count = isMobile
+            const count = isMobile 
                 ? (type === 'rain' ? 35 : (type === 'snow' ? 30 : (type === 'stars' ? 25 : 10)))
                 : (type === 'rain' ? 90 : (type === 'snow' ? 70 : (type === 'stars' ? 50 : 20)));
 
@@ -1115,7 +1103,7 @@
                 const timeDate = new Date(hourly.time[idx]);
                 const timeStr = i === 0 ? tDict.now : timeDate.toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' });
                 const temp = Math.round(hourly.temperature_2m[idx]);
-                const isDay = (hourly.is_day && hourly.is_day[idx] !== undefined) ? hourly.is_day[idx] : 1;
+                const isDay = hourly.is_day ? hourly.is_day[idx] : 1;
                 const codeInfo = getWmoInfo(hourly.weather_code[idx], isDay);
                 const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
 
@@ -1160,7 +1148,7 @@
             const localeStr = LANGUAGES[currentLangKey].locale;
             const timeDate = new Date(hourly.time[idx]);
             const timeStr = index === 0 ? tDict.now : timeDate.toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' });
-
+            
             const temp = Math.round(hourly.temperature_2m[idx]);
             const feelsLike = Math.round(hourly.apparent_temperature[idx]);
             const pop = hourly.precipitation_probability ? hourly.precipitation_probability[idx] : 0;
@@ -1169,7 +1157,7 @@
             const windDir = hourly.wind_direction_10m ? getWindDirectionLocalized(hourly.wind_direction_10m[idx]) : "--";
             const uv = hourly.uv_index ? Math.round(hourly.uv_index[idx]) : 0;
             const uvInfo = getUVLevelInfo(uv);
-            const isDay = (hourly.is_day && hourly.is_day[idx] !== undefined) ? hourly.is_day[idx] : 1;
+            const isDay = hourly.is_day ? hourly.is_day[idx] : 1;
             const codeInfo = getWmoInfo(hourly.weather_code[idx], isDay);
 
             const panel = document.getElementById('hourly-detail-panel');
@@ -1183,7 +1171,7 @@
                 </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1 text-xs sm:text-sm">
-
+                    
                     <!-- 1. Feels Like -->
                     <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl flex flex-col items-center text-center">
                         <div class="p-1.5 bg-sky-500/10 text-sky-400 rounded-lg mb-1">
@@ -1334,7 +1322,7 @@
         suggestionsBox.addEventListener('pointerdown', (e) => {
             const target = e.target.closest('[data-city-idx]');
             if (!target) return;
-
+            
             e.preventDefault();
 
             const idx = parseInt(target.getAttribute('data-city-idx'), 10);
@@ -1357,7 +1345,7 @@
             selectedHourlyIndex = 0;
 
             autoSelectLanguageByCountryCode(countryCode);
-
+            
             document.getElementById('city-name').textContent = name;
             document.getElementById('city-region').textContent = region;
             document.getElementById('country-badge').textContent = countryCode || 'UA';
@@ -1385,7 +1373,7 @@
                 async (pos) => {
                     const lat = pos.coords.latitude;
                     const lon = pos.coords.longitude;
-
+                    
                     try {
                         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${lat.toFixed(2)},${lon.toFixed(2)}&count=1&format=json`);
                         if (res.ok) {
@@ -1433,10 +1421,6 @@
 
             document.title = `${currentCity.name} — OmniWeather`;
 
-            const cityNameUpper = currentCity.name.toUpperCase();
-            const dayNightText = current.is_day ? t.dayUpper : t.nightUpper;
-            document.getElementById('condition-badge').textContent = `${dayNightText} • ${cityNameUpper}`;
-
             document.getElementById('current-temp').textContent = Math.round(current.temperature_2m);
             document.getElementById('weather-description').textContent = codeInfo.title;
             document.getElementById('feels-like').textContent = `${Math.round(current.apparent_temperature)}°C`;
@@ -1446,7 +1430,7 @@
             document.getElementById('hero-icon-wrapper').innerHTML = `<i data-lucide="${codeInfo.icon}" class="w-24 h-24 sm:w-36 sm:h-36 ${codeInfo.iconColor} drop-shadow-xl"></i>`;
 
             document.getElementById('metric-humidity').textContent = `${current.relative_humidity_2m}%`;
-
+            
             const now = new Date();
             const hourIdx = hourly.time.findIndex(timeStr => new Date(timeStr) >= now) || 0;
             const dewPoint = hourly.dew_point_2m ? Math.round(hourly.dew_point_2m[hourIdx]) : "--";
@@ -1470,7 +1454,7 @@
             document.getElementById('metric-precip-sum').textContent = `${precipSum} мм`;
 
             document.getElementById('metric-clouds').textContent = `${current.cloud_cover}%`;
-
+            
             const localeStr = LANGUAGES[currentLangKey].locale;
             const sunriseStr = daily.sunrise ? new Date(daily.sunrise[0]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }) : "--:--";
             const sunsetStr = daily.sunset ? new Date(daily.sunset[0]).toLocaleTimeString(localeStr, { hour: '2-digit', minute: '2-digit' }) : "--:--";
@@ -1485,20 +1469,9 @@
         }
 
         function updateBackgroundAndParticles(bgType, isDay, effectType) {
-            const effectText = document.getElementById('effect-text');
-
-            if (isDay === 0) {
-                if (effectType === 'clear') effectType = 'stars';
+            if (isDay === 0 && effectType === 'clear') {
+                effectType = 'stars';
             }
-
-            const effectNames = {
-                'rain': 'Дощ 🌧️',
-                'snow': 'Снігопад ❄️',
-                'stars': 'Зірки ✨',
-                'fog': 'Туман 🌫️',
-                'clear': 'Ясно ☀️'
-            };
-            effectText.textContent = effectNames[effectType] || 'Норма';
 
             initParticles(effectType);
         }
@@ -1525,7 +1498,7 @@
                 }
 
                 const code = dailyData.weather_code[i];
-                const codeInfo = getWmoInfo(code);
+                const codeInfo = getWmoInfo(code, 1);
 
                 const tempMax = Math.round(dailyData.temperature_2m_max[i]);
                 const tempMin = Math.round(dailyData.temperature_2m_min[i]);
@@ -1573,10 +1546,10 @@
 
                 const cardWrapper = document.createElement('div');
                 cardWrapper.className = `clean-card rounded-2xl overflow-hidden clean-card-interactive transition-all ${isExpanded ? 'border-sky-500/80 bg-slate-900' : ''}`;
-
+                
                 cardWrapper.innerHTML = `
                     <div onclick="toggleDayExpand(${i})" class="p-3.5 sm:p-4 flex items-center justify-between gap-2.5 sm:gap-4 cursor-pointer select-none">
-
+                        
                         <!-- Icon + Day Name + Condition -->
                         <div class="flex items-center gap-3 min-w-0 flex-1">
                             <div class="p-2 sm:p-2.5 bg-slate-800 rounded-xl flex-shrink-0 border border-slate-700">
@@ -1720,19 +1693,19 @@
         }
 
         function getWindDirectionLocalized(deg) {
-                    const dirsByLang = {
-                        uk: ['Пн', 'ПнСх', 'Сх', 'ПдСх', 'Пд', 'ПдЗх', 'Зх', 'ПнЗх'],
-                        en: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
-                        de: ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'],
-                        pl: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
-                        fr: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
-                        es: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
-                        ru: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ']
-                    };
-                    const dirs = dirsByLang[currentLangKey] || dirsByLang['en'];
-                    const idx = Math.round(((deg %= 360) < 0 ? deg + 360 : deg) / 45) % 8;
-                    return dirs[idx];
-                }
+            const dirsByLang = {
+                uk: ['Пн', 'ПнСх', 'Сх', 'ПдСх', 'Пд', 'ПдЗх', 'Зх', 'ПнЗх'],
+                en: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
+                de: ['N', 'NO', 'O', 'SO', 'S', 'SW', 'W', 'NW'],
+                pl: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'],
+                fr: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
+                es: ['N', 'NE', 'E', 'SE', 'S', 'SO', 'O', 'NO'],
+                ru: ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ']
+            };
+            const dirs = dirsByLang[currentLangKey] || dirsByLang['en'];
+            const idx = Math.round(((deg %= 360) < 0 ? deg + 360 : deg) / 45) % 8;
+            return dirs[idx];
+        }
 
         function getUVLevelInfo(uv) {
             const t = getI18n();
@@ -1751,15 +1724,15 @@
 
         window.onload = function() {
             autoSelectLanguageByCountryCode(currentCity.countryCode);
-
+            
             document.getElementById('lang-flag').textContent = LANGUAGES[currentLangKey].flag;
             document.getElementById('lang-code').textContent = LANGUAGES[currentLangKey].code;
 
             resizeCanvas();
             renderParticleLoop();
-
+            
             fetchWeather();
-
+            
             updateClock();
             setInterval(updateClock, 1000);
             setInterval(fetchWeather, 600000);
